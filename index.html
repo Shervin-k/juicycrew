@@ -1,1 +1,88 @@
+<!doctype html>
+<html lang="de" id="top">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Juicy Crew, Offizielle Website</title>
+    <meta name="description" content="Juicy Crew, Projekte, Kunden und Kontakt auf einen Blick." />
+    <link rel="icon" href="assets/images/logo.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="#top" aria-label="Startseite">
+          <img src="assets/images/logo.svg" alt="Juicy Crew Logo" width="40" height="40" />
+          <span>Juicy Crew</span>
+        </a>
 
+        <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="site-nav">
+          Menü
+        </button>
+
+        <nav id="site-nav" class="site-nav" aria-label="Hauptnavigation">
+          <a href="#services">Leistungen</a>
+          <a href="#about">Über uns</a>
+          <a href="#contact" class="btn">Kontakt</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container">
+          <h1>Wir bauen Reichweite, die konvertiert</h1>
+          <p>Klare Botschaften, gute Formate, messbare Ergebnisse.</p>
+          <p>
+            <a class="btn" href="#contact">Projekt anfragen</a>
+          </p>
+        </div>
+      </section>
+
+      <section id="services" class="section">
+        <div class="container">
+          <h2>Leistungen</h2>
+          <div class="cards">
+            <article class="card">
+              <h3>Strategie</h3>
+              <p>Positionierung, Zielgruppe, Content Plan.</p>
+            </article>
+            <article class="card">
+              <h3>Produktion</h3>
+              <p>Podcast, Video, Social Assets, alles aus einer Hand.</p>
+            </article>
+            <article class="card">
+              <h3>Distribution</h3>
+              <p>Paid und organisch, passende Kanäle, sauberes Tracking.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="about" class="section alt">
+        <div class="container">
+          <h2>Über uns</h2>
+          <p>Juicy Crew arbeitet mit Marken, die mit Content echte Ergebnisse erreichen wollen.</p>
+        </div>
+      </section>
+
+      <section id="contact" class="section">
+        <div class="container">
+          <h2>Kontakt</h2>
+          <p>Schreib uns eine kurze Nachricht, wir melden uns schnell zurück.</p>
+          <!-- Hinweis: setze hier deine echte Mailadresse ein -->
+          <p><a class="btn" href="mailto:info@example.com">E-Mail senden</a></p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <small>© <span id="year"></span> Juicy Crew</small>
+        <a href="#top" class="to-top">Nach oben</a>
+      </div>
+    </footer>
+
+    <script src="assets/js/main.js" defer></script>
+  </body>
+</html>
