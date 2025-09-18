@@ -1,1 +1,118 @@
+/* Basis */
+*,
+*::before,
+*::after { box-sizing: border-box; }
 
+:root {
+  --bg: #ffffff;
+  --fg: #111111;
+  --muted: #666666;
+  --brand: #0ea5e9;
+  --brand-ink: #ffffff;
+  --line: #e5e7eb;
+  --card: #f8fafc;
+}
+
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: var(--fg);
+  background: var(--bg);
+  line-height: 1.6;
+}
+
+/* Layout Helfer */
+.container {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.section { padding: 56px 0; }
+.section.alt { background: var(--card); }
+
+h1, h2, h3 { line-height: 1.2; margin: 0 0 12px; }
+p { margin: 0 0 12px; }
+
+/* Header und Navigation */
+.site-header {
+  border-bottom: 1px solid var(--line);
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  gap: 12px;
+}
+
+.brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; font-weight: 600; }
+
+.site-nav { display: flex; align-items: center; gap: 16px; }
+.site-nav a { text-decoration: none; color: var(--fg); }
+.site-nav a:hover { text-decoration: underline; }
+
+.menu-toggle { display: none; }
+
+/* Hero */
+.hero {
+  padding: 72px 0 56px;
+  text-align: left;
+}
+.hero h1 { font-size: clamp(28px, 4vw, 44px); }
+.hero p { color: var(--muted); font-size: 18px; }
+
+/* Karten */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+.card {
+  border: 1px solid var(--line);
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: var(--brand);
+  color: var(--brand-ink);
+  text-decoration: none;
+  font-weight: 600;
+}
+.btn:hover { opacity: 0.9; }
+
+/* Footer */
+.site-footer {
+  border-top: 1px solid var(--line);
+  padding: 20px 0;
+  display: flex;
+}
+.site-footer .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Nach oben Link */
+.to-top { text-decoration: none; color: var(--muted); }
+.to-top:hover { text-decoration: underline; }
+
+/* Responsive Navigation und Grid */
+@media (max-width: 800px) {
+  .cards { grid-template-columns: 1fr; }
+  .menu-toggle { display: inline-block; }
+  .site-nav { display: none; }
+  .site-nav.open { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+}
