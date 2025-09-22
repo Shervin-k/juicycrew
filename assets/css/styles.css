@@ -65,8 +65,7 @@ p{margin:0 0 12px}
 .hero__copy h1{
   font-size:clamp(90px,12vw,160px); font-weight:700; line-height:1.05;
   letter-spacing:-.04em; margin:0 0 16px; text-align:left;
-}
-.hero__copy h1 span{ display:block; }               /* 2 Zeilen */
+}               
 .hero__copy .subline{
   font-size:clamp(40px,4.5vw,60px); line-height:1.2; max-width:1000px;
   margin-top:28px; font-weight:400; color:var(--muted); text-align:left;
@@ -98,9 +97,8 @@ p{margin:0 0 12px}
   .hero__visual{ order:-1; min-height:260px; }
   .hero__copy h1{ font-size:clamp(54px,12vw,120px); }
   .site-nav{ display:flex !important; }
-}.hero__copy h1 span {
-  display: block;
-}/* — FINAL: 2-Zeilen-Headline erzwingen — */
+}
+  /* — FINAL: 2-Zeilen-Headline erzwingen — */
 .hero-title{
   font-size: clamp(90px, 12vw, 160px) !important;
   line-height: 1.05 !important;
@@ -108,9 +106,6 @@ p{margin:0 0 12px}
   margin: 0 0 16px !important;
   text-align: left !important;
   white-space: normal !important;
-}
-.hero-title span{
-  display: block !important;  /* jede Zeile separat */
 }
 
 .hero__copy .subline{
@@ -128,4 +123,114 @@ p{margin:0 0 12px}
   letter-spacing: -0.04em;
   margin: 0 0 16px;
   text-align: left;
+}
+/* ===== Benefits ===== */
+.benefits__grid{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:start}
+.eyebrow{display:inline-block;font-size:12px;font-weight:600;color:var(--brand-ink);background:var(--brand);padding:6px 10px;border-radius:999px;margin-bottom:10px}
+.benefit-cards{list-style:none;margin:20px 0 0;padding:0;display:flex;flex-direction:column;gap:16px}
+.benefit-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+.benefit-card h3{margin:0 0 6px}
+
+.benefits__visual{position:relative}
+.benefits__frame{position:sticky;top:96px} /* stays in view on scroll */
+.benefits__frame img{display:block;width:100%;height:auto;border-radius:16px}
+
+:root{ --beige:#f3eee7; } /* softer beige */
+
+.benefit-card{
+  transition: transform .25s ease, background-color .25s ease, box-shadow .25s ease;
+  will-change: transform, background-color;
+}
+.benefit-card.is-active{
+  transform: scale(1.04);
+  background: var(--beige);
+  box-shadow: 0 6px 20px rgba(0,0,0,.06);
+}
+/* Accessibility: no scaling for users with reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .benefit-card{ transition:none; }
+  .benefit-card.is-active{ transform:none; }
+}
+
+/* Mobile */
+@media (max-width:900px){
+  .benefits__grid{grid-template-columns:1fr;gap:24px}
+  .benefits__frame{position:static}
+}.lede{ margin-top:8px; color:var(--muted); font-size:18px; }
+.lede strong{ color:var(--fg); font-weight:700; }/* Benefits image alignment */
+.benefits__grid{
+  align-items:stretch; /* beide Spalten gleiche Höhe */
+}
+
+.benefits__frame{
+  position:sticky; 
+  top:96px;
+  height:100%; /* gleicht sich der Kartenhöhe an */
+  display:flex; 
+  align-items:stretch;
+}
+
+.benefits__frame img{
+  width:100%; 
+  height:100%; 
+  object-fit:cover; /* füllt den Frame */
+  border-radius:16px; /* gleiche Rundung wie Karten */
+}
+/* ===== Cases Section (bugfix) ===== */
+.cases{
+  background:var(--fg);
+  color:#fff;
+  padding:80px 0;
+}
+.cases__grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:32px;
+  align-items:start;
+}
+
+/* Card: KEIN max-height mehr auf der Karte */
+.case-card{
+  position:relative; z-index:0;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.2);
+  border-radius:20px;
+  padding:20px;
+  overflow:hidden;
+  transition:border-color .3s ease;
+}
+.case-card:hover{
+  border-color:rgba(255,255,255,.4);
+  z-index:1;                /* liegt über Nachbarn, keine „Rand-Stapel“ */
+  transform:translateZ(0);  /* eigene Compositing-Ebene */
+}
+
+/* Bild bleibt klein; wächst nur leicht */
+.case-card__img{
+  display:block; width:100%;
+  height:140px; object-fit:cover;
+  border-radius:12px;
+  transition:height .45s ease;
+  margin-bottom:12px;
+}
+.case-card:hover .case-card__img{
+  height:210px; /* ~150% */
+}
+
+/* Zusatztext: wir animieren NUR diesen Bereich */
+.case-card__more{
+  opacity:0; max-height:0; overflow:hidden;
+  transition:max-height .5s ease, opacity .35s ease .1s, margin-top .3s ease;
+}
+.case-card:hover .case-card__more{
+  opacity:1; margin-top:10px; max-height:320px; /* Platz für 4–5 Zeilen */
+}
+
+/* Typo */
+.case-card h3{ margin:0; color:#fff; font-size:20px; }
+.case-card__teaser{ color:rgba(255,255,255,.9); margin:8px 0; }
+
+/* Mobile */
+@media (max-width:900px){
+  .cases__grid{ grid-template-columns:1fr; }
 }
