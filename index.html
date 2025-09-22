@@ -1,77 +1,86 @@
+<!-- index.html -->
 <!doctype html>
-<html lang="de" id="top">
+<html lang="en" id="top">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Juicy Crew, Offizielle Website</title>
-    <meta name="description" content="Juicy Crew, Projekte, Kunden und Kontakt auf einen Blick." />
+    <title>Juicy Crew — UK</title>
+    <meta name="description" content="Authentic podcast campaigns for consumer brands." />
     <link rel="icon" href="assets/images/logo.svg" type="image/svg+xml" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="assets/css/styles.css" />
   </head>
   <body>
     <header class="site-header">
       <div class="container header-inner">
-        <a class="brand" href="#top" aria-label="Startseite">
+        <a class="brand" href="#top" aria-label="Home">
           <img src="assets/images/logo.svg" alt="Juicy Crew Logo" width="40" height="40" />
           <span>Juicy Crew</span>
         </a>
 
-        <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="site-nav">
-          Menü
-        </button>
+        
 
-        <nav id="site-nav" class="site-nav" aria-label="Hauptnavigation">
-          <a href="#services">Leistungen</a>
-          <a href="#about">Über uns</a>
-          <a href="#contact" class="btn">Kontakt</a>
-        </nav>
+        <nav id="site-nav" class="site-nav">
+  <a href="#contact" class="btn cta">Book call</a>
+</nav>
       </div>
     </header>
 
     <main>
-      <section class="hero">
-        <div class="container">
-          <h1>Wir bauen Reichweite, die konvertiert</h1>
-          <p>Klare Botschaften, gute Formate, messbare Ergebnisse.</p>
-          <p>
-            <a class="btn" href="#contact">Projekt anfragen</a>
-          </p>
-        </div>
-      </section>
+      <!-- HERO -->
+     <section class="hero hero--kota">
+  <div class="container hero__grid">
+    <div class="hero__copy">
+      <h1 class="hero-title">
+  Where Brands<br>
+  Get Heard.
+</h1>
+      <p class="subline">Give your message the space and trust it deserves.</p>
+    </div>
+    <div class="hero__visual" aria-hidden="true">
+      <div class="hero__blob"></div>
+    </div>
+  </div>
+</section>
 
+      <!-- SERVICES -->
       <section id="services" class="section">
         <div class="container">
-          <h2>Leistungen</h2>
+          <h2>Services</h2>
           <div class="cards">
             <article class="card">
-              <h3>Strategie</h3>
-              <p>Positionierung, Zielgruppe, Content Plan.</p>
+              <h3>Strategy</h3>
+              <p>Positioning, audience targeting, campaign design.</p>
             </article>
             <article class="card">
-              <h3>Produktion</h3>
-              <p>Podcast, Video, Social Assets, alles aus einer Hand.</p>
+              <h3>Production</h3>
+              <p>Host reads, branded content, creative assets.</p>
             </article>
             <article class="card">
               <h3>Distribution</h3>
-              <p>Paid und organisch, passende Kanäle, sauberes Tracking.</p>
+              <p>Premium placements, paid & organic, clean tracking.</p>
             </article>
           </div>
         </div>
       </section>
 
+      <!-- ABOUT -->
       <section id="about" class="section alt">
         <div class="container">
-          <h2>Über uns</h2>
-          <p>Juicy Crew arbeitet mit Marken, die mit Content echte Ergebnisse erreichen wollen.</p>
+          <h2>About</h2>
+          <p>We craft authentic campaigns that connect consumer brands with premium, engaged audiences.</p>
         </div>
       </section>
 
+      <!-- CONTACT -->
       <section id="contact" class="section">
         <div class="container">
-          <h2>Kontakt</h2>
-          <p>Schreib uns eine kurze Nachricht, wir melden uns schnell zurück.</p>
-          <!-- Hinweis: setze hier deine echte Mailadresse ein -->
-          <p><a class="btn" href="mailto:info@example.com">E-Mail senden</a></p>
+          <h2>Contact</h2>
+          <p>Send us a short note and we’ll get back quickly.</p>
+          <p><a class="btn" href="mailto:info@example.com">Email us</a></p>
         </div>
       </section>
     </main>
@@ -79,7 +88,7 @@
     <footer class="site-footer">
       <div class="container">
         <small>© <span id="year"></span> Juicy Crew</small>
-        <a href="#top" class="to-top">Nach oben</a>
+        <a href="#top" class="to-top">Back to top</a>
       </div>
     </footer>
 
