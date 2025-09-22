@@ -234,3 +234,66 @@ p{margin:0 0 12px}
 @media (max-width:900px){
   .cases__grid{ grid-template-columns:1fr; }
 }
+
+/* ===== Customer Service – Chat Section ===== */
+.service-chat {
+  background: #ffffff;
+  padding: 80px 0;
+}
+
+.service-chat .container {
+  display: flex;
+  justify-content: center;   /* Chat mittig */
+}
+
+.chat {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 700px;          /* Breiter Chat */
+  width: 100%;
+}
+
+/* Nachrichten-Stil */
+.msg {
+  padding: 14px 20px;
+  border-radius: 18px;
+  line-height: 1.5;
+  border: 1px solid var(--line);
+  box-shadow: 0 2px 10px rgba(0,0,0,.04);
+  font-size: 16px;
+  max-width: 80%;
+}
+
+/* Brand = rechts */
+.from-brand {
+  align-self: flex-end;
+  background: #f3eee7;
+  color: var(--fg);
+  border-color: #eadfce;
+  margin-right: -30px;       /* weiter nach rechts */
+}
+
+/* Juicy Crew = links */
+.from-us {
+  align-self: flex-start;
+  background: var(--fg);
+  color: #ffffff;
+  border-color: #0a3226;
+  margin-left: -30px;        /* weiter nach links */
+}
+/* Chat: Startzustand + sichtbarer Zustand */
+.msg{
+  opacity:0;
+  transform: translateY(14px) scale(.985);
+  transition: opacity .4s ease, transform .4s ease;
+}
+.msg.is-visible{
+  opacity:1;
+  transform: translateY(0) scale(1);
+}
+
+/* Barrierearm: Animation aus, wenn gewünscht */
+@media (prefers-reduced-motion: reduce){
+  .msg{ transition: none; transform: none; opacity: 1; }
+}
