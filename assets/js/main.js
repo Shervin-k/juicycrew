@@ -34,6 +34,26 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  // Highlight Benefit Cards beim Scrollen
+  var benefitCards = document.querySelectorAll('.benefit-card');
+  if ("IntersectionObserver" in window && benefitCards.length) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting && entry.intersectionRatio > 0.55) {
+          entry.target.classList.add("is-active");
+        } else {
+          entry.target.classList.remove("is-active");
+        }
+      });
+    }, {
+      root: null,
+      rootMargin: "-20% 0% -20% 0%", // Fokus: Mitte des Screens
+      threshold: [0, 0.25, 0.55, 0.75, 1]
+    });
+
+    benefitCards.forEach(function (c) { io.observe(c); });
+  }
+
   // Kleine Diagnose in der Konsole
   console.log("Juicy Crew Seite geladen");
 });
