@@ -98,15 +98,6 @@ p{margin:0 0 12px}
   .hero__copy h1{ font-size:clamp(54px,12vw,120px); }
   .site-nav{ display:flex !important; }
 }
-  /* — FINAL: 2-Zeilen-Headline erzwingen — */
-.hero-title{
-  font-size: clamp(90px, 12vw, 160px) !important;
-  line-height: 1.05 !important;
-  letter-spacing: -0.04em !important;
-  margin: 0 0 16px !important;
-  text-align: left !important;
-  white-space: normal !important;
-}
 
 .hero__copy .subline{
   font-size: clamp(40px, 4.5vw, 60px) !important;
@@ -124,6 +115,121 @@ p{margin:0 0 12px}
   margin: 0 0 16px;
   text-align: left;
 }
+/* Hero breiter machen (nur Hero, nicht ganze Seite) */
+.hero .container{
+  max-width: 1400px;         /* z.B. 1400–1600px testen */
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+/* Linke Spalte breiter als die Visual-Spalte */
+.hero__grid{
+  grid-template-columns: 2fr 1fr;  /* mehr Platz für Headline */
+}
+
+/* Textspalte darf volle Spaltenbreite nutzen */
+.hero__copy{
+  max-width: none;
+}
+
+/* (optional) Headline-Größe beibehalten, aber sauber */
+.hero-title{
+  font-size: clamp(90px, 12vw, 160px);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  margin: 0 0 16px;
+  white-space: normal;
+}
+/* Canvas für dynamische Sound-Linien im Hero*/
+.hero__visual{ position:relative; overflow:visible; }
+.hero__blob{
+  position:absolute; inset:-18% -22% -18% -22%; /* größer */
+  border-radius:40px; filter:blur(18px);
+  background:
+    radial-gradient(120% 100% at 20% 30%, #4fb08b 0%, transparent 62%),
+    radial-gradient(110% 120% at 85% 60%, #9de8c9 0%, transparent 58%),
+    radial-gradient(90% 90% at 50% 50%, #cfeee0 0%, transparent 62%);
+  opacity:.9;
+  transform: translate3d(0,0,0) scale(1.03);
+  will-change: transform;
+  pointer-events:none;
+  z-index:1; /* Blob über den Waves */
+}
+#hero-waves{
+  position:absolute; inset:-20% -24% -20% -24%;
+  width:100%; height:100%;
+  pointer-events:none; filter: blur(14px); opacity:.9;
+  mix-blend-mode:multiply; z-index:0; /* Waves unter Blob */
+}
+
+/* ===== Hero Logo Wall – FINAL (ersetzt alte Regeln) ===== */
+
+/* Linke Hero-Spalte sauber stapeln */
+.hero__copy{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:12px;
+}
+
+/* Logo-Wall direkt unter der Subline */
+.hero__logos{
+  margin-top:12px;
+  width:100%;
+}
+
+/* Eine Zeile, linksbündig, ohne Umbruch */
+.hero__logos .logo-strip{
+  list-style:none;
+  margin:0;
+  padding:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;   /* statt flex-start */
+  flex-wrap:nowrap;
+  gap:clamp(10px, 2vw, 24px);
+  overflow:visible;
+}
+
+.hero__logos .logo-strip li{
+  flex:0 0 auto;                /* verhindert Umbruch einzelner Logos */
+}
+
+/* Logos skalieren sich, damit ALLE reinpassen */
+.hero__logos .logo-strip img{
+  height:clamp(22px, 3.2vw, 40px);  /* kleiner auf schmalen Screens, größer auf breiten */
+  width:auto;
+  object-fit:contain;
+  filter:grayscale(100%);
+  opacity:.9;
+  transition:opacity .2s, filter .2s, transform .2s;
+}
+.hero__logos .logo-strip img:hover{
+  filter:none;
+  opacity:1;
+  transform:scale(1.03);
+}/* Logos unter dem Hero über beide Grid-Spalten zentrieren */
+.hero__logos{
+  grid-column: 1 / -1;   /* spannt über beide Spalten */
+  justify-self: center;  /* Block zentrieren */
+  margin-top: 12px;
+  width: 100%;
+}
+/* Extra Abstände für die Logo-Wall */
+.hero__logos{
+  margin-top: clamp(28px, 4vw, 72px);     /* Abstand nach Subline */
+  margin-bottom: clamp(48px, 6vw, 112px); /* Abstand vor Benefits */
+}
+
+/* Auf kleinen Screens weniger Abstand */
+@media (max-width: 600px){
+  .hero__logos{
+    margin-top: 20px;
+    margin-bottom: 40px;
+  }
+}
+/* deine bestehenden .logo-strip-Regeln kannst du beibehalten */
+
 /* ===== Benefits ===== */
 .benefits__grid{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:start}
 .eyebrow{display:inline-block;font-size:12px;font-weight:600;color:var(--brand-ink);background:var(--brand);padding:6px 10px;border-radius:999px;margin-bottom:10px}
