@@ -176,64 +176,97 @@ p{margin:0 0 12px}
   object-fit:cover; /* füllt den Frame */
   border-radius:16px; /* gleiche Rundung wie Karten */
 }
-/* ===== Cases Section (bugfix) ===== */
-.cases{
-  background:var(--fg);
-  color:#fff;
-  padding:80px 0;
-}
-.cases__grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:32px;
-  align-items:start;
+/* KOTA-Style: Stack, fade, scale, slide-up */
+section#cases.cases-kota { padding: 12vh 0 30vh; } /* extra Platz unten */
+.cases-kota__viewport { position: relative; }
+
+.cases-kota__snap{
+  position: relative;
+  min-height: 130vh;               /* genug Scrollweg */
+  display: flex; align-items: center; justify-content: center;
 }
 
-/* Card: KEIN max-height mehr auf der Karte */
-.case-card{
-  position:relative; z-index:0;
-  background:rgba(255,255,255,.05);
-  border:1px solid rgba(255,255,255,.2);
-  border-radius:20px;
-  padding:20px;
-  overflow:hidden;
-  transition:border-color .3s ease;
-}
-.case-card:hover{
-  border-color:rgba(255,255,255,.4);
-  z-index:1;                /* liegt über Nachbarn, keine „Rand-Stapel“ */
-  transform:translateZ(0);  /* eigene Compositing-Ebene */
+.case-card-kota{
+  position: sticky; top: 12vh;     /* bleibt an fester Stelle */
+  width: min(1000px, 88vw);
+  display: grid; grid-template-columns: 1fr 1fr; gap: 32px;
+  background: #f3eee7; color:#0b3d2e; border-radius:24px; padding:48px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.1);
+
+  /* Start: kommt von unten rein */
+  transform-origin: top center;
+  transform: translateY(30vh) scale(1);
+  opacity: 0.01;
+  transition: transform .6s ease, opacity .6s ease, filter .6s ease;
+  will-change: transform, opacity, filter;
 }
 
-/* Bild bleibt klein; wächst nur leicht */
-.case-card__img{
-  display:block; width:100%;
-  height:140px; object-fit:cover;
-  border-radius:12px;
-  transition:height .45s ease;
-  margin-bottom:12px;
-}
-.case-card:hover .case-card__img{
-  height:210px; /* ~150% */
+/* aktive Karte: volle Sichtbarkeit, ganz oben */
+.cases-kota__snap.is-active .case-card-kota{
+  transform: translateY(0) scale(1);
+  opacity: 1; filter: none;
 }
 
-/* Zusatztext: wir animieren NUR diesen Bereich */
-.case-card__more{
-  opacity:0; max-height:0; overflow:hidden;
-  transition:max-height .5s ease, opacity .35s ease .1s, margin-top .3s ease;
-}
-.case-card:hover .case-card__more{
-  opacity:1; margin-top:10px; max-height:320px; /* Platz für 4–5 Zeilen */
+/* vergangene Karte: bleibt an Ort & Stelle, aber kleiner + blasser + hintere Ebene */
+.cases-kota__snap.is-past .case-card-kota{
+  transform: translateY(0) scale(.9);
+  opacity: .18; filter: blur(.4px);
+  pointer-events: none;            /* nicht anklickbar */
 }
 
-/* Typo */
-.case-card h3{ margin:0; color:#fff; font-size:20px; }
-.case-card__teaser{ color:rgba(255,255,255,.9); margin:8px 0; }
+/* Bild */
+.case-card-kota__image img{
+  width:100%; height:auto; object-fit:cover; border-radius:16px;
+}
 
 /* Mobile */
 @media (max-width:900px){
-  .cases__grid{ grid-template-columns:1fr; }
+  .cases-kota__snap{ min-height:110vh; }
+  .case-card-kota{ grid-template-columns:1fr; padding:24px; }
 }
+/* === Extra Tweaks for Cases Animation === */
+
+.case-card-kota{
+  transition: transform .5s cubic-bezier(.2,.8,.2,1), opacity .5s;
+  will-change: transform, opacity;
+  contain: layout paint;
+}
+.cases-kota__snap.is-past .case-card-kota{
+  transform: translateY(0) scale(.94);
+  opacity:.25; filter:none;
+}
+@supports(mask-image: linear-gradient(#000,#000)){
+  .cases-kota__viewport::after{
+    content:""; position:fixed; inset:0;
+    pointer-events:none;
+    mask-image: linear-gradient(180deg, rgba(0,0,0,.12), #000 12%, #000 88%, rgba(0,0,0,.12));
+    background: transparent;
+  }
+}
+@media (prefers-reduced-motion: reduce){
+  .case-card-kota{ transition:none; transform:none!important; }
+}
+/* === Bigger Case Cards === */
+.case-card-kota {
+  width: min(1300px, 96vw);
+}
+
+.case-card-kota__title {
+  font-size: clamp(56px, 8vw, 96px);
+}
+
+.case-card-kota__text {
+  font-size: 22px;
+  line-height: 1.7;
+}
+
+.case-card-kota__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+}
+
 
 /* ===== Customer Service – Chat Section ===== */
 .service-chat .container {
@@ -305,7 +338,8 @@ p{margin:0 0 12px}
 /* Barrierearm: Animation aus, wenn gewünscht */
 @media (prefers-reduced-motion: reduce){
   .msg{ transition: none; transform: none; opacity: 1; }
-}/* ===== Customer Voices ===== */
+}
+/* ===== Customer Voices ===== */
 .voices {
   background: var(--bg);
   padding: 80px 0;
@@ -327,25 +361,23 @@ p{margin:0 0 12px}
   margin: 0 auto;        /* mittig */
 }
 
+/* Stimmen-Karten */
 .voice-card {
-  background: var(--beige);
-  padding: 20px 24px;    /* weniger Padding = kompakter */
-  border-radius: 16px;
-  border: 1px solid rgba(0,0,0,.08);
+  background: #f3eee7;
+  border-radius: 20px;
+  padding: 24px;            /* vorher evtl. 40px → kleiner machen */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  box-shadow: 0 2px 8px rgba(0,0,0,.04);
-  max-width: 340px;      /* begrenzt die Breite jeder Karte */
-  margin: 0 auto;        /* zentriert */
 }
 
+/* Zitat-Text */
 .voice__quote {
-  font-style: italic;
-  font-size: 16px;
-  margin-bottom: 16px;
+  font-size: 18px;
   line-height: 1.5;
-  color: var(--fg);
+  margin: 0;
+  padding: 0;               /* kein zusätzliches Padding hier */
+  text-align: left;
 }
 
 .voice__author {
