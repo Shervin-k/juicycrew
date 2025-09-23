@@ -1,21 +1,18 @@
-// Juicy Crew – main.js (einfach & sauber)
+// Juicy Crew — main.js (sectioned)
+// 0: General  |  1: Hero  |  2: Benefits  |  3: Cases
+// 4: Customer Service  |  5: Customer Voices  |  6: Contact  |  7: Header & Footer
+
 document.addEventListener("DOMContentLoaded", () => {
-  // 1) Jahr im Footer
-  const yearEl = document.getElementById("year");
-  if (yearEl) yearEl.textContent = new Date().getFullYear();
+  // =========================
+  // 0) GENERAL (helpers, scroll, feature flags)
+  // =========================
+  const $  = (s, r=document) => r.querySelector(s);
+  const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+  const canObserve = "IntersectionObserver" in window;
+  const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
 
-  // 2) Mobile-Navi (funktioniert nur, wenn es #menu-toggle gibt – sonst wird's einfach übersprungen)
-  const toggle = document.getElementById("menu-toggle");
-  const nav = document.getElementById("site-nav");
-  if (toggle && nav) {
-    toggle.addEventListener("click", () => {
-      const isOpen = nav.classList.toggle("open");
-      toggle.setAttribute("aria-expanded", String(isOpen));
-    });
-  }
-
-  // 3) Sanftes Scrollen für interne Links (#…)
-  document.querySelectorAll('a[href^="#"]').forEach((link) => {
+  // Smooth scroll for internal anchors
+  $$('a[href^="#"]').forEach(link => {
     link.addEventListener("click", (e) => {
       const id = link.getAttribute("href").slice(1);
       const target = document.getElementById(id);
@@ -27,122 +24,243 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // 4) Logo-Pfad prüfen (nur Hinweis in der Konsole)
-  const logo = document.querySelector('img[src="assets/images/logo.svg"]');
-  if (logo) {
-    logo.addEventListener("error", () => {
-      console.warn("Logo nicht gefunden. Pfad prüfen: assets/images/logo.svg");
-    });
+  // Logo file check (console hint only)
+  const brandLogo = $('img[src="assets/images/logo.svg"]');
+  if (brandLogo) brandLogo.addEventListener("error", () => {
+    console.warn("Logo not found. Check: assets/images/logo.svg");
+  });
+
+  // =========================
+  // 1) HERO (dynamic green sound-waves + blob)
+  // =========================
+  // 1) HERO (waves + mouse-parallax blob)
+(function heroFX(){
+  const cvs = document.getElementById("hero-waves");
+  const blob = document.querySelector(".hero__blob");
+  const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+
+  // --- WAVES ---
+  if (cvs && !reduce){
+    const ctx = cvs.getContext("2d", { alpha:true });
+    const DPR = Math.max(1, Math.min(2, window.devicePixelRatio||1));
+    let w=0,h=0,t=0, mx=0,my=0, tx=0,ty=0;
+    const cfg = { lines:8, amp:0.14, freq:2.2, speed:0.015, baseHue:150 };
+
+    const resize = () => {
+      const r = cvs.getBoundingClientRect();
+      w = Math.max(600, r.width);
+      h = Math.max(400, r.height);
+      cvs.width  = Math.floor(w*DPR);
+      cvs.height = Math.floor(h*DPR);
+      ctx.setTransform(DPR,0,0,DPR,0,0);
+    };
+    resize(); window.addEventListener("resize", resize, {passive:true});
+
+    window.addEventListener("pointermove", (e)=>{
+      const r = cvs.getBoundingClientRect();
+      tx = (e.clientX - (r.left+r.width/2)) / r.width;   // -0.5..0.5
+      ty = (e.clientY - (r.top +r.height/2)) / r.height;
+    }, {passive:true});
+
+    const lerp=(a,b,k)=>a+(b-a)*k;
+
+    function draw(){
+      mx = lerp(mx, tx, 0.06);
+      my = lerp(my, ty, 0.06);
+      ctx.clearRect(0,0,w,h);
+      ctx.globalCompositeOperation="lighter";
+
+      const ampPx = h*cfg.amp*(1+Math.abs(my)*0.7);
+      for (let i=0;i<cfg.lines;i++){
+        const p=i/(cfg.lines-1), phase=t*cfg.speed+p*1.2;
+        const yBase=h*(0.25+0.5*p), thick=6+10*(1-p);
+        ctx.lineWidth=thick;
+        ctx.strokeStyle=`hsla(${cfg.baseHue+15*(p-0.5)},60%,45%,${0.12+0.1*(1-p)})`;
+        ctx.beginPath();
+        const tilt = mx*24;
+        for (let x=0;x<=w;x+=8){
+          const k=(x/w)*Math.PI*cfg.freq;
+          const y=yBase
+           + Math.sin(k+phase*3)*ampPx*(0.5+p)
+           + Math.sin(k*0.5+phase*1.2)*ampPx*0.25*(1-p)
+           + my*28*(p-0.3);
+          const xx=x+tilt*p;
+          if(x===0)ctx.moveTo(xx,y); else ctx.lineTo(xx,y);
+        }
+        ctx.stroke();
+      }
+      ctx.globalCompositeOperation="source-over";
+      t++; requestAnimationFrame(draw);
+    }
+    draw();
+
+    // --- BLOB PARALLAX ---
+    if (blob){
+      let bx=0, by=0, btx=0, bty=0;
+      window.addEventListener("pointermove",(e)=>{
+        const r = cvs.getBoundingClientRect();
+        btx = (e.clientX - (r.left+r.width/2)) / r.width;   // -0.5..0.5
+        bty = (e.clientY - (r.top +r.height/2)) / r.height;
+      },{passive:true});
+
+      function animateBlob(){
+        bx = lerp(bx, btx, 0.08);
+        by = lerp(by, bty, 0.08);
+        const moveX = bx * 36;   // wie stark bewegen (px)
+        const moveY = by * 28;
+        const scale = 1.04 + Math.min(0.04, Math.hypot(bx,by)*0.1); // leichtes Mit-Scale
+        blob.style.transform = `translate3d(${moveX}px, ${moveY}px, 0) scale(${scale})`;
+        if (!reduce) requestAnimationFrame(animateBlob);
+      }
+      animateBlob();
+    }
   }
+})();
 
-  // === Helfer: IntersectionObserver sicher nutzen ===
-  const canObserve = "IntersectionObserver" in window;
-  const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+  // =========================
+  // 2) BENEFITS (card highlight on scroll)
+  // =========================
+  (function benefitsIO(){
+    const cards = $$(".benefit-card");
+    if (!canObserve || !cards.length) return;
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        e.target.classList.toggle("is-active", e.isIntersecting && e.intersectionRatio>0.55);
+      });
+    },{ root:null, rootMargin:"-20% 0% -20% 0%", threshold:[0,0.25,0.55,0.75,1]});
+    cards.forEach(c=>io.observe(c));
+  })();
 
-  // 5) Benefits: Karte im Fokus leicht hervorheben
-  const benefitCards = document.querySelectorAll(".benefit-card");
-  if (canObserve && benefitCards.length) {
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && entry.intersectionRatio > 0.55) {
-            entry.target.classList.add("is-active");
-          } else {
-            entry.target.classList.remove("is-active");
-          }
-        });
-      },
-      { root: null, rootMargin: "-20% 0% -20% 0%", threshold: [0, 0.25, 0.55, 0.75, 1] }
-    );
-    benefitCards.forEach((c) => io.observe(c));
-  }
+  // =========================
+  // 3) CASES (KOTA-style stack: past shrinks/fades, active on top)
+  // =========================
+  (function casesStack(){
+    const wraps = $$(".cases-kota__snap");
+    if (!canObserve || !wraps.length) return;
 
-// 6) Cases: aktive Karte oben; vorige bleibt klein & blass dahinter
-{
-  const wraps = Array.from(document.querySelectorAll(".cases-kota__snap"));
-  const canObserve = "IntersectionObserver" in window;
-  if (canObserve && wraps.length) {
-
-    // Helper: zIndex so setzen, dass spätere Karten über früheren liegen
     const applyZ = (activeIndex) => {
-      wraps.forEach((w, i) => {
-        const card = w.querySelector(".case-card-kota");
+      wraps.forEach((w,i)=>{
+        const card = $(".case-card-kota", w);
         if (!card) return;
-        // Basis: Reihenfolge = Stack
         card.style.zIndex = String(100 + i);
-        // aktive Karte noch höher
         if (i === activeIndex) card.style.zIndex = String(1000 + i);
       });
     };
 
-    // Initialzustand
-    wraps.forEach(w => w.classList.remove("is-active","is-past"));
+    wraps.forEach(w=>w.classList.remove("is-active","is-past"));
     applyZ(-1);
 
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (!(entry.isIntersecting && entry.intersectionRatio > 0.6)) return;
-
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if (!(entry.isIntersecting && entry.intersectionRatio>0.6)) return;
         const idx = wraps.indexOf(entry.target);
-        // Markiere: alles davor = past, aktuelle = active, danach = neutral
-        wraps.forEach((w, i) => {
-          w.classList.toggle("is-active", i === idx);
-          w.classList.toggle("is-past",   i <  idx);
-          if (i > idx) { w.classList.remove("is-past","is-active"); }
+        wraps.forEach((w,i)=>{
+          w.classList.toggle("is-active", i===idx);
+          w.classList.toggle("is-past",   i< idx);
+          if (i>idx) w.classList.remove("is-past","is-active");
         });
         applyZ(idx);
       });
-    }, { root:null, threshold:[0.6] });
+    },{ root:null, threshold:[0.6]});
+    wraps.forEach(w=>io.observe(w));
+  })();
+  
 
-    wraps.forEach(w => io.observe(w));
-  }
-}
+  // =========================
+  // 4) CUSTOMER SERVICE (chat reveal + mid emphasis)
+  // =========================
+  (function chatReveal(){
+    const chat = $(".chat");
+    if (!chat) return;
+    const msgs = $$(".msg", chat);
+    if (!msgs.length) return;
 
-  // 7) Chat: Nachrichten beim Scrollen einblenden (mit kleinem Stufen-Delay)
-  const chat = document.querySelector(".chat");
-  if (chat) {
-    const msgs = Array.from(chat.querySelectorAll(".msg"));
-    if (!canObserve || prefersReducedMotion) {
-      // Fallback oder wenn Animationen aus: alles sofort sichtbar
-      msgs.forEach((m) => m.classList.add("is-visible"));
-    } else if (msgs.length) {
-      // Startzustand
-      msgs.forEach((m) => {
-        m.classList.remove("is-visible", "is-active");
-        m.style.transitionDelay = "0ms";
-      });
-
-      let firstBatchDone = false;
-
-      const io = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            const el = entry.target;
-
-            if (entry.isIntersecting) {
-              // Einmaliger Staffel-Delay nur beim ersten Betreten
-              if (!firstBatchDone) {
-                msgs.forEach((m, i) => (m.style.transitionDelay = `${i * 80}ms`));
-                firstBatchDone = true;
-                setTimeout(() => msgs.forEach((m) => (m.style.transitionDelay = "0ms")), msgs.length * 80 + 600);
-              }
-              el.classList.add("is-visible");
-            }
-
-            // leichtes "aktiv", wenn ungefähr mittig
-            const mid =
-              entry.intersectionRatio > 0.6 &&
-              entry.boundingClientRect.top > window.innerHeight * 0.18 &&
-              entry.boundingClientRect.bottom < window.innerHeight * 0.82;
-            el.classList.toggle("is-active", mid);
-          });
-        },
-        { root: null, rootMargin: "-15% 0% -15% 0%", threshold: [0, 0.25, 0.6, 0.9] }
-      );
-
-      msgs.forEach((m) => io.observe(m));
+    if (!canObserve || prefersReducedMotion){
+      msgs.forEach(m=>m.classList.add("is-visible"));
+      return;
     }
-  }
+    msgs.forEach(m=>{ m.classList.remove("is-visible","is-active"); m.style.transitionDelay="0ms"; });
 
-  console.log("Juicy Crew Seite geladen ✅");
+    let firstBatchDone = false;
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        const el = entry.target;
+        if (entry.isIntersecting){
+          if (!firstBatchDone){
+            msgs.forEach((m,i)=>m.style.transitionDelay = `${i*80}ms`);
+            firstBatchDone = true;
+            setTimeout(()=>msgs.forEach(m=>m.style.transitionDelay="0ms"), msgs.length*80+600);
+          }
+          el.classList.add("is-visible");
+        }
+        const mid = entry.intersectionRatio>0.6 &&
+                    entry.boundingClientRect.top > window.innerHeight*0.18 &&
+                    entry.boundingClientRect.bottom < window.innerHeight*0.82;
+        el.classList.toggle("is-active", mid);
+      });
+    },{ root:null, rootMargin:"-15% 0% -15% 0%", threshold:[0,0.25,0.6,0.9]});
+    msgs.forEach(m=>io.observe(m));
+  })();
+
+  // =========================
+  // 5) CUSTOMER VOICES (subtle reveal)
+  // =========================
+  (function voicesReveal(){
+    const cards = $$(".voice-card");
+    if (!canObserve || !cards.length) return;
+    cards.forEach(c=>c.style.opacity="0");
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if (e.isIntersecting){
+          e.target.style.transition = "opacity .4s ease, transform .4s ease";
+          e.target.style.transform  = "translateY(0)";
+          e.target.style.opacity    = "1";
+        } else {
+          e.target.style.transform  = "translateY(8px)";
+          e.target.style.opacity    = "0";
+        }
+      });
+    },{ threshold:[0,0.2]});
+    cards.forEach(c=>io.observe(c));
+  })();
+
+  // =========================
+  // 6) CONTACT (placeholder: could add form handling later)
+  // =========================
+  (function contact(){
+    // aktuell nur Mailto-Button – kein JS nötig.
+  })();
+
+  // =========================
+  // 7) HEADER & FOOTER (year, mobile nav, to-top)
+  // =========================
+  (function headerFooter(){
+    // year
+    const yearEl = $("#year");
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+    // mobile nav
+    const toggle = $("#menu-toggle");
+    const nav = $("#site-nav");
+    if (toggle && nav){
+      toggle.addEventListener("click", ()=>{
+        const isOpen = nav.classList.toggle("open");
+        toggle.setAttribute("aria-expanded", String(isOpen));
+      });
+    }
+
+    // show/hide "Back to top" when scrolled
+    const toTop = $(".to-top");
+    if (toTop){
+      const onScroll = () => {
+        const scrolled = window.scrollY > 600;
+        toTop.style.opacity = scrolled ? "1" : "0";
+        toTop.style.pointerEvents = scrolled ? "auto" : "none";
+      };
+      onScroll();
+      window.addEventListener("scroll", onScroll, { passive:true });
+    }
+  })();
+
+  console.log("Juicy Crew — scripts ready ✅");
 });
