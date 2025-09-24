@@ -261,6 +261,24 @@ document.addEventListener("DOMContentLoaded", () => {
       window.addEventListener("scroll", onScroll, { passive:true });
     }
   })();
+// ===== Cases: Simple Stack für bestehende Klassen =====
+(function casesSimple(){
+  const cards = Array.from(document.querySelectorAll("#cases .case-card"));
+  if (!cards.length || !("IntersectionObserver" in window)) return;
 
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if (!(e.isIntersecting && e.intersectionRatio > 0.5)) return;
+      const idx = cards.indexOf(e.target);
+      cards.forEach((c,i)=>{
+        c.classList.toggle("is-active", i === idx);
+        c.classList.toggle("is-past",   i <  idx);
+        if (i > idx) c.classList.remove("is-active","is-past");
+      });
+    });
+  }, { root:null, rootMargin:"-10% 0% -10% 0%", threshold:[0.5] });
+
+  cards.forEach(c => io.observe(c));
+})();
   console.log("Juicy Crew — scripts ready ✅");
 });
