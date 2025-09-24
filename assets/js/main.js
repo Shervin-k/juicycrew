@@ -195,22 +195,6 @@ document.addEventListener("DOMContentLoaded", () => {
     },{ root:null, threshold:[0.6]});
     wraps.forEach(w=>io.observe(w));
   })();
-  // kompakteres Aktivieren
-const io = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (!(entry.isIntersecting && entry.intersectionRatio > 0.5)) return; // 0.6 -> 0.5
-    const idx = snaps.indexOf(entry.target);
-    snaps.forEach((w,i)=>{
-      w.classList.toggle("is-active", i === idx);
-      w.classList.toggle("is-past",   i <  idx);
-      if (i > idx) w.classList.remove("is-past","is-active");
-    });
-  });
-}, {
-  root: null,
-  rootMargin: "-5% 0% -5% 0%", // weniger Puffer (vorher -10%)
-  threshold: [0.5]
-});
   
 
   // =========================
