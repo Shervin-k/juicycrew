@@ -308,7 +308,6 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   }, { root:null, rootMargin:"-10% 0% -10% 0%", threshold:[0.5] });
-
   cards.forEach(c => io.observe(c));
 })();
   console.log("Juicy Crew — scripts ready ✅");
