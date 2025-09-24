@@ -7,15 +7,16 @@
 *::before,
 *::after { box-sizing: border-box; }
 
-:root{
-  /* Farben – hell/weiß + Waldgrün */
-  --bg:#ffffff;          /* Seite */
-  --fg:#0b3d2e;          /* Text (Waldgrün) */
-  --muted:#4a6657;       /* Subtext */
-  --brand:#0b3d2e;       /* Buttons/Links */
-  --brand-ink:#ffffff;   /* Button-Text */
-  --line:#e5e7eb;        /* Linien */
-  --card:#f8fafc;        /* helle Kartenfläche */
+:root {
+  --bg:#ffffff;
+  --fg:#0b3d2e;
+  --muted:#4a6657;
+  --brand:#0b3d2e;
+  --brand-ink:#ffffff;
+  --line:#e5e7eb;
+  --card:#f8fafc;
+  --beige:#f3eee7;       /* Karten-Hintergrund */
+  --brown:#3a2c1a;       /* neue dunkle Schriftfarbe */
 }
 
 html,body{height:100%}
@@ -334,6 +335,50 @@ section#benefits.benefits-kota{
   transform: translateY(-6vh) scale(.965) rotateX(2deg);
   filter: saturate(.95) contrast(.98);
   pointer-events: none;
+}/* Normale Snap-Karten: Sticky + Fade */
+.benefits-animate .benefits-kota__snap {
+  min-height: 100vh;
+  margin-bottom: -22vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.benefits-animate .benefit-card-kota {
+  position: sticky;
+  top: 8vh;
+  transform-origin: 50% 0%;
+  transform: translateY(10vh) scale(.975) rotateX(2.5deg);
+  opacity: .02;
+  transition:
+    transform .9s cubic-bezier(.2,.8,.2,1),
+    opacity   .9s ease;
+}
+
+/* Aktive Karte */
+.benefits-animate .benefits-kota__snap.is-active .benefit-card-kota {
+  transform: translateY(0) scale(1) rotateX(0);
+  opacity: 1;
+}
+
+/* Vergangene Karte */
+.benefits-animate .benefits-kota__snap.is-past .benefit-card-kota {
+  transform: translateY(0) scale(.935);
+  opacity: .35;
+  pointer-events: none;
+}
+
+/* Nächste Karte unten anreißen */
+.benefits-animate .benefits-kota__snap.is-active + .benefits-kota__snap .benefit-card-kota {
+  opacity: .35;
+  transform: translateY(-6vh) scale(.965) rotateX(2deg);
+}
+
+/* SPEZIAL: letzte Karte soll nicht kleben */
+.benefits-animate .benefits-kota__snap.is-last .benefit-card-kota {
+  position: static;       /* kein Sticky */
+  transform: none;        /* kein Fade-In/Out */
+  opacity: 1;             /* bleibt normal sichtbar */
 }
 
 /* Mobile Feintuning */
@@ -341,14 +386,12 @@ section#benefits.benefits-kota{
   .benefits-animate .benefits-kota__snap{ min-height: 96vh; margin-bottom: -18vh; }
   .benefits-animate .benefit-card-kota{ top: 10vh; }
 }
-
 /* ==== CASES (2-col grid, dark, hover expand) ==== */
 .cases-grid{
   background: var(--fg);        /* dunkles Grün */
   color: #fff;
   padding: 120px 0 140px;       /* oben/unten mehr Platz */
 }
-
 .cases-grid__wrap{
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -429,6 +472,19 @@ section#benefits.benefits-kota{
   .case-tile{ min-height: auto; }
   .case-tile__media{ height: 180px; }
   .case-tile:hover .case-tile__media{ height: 220px; }
+}
+/* ==== Case-Tiles Beige + Brown Text ==== */
+
+.case-tile {
+  background: var(--beige);       /* beige Cards */
+  border: 1px solid #e0d6c8;      /* leichte Rahmenfarbe passend */
+  color: var(--brown);            /* Standard-Text braun */
+}
+
+.case-tile__title,
+.case-tile__teaser,
+.case-tile__more p {
+  color: var(--brown);
 }
 /* ===== Customer Service – Chat Section ===== */
 .service-chat .container {
