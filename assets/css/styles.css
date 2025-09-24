@@ -282,77 +282,96 @@ p{margin:0 0 12px}
   object-fit:cover; /* füllt den Frame */
   border-radius:16px; /* gleiche Rundung wie Karten */
 }
-/* KOTA-Style: Stack, fade, scale, slide-up */
-section#cases.cases-kota { padding: 12vh 0 30vh; } /* extra Platz unten */
-.cases-kota__viewport { position: relative; }
+/* KOTA – smoother depth, tilt, stagger */
+section#cases.cases-kota { padding: 12vh 0 30vh; }
+.cases-kota__viewport { position: relative; perspective: 1400px; }
 
 .cases-kota__snap{
   position: relative;
-  min-height: 130vh;               /* genug Scrollweg */
+  min-height: 130vh;
   display: flex; align-items: center; justify-content: center;
+  will-change: transform;
 }
 
+/* Card */
 .case-card-kota{
-  position: sticky; top: 12vh;     /* bleibt an fester Stelle */
-  width: min(1000px, 88vw);
+  position: sticky; top: 12vh;
+  width: min(1200px, 92vw);
   display: grid; grid-template-columns: 1fr 1fr; gap: 32px;
-  background: #f3eee7; color:#0b3d2e; border-radius:24px; padding:48px;
-  box-shadow: 0 8px 24px rgba(0,0,0,.1);
 
-  /* Start: kommt von unten rein */
-  transform-origin: top center;
-  transform: translateY(30vh) scale(1);
-  opacity: 0.01;
-  transition: transform .6s ease, opacity .6s ease, filter .6s ease;
-  will-change: transform, opacity, filter;
+  background: #f3eee7; color:#0b3d2e;
+  border-radius: 24px; padding: 48px;
+  box-shadow: 0 24px 60px rgba(0,0,0,.12);
+
+  /* Startzustand: tiefer, leicht gekippt */
+  transform-origin: 50% 0%;
+  transform: translateY(24vh) scale(.96) rotateX(6deg);
+  opacity: 0.01; filter: saturate(.7) contrast(.9);
+  transition:
+    transform .9s cubic-bezier(.2,.8,.2,1),
+    opacity   .9s ease,
+    filter    .9s ease;
 }
 
-/* aktive Karte: volle Sichtbarkeit, ganz oben */
+/* Aktive Karte: flach, klar, präsent */
 .cases-kota__snap.is-active .case-card-kota{
-  transform: translateY(0) scale(1);
+  transform: translateY(0) scale(1) rotateX(0deg);
   opacity: 1; filter: none;
 }
 
-/* vergangene Karte: bleibt an Ort & Stelle, aber kleiner + blasser + hintere Ebene */
+/* Vergangene Karte: leicht kleiner & entsättigt */
 .cases-kota__snap.is-past .case-card-kota{
-  transform: translateY(0) scale(.9);
-  opacity: .18; filter: blur(.4px);
-  pointer-events: none;            /* nicht anklickbar */
+  transform: translateY(0) scale(.9) rotateX(0deg);
+  opacity: .2; filter: blur(.3px) saturate(.85);
+  pointer-events: none;
 }
 
-/* Bild */
-.case-card-kota__image img{
-  width:100%; height:auto; object-fit:cover; border-radius:16px;
+/* Bild-Reveal (sanftes Masken-Intro) */
+.case-card-kota__image{
+  overflow: hidden; border-radius: 16px; position: relative;
 }
+.case-card-kota__image img{
+  width:100%; height:100%; object-fit: cover; display:block;
+  transform: scale(1.05);
+  opacity:.85;
+  transition: transform 1s cubic-bezier(.2,.8,.2,1), opacity .8s ease;
+  /* weiche Einblendung von unten */
+  mask-image: linear-gradient(180deg, transparent 0%, #000 14%, #000 100%);
+}
+.cases-kota__snap.is-active .case-card-kota__image img{
+  transform: scale(1); opacity:1;
+}
+
+/* Content-Stagger (Titel → Text) */
+.case-card-kota__title,
+.case-card-kota__text{
+  transform: translateY(14px);
+  opacity: 0;
+  transition: opacity .6s ease, transform .6s cubic-bezier(.2,.8,.2,1);
+}
+.cases-kota__snap.is-active .case-card-kota__title{
+  transform: none; opacity: 1; transition-delay: .08s;
+}
+.cases-kota__snap.is-active .case-card-kota__text{
+  transform: none; opacity: 1; transition-delay: .16s;
+}
+
+/* Typo */
+.case-card-kota__title { font-size: clamp(48px, 7.2vw, 88px); line-height:1.05; letter-spacing:-.02em; }
+.case-card-kota__text  { font-size: 20px; line-height: 1.7; }
 
 /* Mobile */
-@media (max-width:900px){
+@media (max-width: 900px){
   .cases-kota__snap{ min-height:110vh; }
-  .case-card-kota{ grid-template-columns:1fr; padding:24px; }
+  .case-card-kota{ grid-template-columns:1fr; padding: 28px; gap: 20px; }
+  .case-card-kota__title{ font-size: clamp(34px, 9vw, 48px); }
+  .case-card-kota__text { font-size: 18px; }
 }
-/* === Extra Tweaks for Cases Animation === */
 
-.case-card-kota{
-  transition: transform .5s cubic-bezier(.2,.8,.2,1), opacity .5s;
-  will-change: transform, opacity;
-  contain: layout paint;
-}
-.cases-kota__snap.is-past .case-card-kota{
-  transform: translateY(0) scale(.94);
-  opacity:.25; filter:none;
-}
-@supports(mask-image: linear-gradient(#000,#000)){
-  .cases-kota__viewport::after{
-    content:""; position:fixed; inset:0;
-    pointer-events:none;
-    mask-image: linear-gradient(180deg, rgba(0,0,0,.12), #000 12%, #000 88%, rgba(0,0,0,.12));
-    background: transparent;
-  }
-}
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce){
-  .case-card-kota{ transition:none; transform:none!important; }
+  .case-card-kota{ transition:none; transform:none!important; opacity:1!important; filter:none!important; }
 }
-/* === Bigger Case Cards === */
 .case-card-kota {
   width: min(1300px, 96vw);
 }
@@ -372,7 +391,39 @@ section#cases.cases-kota { padding: 12vh 0 30vh; } /* extra Platz unten */
   object-fit: cover;
   border-radius: 20px;
 }
+/* Grundzustand, wenn noch nicht aktiv */
+#cases .case-card{
+  transform: translateY(18vh) scale(.96);
+  opacity: .01;
+  transition: transform .8s cubic-bezier(.2,.8,.2,1), opacity .8s;
+}
 
+/* aktive Karte (Front) */
+#cases .case-card.is-active{
+  transform: none;
+  opacity: 1;
+}
+
+/* vergangene Karte (leicht kleiner, blasser) */
+#cases .case-card.is-past{
+  transform: scale(.92);
+  opacity: .28;
+}
+
+/* optional: sanfter Stagger im Inhalt */
+#cases .case-card .title, #cases .case-card .copy{
+  opacity:0; transform: translateY(8px);
+  transition: opacity .6s ease, transform .6s cubic-bezier(.2,.8,.2,1);
+}
+#cases .case-card.is-active .title{ opacity:1; transform:none; transition-delay:.08s; }
+#cases .case-card.is-active .copy { opacity:1; transform:none; transition-delay:.16s; }
+
+/* optional: Bild leicht zoomen und klarziehen */
+#cases .case-card img{
+  transform: scale(1.05); opacity:.85;
+  transition: transform 1s cubic-bezier(.2,.8,.2,1), opacity .8s ease;
+}
+#cases .case-card.is-active img{ transform: scale(1); opacity:1; }
 
 /* ===== Customer Service – Chat Section ===== */
 .service-chat .container {
