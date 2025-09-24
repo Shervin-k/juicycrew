@@ -130,6 +130,37 @@ document.addEventListener("DOMContentLoaded", () => {
     },{ root:null, rootMargin:"-20% 0% -20% 0%", threshold:[0,0.25,0.55,0.75,1]});
     cards.forEach(c=>io.observe(c));
   })();
+  // Benefits: KOTA-Animation aktivieren
+(function () {
+  const section = document.querySelector('#benefits.benefits-kota');
+  if (!section || !('IntersectionObserver' in window)) return;
+
+  // Animation einschalten: schaltet die .benefits-animate CSS-Regeln frei
+  section.classList.add('benefits-animate');
+
+  const snaps = Array.from(section.querySelectorAll('.benefits-kota__snap'));
+  if (!snaps.length) return;
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      const el = entry.target;
+      if (entry.isIntersecting && entry.intersectionRatio > 0.55) {
+        el.classList.add('is-active');
+
+        // alle vorigen als "past" markieren (kleiner/blasser)
+        const idx = snaps.indexOf(el);
+        snaps.forEach((s, i) => s.classList.toggle('is-past', i < idx));
+      } else {
+        el.classList.remove('is-active');
+      }
+    });
+  }, {
+    threshold: [0, 0.25, 0.55, 0.75, 1],
+    rootMargin: '-12% 0% -12% 0%' // Fokuszone in der Mitte
+  });
+
+  snaps.forEach((s) => io.observe(s));
+})();
 
   // =========================
   // 3) CASES (KOTA-style stack: past shrinks/fades, active on top)
@@ -164,6 +195,22 @@ document.addEventListener("DOMContentLoaded", () => {
     },{ root:null, threshold:[0.6]});
     wraps.forEach(w=>io.observe(w));
   })();
+  // kompakteres Aktivieren
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (!(entry.isIntersecting && entry.intersectionRatio > 0.5)) return; // 0.6 -> 0.5
+    const idx = snaps.indexOf(entry.target);
+    snaps.forEach((w,i)=>{
+      w.classList.toggle("is-active", i === idx);
+      w.classList.toggle("is-past",   i <  idx);
+      if (i > idx) w.classList.remove("is-past","is-active");
+    });
+  });
+}, {
+  root: null,
+  rootMargin: "-5% 0% -5% 0%", // weniger Puffer (vorher -10%)
+  threshold: [0.5]
+});
   
 
   // =========================
