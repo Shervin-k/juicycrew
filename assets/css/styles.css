@@ -230,201 +230,206 @@ p{margin:0 0 12px}
 }
 /* deine bestehenden .logo-strip-Regeln kannst du beibehalten */
 
-/* ===== Benefits ===== */
-.benefits__grid{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:start}
-.eyebrow{display:inline-block;font-size:12px;font-weight:600;color:var(--brand-ink);background:var(--brand);padding:6px 10px;border-radius:999px;margin-bottom:10px}
-.benefit-cards{list-style:none;margin:20px 0 0;padding:0;display:flex;flex-direction:column;gap:16px}
-.benefit-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
-.benefit-card h3{margin:0 0 6px}
-
-.benefits__visual{position:relative}
-.benefits__frame{position:sticky;top:96px} /* stays in view on scroll */
-.benefits__frame img{display:block;width:100%;height:auto;border-radius:16px}
-
-:root{ --beige:#f3eee7; } /* softer beige */
-
-.benefit-card{
-  transition: transform .25s ease, background-color .25s ease, box-shadow .25s ease;
-  will-change: transform, background-color;
+/* === BENEFITS (sichtbar, ohne Animation) ========================= */
+section#benefits.benefits-kota{
+  padding: 72px 0;
+  background: transparent;
 }
-.benefit-card.is-active{
-  transform: scale(1.04);
-  background: var(--beige);
-  box-shadow: 0 6px 20px rgba(0,0,0,.06);
+
+.benefits-kota__viewport{
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
 }
-/* Accessibility: no scaling for users with reduced motion */
-@media (prefers-reduced-motion: reduce){
-  .benefit-card{ transition:none; }
-  .benefit-card.is-active{ transform:none; }
+
+.benefits-kota__snap{
+  margin-bottom: 48px;              /* normaler Abstand (keine Overlaps) */
+}
+
+.benefit-card-kota{
+  display: grid;
+  grid-template-columns: 1.1fr .9fr;  /* links Text, rechts Bild */
+  gap: 32px;
+
+  background: #f3eee7;
+  color: #0b3d2e;
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: 0 24px 60px rgba(0,0,0,.08);
+
+  /* Wichtig: hier KEINE Opacity/Transform – damit es sofort sichtbar ist */
+}
+
+.benefit-card-kota__title{
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: clamp(32px, 5.5vw, 56px);
+  line-height: 1.05;
+  margin: 0 0 12px;
+}
+
+.benefit-card-kota__text{
+  font-size: 18px;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.benefit-card-kota__image{
+  border-radius: 16px;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;             /* einheitliche Höhe */
+  background: #eee;                  /* Fallback, falls Bild fehlt */
+}
+
+.benefit-card-kota__image img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 /* Mobile */
-@media (max-width:900px){
-  .benefits__grid{grid-template-columns:1fr;gap:24px}
-  .benefits__frame{position:static}
-}.lede{ margin-top:8px; color:var(--muted); font-size:18px; }
-.lede strong{ color:var(--fg); font-weight:700; }/* Benefits image alignment */
-.benefits__grid{
-  align-items:stretch; /* beide Spalten gleiche Höhe */
-}
-
-.benefits__frame{
-  position:sticky; 
-  top:96px;
-  height:100%; /* gleicht sich der Kartenhöhe an */
-  display:flex; 
-  align-items:stretch;
-}
-
-.benefits__frame img{
-  width:100%; 
-  height:100%; 
-  object-fit:cover; /* füllt den Frame */
-  border-radius:16px; /* gleiche Rundung wie Karten */
-}
-/* KOTA – smoother depth, tilt, stagger */
-section#cases.cases-kota { padding: 12vh 0 30vh; }
-.cases-kota__viewport { position: relative; perspective: 1400px; }
-
-.cases-kota__snap{
-  position: relative;
-  min-height: 130vh;
+@media (max-width: 900px){
+  .benefit-card-kota{
+    grid-template-columns: 1fr;
+    padding: 24px;
+    gap: 20px;
+  }
+  .benefit-card-kota__title{ font-size: clamp(26px, 7.5vw, 36px); }
+  .benefit-card-kota__text{ font-size: 16px; }
+}/* === Animation nur, wenn .benefits-animate auf der Section sitzt */
+.benefits-animate .benefits-kota__snap{
+  min-height: 100vh;
+  margin-bottom: -22vh;              /* Überlappung: nächste Karte lugt rein */
   display: flex; align-items: center; justify-content: center;
-  will-change: transform;
 }
 
-/* Card */
-.case-card-kota{
-  position: sticky; top: 12vh;
-  width: min(1200px, 92vw);
-  display: grid; grid-template-columns: 1fr 1fr; gap: 32px;
+.benefits-animate .benefit-card-kota{
+  position: sticky; top: 8vh;
 
-  background: #f3eee7; color:#0b3d2e;
-  border-radius: 24px; padding: 48px;
-  box-shadow: 0 24px 60px rgba(0,0,0,.12);
-
-  /* Startzustand: tiefer, leicht gekippt */
   transform-origin: 50% 0%;
-  transform: translateY(24vh) scale(.96) rotateX(6deg);
-  opacity: 0.01; filter: saturate(.7) contrast(.9);
+  transform: translateY(10vh) scale(.975) rotateX(2.5deg);
+  opacity: .02; 
+  filter: saturate(.9) contrast(.95);
   transition:
     transform .9s cubic-bezier(.2,.8,.2,1),
     opacity   .9s ease,
     filter    .9s ease;
 }
 
-/* Aktive Karte: flach, klar, präsent */
-.cases-kota__snap.is-active .case-card-kota{
-  transform: translateY(0) scale(1) rotateX(0deg);
+.benefits-animate .benefits-kota__snap.is-active .benefit-card-kota{
+  transform: translateY(0) scale(1) rotateX(0);
   opacity: 1; filter: none;
 }
 
-/* Vergangene Karte: leicht kleiner & entsättigt */
-.cases-kota__snap.is-past .case-card-kota{
-  transform: translateY(0) scale(.9) rotateX(0deg);
-  opacity: .2; filter: blur(.3px) saturate(.85);
+.benefits-animate .benefits-kota__snap.is-past .benefit-card-kota{
+  transform: translateY(0) scale(.935) rotateX(0);
+  opacity: .35; filter: saturate(.9);
   pointer-events: none;
 }
 
-/* Bild-Reveal (sanftes Masken-Intro) */
-.case-card-kota__image{
-  overflow: hidden; border-radius: 16px; position: relative;
-}
-.case-card-kota__image img{
-  width:100%; height:100%; object-fit: cover; display:block;
-  transform: scale(1.05);
-  opacity:.85;
-  transition: transform 1s cubic-bezier(.2,.8,.2,1), opacity .8s ease;
-  /* weiche Einblendung von unten */
-  mask-image: linear-gradient(180deg, transparent 0%, #000 14%, #000 100%);
-}
-.cases-kota__snap.is-active .case-card-kota__image img{
-  transform: scale(1); opacity:1;
+/* Nächste Karte unten „anreißen“ */
+.benefits-animate .benefits-kota__snap.is-active + .benefits-kota__snap .benefit-card-kota{
+  opacity: .35;
+  transform: translateY(-6vh) scale(.965) rotateX(2deg);
+  filter: saturate(.95) contrast(.98);
+  pointer-events: none;
 }
 
-/* Content-Stagger (Titel → Text) */
-.case-card-kota__title,
-.case-card-kota__text{
-  transform: translateY(14px);
+/* Mobile Feintuning */
+@media (max-width: 900px){
+  .benefits-animate .benefits-kota__snap{ min-height: 96vh; margin-bottom: -18vh; }
+  .benefits-animate .benefit-card-kota{ top: 10vh; }
+}
+
+/* ==== CASES (2-col grid, dark, hover expand) ==== */
+.cases-grid{
+  background: var(--fg);        /* dunkles Grün */
+  color: #fff;
+  padding: 120px 0 140px;       /* oben/unten mehr Platz */
+}
+
+.cases-grid__wrap{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 48px;                    /* mehr Abstand zwischen Karten */
+}
+
+/* Karte */
+.case-tile{
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 20px;
+  padding: 24px;
+  overflow: hidden;
+  transition: border-color .3s ease, box-shadow .3s ease, transform .3s ease;
+  will-change: transform;
+  min-height: 360px;            /* Karten fix größer */
+}
+.case-tile:hover{
+  border-color: rgba(255,255,255,.35);
+  box-shadow: 0 18px 40px rgba(0,0,0,.28);
+  transform: translateY(-3px);
+}
+
+/* Bildbereich – größer */
+.case-tile__media{
+  border-radius: 14px;
+  overflow: hidden;
+  height: 200px;                 /* Start-Höhe */
+  transition: height .45s ease;
+}
+.case-tile__media img{
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  transform: scale(1.02);
+  transition: transform .6s cubic-bezier(.2,.8,.2,1), opacity .4s ease;
+  opacity: .95;
+}
+.case-tile:hover .case-tile__media{ height: 260px; }  /* auf Hover wächst noch mehr */
+.case-tile:hover .case-tile__media img{ transform: scale(1.0); opacity: 1; }
+
+/* Text */
+.case-tile__body{ padding: 18px 8px 6px; }
+.case-tile__title{
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: 26px;
+  margin: 0 0 6px;
+  color: #fff;
+}
+.case-tile__teaser{
+  margin: 0;
+  color: rgba(255,255,255,.9);
+  font-size: 17px;
+}
+
+/* Mehr-Text */
+.case-tile__more{
   opacity: 0;
-  transition: opacity .6s ease, transform .6s cubic-bezier(.2,.8,.2,1);
+  max-height: 0;
+  overflow: hidden;
+  margin-top: 0;
+  transition: max-height .5s ease, opacity .35s ease .1s, margin-top .3s ease;
 }
-.cases-kota__snap.is-active .case-card-kota__title{
-  transform: none; opacity: 1; transition-delay: .08s;
+.case-tile:hover .case-tile__more{
+  opacity: 1;
+  max-height: 240px;
+  margin-top: 12px;
 }
-.cases-kota__snap.is-active .case-card-kota__text{
-  transform: none; opacity: 1; transition-delay: .16s;
+.case-tile__more p{
+  margin: 0;
+  color: rgba(255,255,255,.92);
+  line-height: 1.6;
+  font-size: 16px;
 }
-
-/* Typo */
-.case-card-kota__title { font-size: clamp(48px, 7.2vw, 88px); line-height:1.05; letter-spacing:-.02em; }
-.case-card-kota__text  { font-size: 20px; line-height: 1.7; }
 
 /* Mobile */
 @media (max-width: 900px){
-  .cases-kota__snap{ min-height:110vh; }
-  .case-card-kota{ grid-template-columns:1fr; padding: 28px; gap: 20px; }
-  .case-card-kota__title{ font-size: clamp(34px, 9vw, 48px); }
-  .case-card-kota__text { font-size: 18px; }
+  .cases-grid__wrap{ grid-template-columns: 1fr; gap: 32px; }
+  .case-tile{ min-height: auto; }
+  .case-tile__media{ height: 180px; }
+  .case-tile:hover .case-tile__media{ height: 220px; }
 }
-
-/* Reduced motion */
-@media (prefers-reduced-motion: reduce){
-  .case-card-kota{ transition:none; transform:none!important; opacity:1!important; filter:none!important; }
-}
-.case-card-kota {
-  width: min(1300px, 96vw);
-}
-
-.case-card-kota__title {
-  font-size: clamp(56px, 8vw, 96px);
-}
-
-.case-card-kota__text {
-  font-size: 22px;
-  line-height: 1.7;
-}
-
-.case-card-kota__image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 20px;
-}
-/* Grundzustand, wenn noch nicht aktiv */
-#cases .case-card{
-  transform: translateY(18vh) scale(.96);
-  opacity: .01;
-  transition: transform .8s cubic-bezier(.2,.8,.2,1), opacity .8s;
-}
-
-/* aktive Karte (Front) */
-#cases .case-card.is-active{
-  transform: none;
-  opacity: 1;
-}
-
-/* vergangene Karte (leicht kleiner, blasser) */
-#cases .case-card.is-past{
-  transform: scale(.92);
-  opacity: .28;
-}
-
-/* optional: sanfter Stagger im Inhalt */
-#cases .case-card .title, #cases .case-card .copy{
-  opacity:0; transform: translateY(8px);
-  transition: opacity .6s ease, transform .6s cubic-bezier(.2,.8,.2,1);
-}
-#cases .case-card.is-active .title{ opacity:1; transform:none; transition-delay:.08s; }
-#cases .case-card.is-active .copy { opacity:1; transform:none; transition-delay:.16s; }
-
-/* optional: Bild leicht zoomen und klarziehen */
-#cases .case-card img{
-  transform: scale(1.05); opacity:.85;
-  transition: transform 1s cubic-bezier(.2,.8,.2,1), opacity .8s ease;
-}
-#cases .case-card.is-active img{ transform: scale(1); opacity:1; }
-
 /* ===== Customer Service – Chat Section ===== */
 .service-chat .container {
   max-width: 800px;     /* wie andere Sections */
