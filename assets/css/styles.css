@@ -71,6 +71,14 @@ p{margin:0 0 12px}
   font-size:clamp(40px,4.5vw,60px); line-height:1.2; max-width:1000px;
   margin-top:28px; font-weight:400; color:var(--muted); text-align:left;
 }
+.hero__subtitle {
+  font-size: clamp(1.1rem, 1.6vw, 1.6rem);
+  font-weight: 400;
+  line-height: 1.4;
+  max-width: 620px;
+  margin: 0 auto 1.8em;
+  color: rgba(255,255,255,0.85);
+}
 .hero__visual{ position:relative; min-height:420px; z-index:0; }
 .hero__blob{
   position:absolute; inset:-10% -15% -10% -15%; border-radius:40px; filter:blur(14px);
@@ -100,14 +108,6 @@ p{margin:0 0 12px}
   .site-nav{ display:flex !important; }
 }
 
-.hero__copy .subline{
-  font-size: clamp(40px, 4.5vw, 60px) !important;
-  line-height: 1.2 !important;
-  max-width: 1000px !important;
-  margin-top: 28px !important;
-  color: var(--muted) !important;
-  text-align: left !important;
-}
 .hero-title {
   font-size: clamp(90px, 12vw, 160px);
   font-weight: 700;
@@ -686,4 +686,156 @@ section#benefits.benefits-kota{
 
 .portfolio__cta .btn.cta:hover {
   filter: brightness(1.1);
+}
+/* =========================
+   FOOTER (Terracotta CTA)
+   ========================= */
+.footer {
+  background: #1B2B24;       /* sattes Waldgrün */
+  color: rgba(237,230,219,0.9); /* soft beige */
+  padding: 3rem 1.5rem 1.5rem;
+  font-family: 'Inter', sans-serif;
+}
+
+.footer__container {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: start;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Left: Intro & CTA */
+.footer__intro {
+  max-width: 340px;
+}
+
+.footer__headline {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  line-height: 1.4;
+  margin: 0 0 1rem;
+  color: #EDE6DB;
+}
+
+.footer__cta {
+  display: inline-block;
+  background: #C66B3D;       /* Terracotta */
+  color: #FFFFFF;            /* Weißer Text */
+  padding: 0.6rem 1.4rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.25s ease, transform 0.2s ease;
+}
+
+.footer__cta:hover {
+  background: #A6532D;       /* dunkleres Terracotta */
+  transform: translateY(-2px);
+}
+
+/* Center: Navigation (horizontal, tiefer gesetzt) */
+.footer__nav {
+  text-align: center;
+  margin-top: 5rem; /* deutlich tiefer im Footer */
+}
+
+.footer__nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: inline-flex;
+  gap: 2rem;
+}
+
+.footer__nav li {
+  margin: 0;
+}
+
+.footer__nav a {
+  color: rgba(237,230,219,0.85);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.footer__nav a:hover {
+  color: #EDE6DB;
+}
+
+/* Right: Socials */
+.footer__socials {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.footer__socials a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(237,230,219,0.1);
+  color: #EDE6DB;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.footer__socials a:hover {
+  background: rgba(237,230,219,0.25);
+}
+
+/* Bottom Row */
+.footer__bottom {
+  border-top: 1px solid rgba(237,230,219,0.15);
+  margin-top: 2.5rem;
+  padding-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: rgba(237,230,219,0.65);
+}
+
+.footer__links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.footer__links a {
+  color: rgba(237,230,219,0.65);
+  text-decoration: none;
+}
+
+.footer__links a:hover {
+  color: #EDE6DB;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .footer__container {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .footer__intro {
+    margin: 0 auto;
+  }
+
+  .footer__socials {
+    justify-content: center;
+  }
+
+  .footer__bottom {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .footer__nav {
+    margin-top: 3rem; /* auf Mobile etwas weniger */
+  }
 }
