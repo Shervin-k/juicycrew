@@ -114,7 +114,81 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       animateBlob();
     }
+  }// Hero CTA — pixelgenaue Position an Subline ausrichten
+(function positionHeroCTA() {
+  const SELECTORS = {
+    container: '.hero__copy',
+    subline: '.subline',
+    cta: '.hero__cta'
+  };
+
+  // Feintuning: veränderbare Werte
+  const CONFIG = {
+    rightOffset: '4rem',     // horizontaler Abstand vom rechten Rand der Textspalte (CSS string ok)
+    mobileBreakpoint: 768,   // <= px => Button geht in Flow
+    topAdjustPx: 0           // manuelle Feinanpassung in px (z. B. -6, +4)
+  };
+
+  function applyPosition() {
+    const container = document.querySelector(SELECTORS.container);
+    const subline = document.querySelector(SELECTORS.subline);
+    const btn = document.querySelector(SELECTORS.cta);
+    if (!container || !subline || !btn) return;
+
+    const w = window.innerWidth || document.documentElement.clientWidth;
+    if (w <= CONFIG.mobileBreakpoint) {
+      // mobile: statisch (CSS media query sorgt dafür)
+      btn.style.position = '';
+      btn.style.top = '';
+      btn.style.right = '';
+      btn.style.transform = '';
+      return;
+    }
+
+    // desktop: absolut positionieren relativ zur .hero__copy
+    const cRect = container.getBoundingClientRect();
+    const sRect = subline.getBoundingClientRect();
+    const bRect = btn.getBoundingClientRect();
+
+    // Mitte der Subline innerhalb container-coordinates
+    const subMiddle = (sRect.top - cRect.top) + (sRect.height / 2);
+
+    // Ziel-top so setzen, dass Button vertikal zentriert auf Subline-Mitte liegt
+    const targetTop = Math.round(subMiddle - (bRect.height / 2) + CONFIG.topAdjustPx);
+
+    // apply styles
+    btn.style.position = 'absolute';
+    btn.style.top = targetTop + 'px';
+    btn.style.right = CONFIG.rightOffset;
+    btn.style.transform = 'translateY(0)';
   }
+
+  // Debounced resize handler
+  let resizeTimer = null;
+  function onResize() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(applyPosition, 80);
+  }
+
+  // Wait for fonts/DOM ready then position
+  function init() {
+    applyPosition();
+    window.addEventListener('resize', onResize, { passive: true });
+
+    // If webfonts change layout, re-run when fonts finished
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => {
+        setTimeout(applyPosition, 30);
+      }).catch(() => {});
+    }
+  }
+
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    init();
+  } else {
+    document.addEventListener('DOMContentLoaded', init);
+  }
+})();
 })();
 
   // =========================
@@ -254,6 +328,7 @@ document.addEventListener("DOMContentLoaded", () => {
     },{ threshold:[0,0.2]});
     cards.forEach(c=>io.observe(c));
   })();
+  
 
   // =========================
   // 6) CONTACT (placeholder: could add form handling later)
