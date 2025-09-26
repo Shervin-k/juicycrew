@@ -284,7 +284,7 @@ p{margin:0 0 12px}
   align-items:center;
   justify-content:center;   /* statt flex-start */
   flex-wrap:nowrap;
-  gap:clamp(10px, 2vw, 24px);
+  gap:clamp(70px, 9vw, 140px);
   overflow:visible;
 }
 
@@ -294,12 +294,43 @@ p{margin:0 0 12px}
 
 /* Logos skalieren sich, damit ALLE reinpassen */
 .hero__logos .logo-strip img{
-  height:clamp(22px, 3.2vw, 40px);  /* kleiner auf schmalen Screens, größer auf breiten */
+  height:clamp(70px, 9vw, 140px);  /* kleiner auf schmalen Screens, größer auf breiten */
   width:auto;
   object-fit:contain;
   filter:grayscale(100%);
   opacity:.9;
   transition:opacity .2s, filter .2s, transform .2s;
+}
+
+/* Gemeinsamer Style */
+.hero__logos .logo-strip img {
+  width: auto;
+  object-fit: contain;
+  filter: grayscale(100%);
+  opacity: .9;
+  transition: opacity .2s, filter .2s, transform .2s;
+}
+.hero__logos .logo-strip img:hover {
+  filter: none;
+  opacity: 1;
+  transform: scale(1.03);
+}
+
+/* Individuelle Größen */
+.hero__logos .logo-strip li:nth-child(1) img { /* Bumble */
+  height: 180px;
+}
+.hero__logos .logo-strip li:nth-child(2) img { /* AG1 */
+  height: 100px;
+}
+.hero__logos .logo-strip li:nth-child(3) img { /* Zwilling */
+  height: 75px;
+}
+.hero__logos .logo-strip li:nth-child(4) img { /* ArmedAngels */
+  height: 180px;
+}
+.hero__logos .logo-strip li:nth-child(5) img { /* MosMosh */
+  height: 170px;
 }
 .hero__logos .logo-strip img:hover{
   filter:none;
