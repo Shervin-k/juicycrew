@@ -282,9 +282,9 @@ p{margin:0 0 12px}
   padding:0;
   display:flex;
   align-items:center;
-  justify-content:center;   /* statt flex-start */
+  justify-content:flex-start;   /* statt flex-start */
   flex-wrap:nowrap;
-  gap:clamp(70px, 9vw, 140px);
+  gap:clamp(30px, 7vw, 40px);
   overflow:visible;
 }
 
@@ -428,12 +428,12 @@ section#benefits.benefits-kota{
 }/* === Animation nur, wenn .benefits-animate auf der Section sitzt */
 .benefits-animate .benefits-kota__snap{
   min-height: 100vh;
-  margin-bottom: -22vh;              /* Überlappung: nächste Karte lugt rein */
+  margin-bottom: -2vh;              /* Überlappung: nächste Karte lugt rein */
   display: flex; align-items: center; justify-content: center;
 }
 
 .benefits-animate .benefit-card-kota{
-  position: sticky; top: 8vh;
+  position: sticky; top: 25vh;
 
   transform-origin: 50% 0%;
   transform: translateY(10vh) scale(.975) rotateX(2.5deg);
@@ -465,7 +465,7 @@ section#benefits.benefits-kota{
 }/* Normale Snap-Karten: Sticky + Fade */
 .benefits-animate .benefits-kota__snap {
   min-height: 100vh;
-  margin-bottom: -22vh;
+  margin-bottom: -8vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -473,7 +473,7 @@ section#benefits.benefits-kota{
 
 .benefits-animate .benefit-card-kota {
   position: sticky;
-  top: 8vh;
+  top: 20vh;
   transform-origin: 50% 0%;
   transform: translateY(10vh) scale(.975) rotateX(2.5deg);
   opacity: .02;
@@ -527,7 +527,7 @@ section#benefits.benefits-kota{
 .case-tile{
   position: relative;
   background: color-mix(in srgb, var(--fg) 90%, #ffffff 10%);
-  border: 1px solid #BFC7A3;
+  border: 1px solid #F2E4CE;
   border-radius: 20px;
   padding: 20px;
   overflow: hidden;
@@ -537,8 +537,8 @@ section#benefits.benefits-kota{
   transition: background .3s ease, color .3s ease, box-shadow .3s ease, transform .25s ease;
 }
 .case-tile:hover{
-  background: #BFC7A3;
-  color: #000;
+  background: #F2E4CE;
+  color: #0b3d2e;
   box-shadow: 0 16px 40px rgba(0,0,0,.26);
   transform: translateY(-2px);
 }
@@ -580,13 +580,13 @@ section#benefits.benefits-kota{
   font-weight:700;
   font-size:30px;                    /* kleiner, eleganter */
   margin:0 0 4px;
-  color:#fff;
+  color:#F2E4CE;
 }
-.case-tile__teaser{ margin:0; color:rgba(255,255,255,.9); font-size:20px; }
+.case-tile__teaser{ margin:0; color:#F2E4CE; font-size:20px; }
 
 .case-tile:hover .case-tile__title,
 .case-tile:hover .case-tile__teaser{
-  color: #000;
+  color: #0b3d2e;
 }
 
 /* Long text */
@@ -601,11 +601,27 @@ section#benefits.benefits-kota{
 }
 .case-tile__more p{
   margin: 0;
-  color: #000;
+  color: #0b3d2e;
   line-height: 1.55;
   font-size: 20px;
 }
+/* Case Card Body Animation */
+.case-tile__body {
+  position: relative;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  color: #fff;
+  z-index: 2;
+  opacity: 1;
+  transform: translateY(20px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
 
+.case-tile:hover .case-tile__body {
+  opacity: 1;
+  transform: translateY(0);
+}
 /* Mobile */
 @media (max-width: 900px){
   .cases-grid__wrap{ grid-template-columns:1fr; gap:28px; }
@@ -697,7 +713,7 @@ section#benefits.benefits-kota{
   font-family: 'Playfair Display', serif;
   font-weight: 700;
   font-size: clamp(28px, 4vw, 44px);
-  margin-bottom: 30px;
+  margin-bottom: 60px;
 }
 
 .voices__grid {
