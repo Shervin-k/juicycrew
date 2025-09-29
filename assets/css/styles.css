@@ -1,3 +1,16 @@
+/* Bilder nie breiter als Bildschirm */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Container: etwas mehr Abstand links/rechts am Handy */
+@media (max-width: 600px) {
+  .container {
+    padding: 0 12px;
+  }
+}
+
 /* =======================
    JuicyCrew – base styles
    ======================= */
@@ -116,33 +129,10 @@ p{margin:0 0 12px}
   text-align: left;
 }
 
-
-/* CTA Button rechts positionieren */
-.hero__cta {
-  position: absolute;
-  right: 0;
-  top: calc(100% - 1.2em); /* gleiche Höhe wie Subline */
-  background: #ff5c35; /* Terracotta Orange wie im Footer */
-  color: #fff;
-  padding: 0.8rem 1.6rem;
-  border-radius: 9999px;
-  font-weight: 600;
-  text-decoration: none;
-  font-size: 1rem;
-  white-space: nowrap;
-  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
-  transition: background 0.2s ease, transform 0.2s ease;
-}
-
-.hero__cta:hover {
-  background: #e14a26;
-  transform: translateY(-2px);
-}
-
 /* Mobile: CTA unter Subline */
 @media (max-width: 768px) {
   .hero__cta {
-    position: static;
+    position: relative;
     margin-top: 1rem;
     align-self: flex-start;
   }
@@ -282,7 +272,7 @@ p{margin:0 0 12px}
   padding:0;
   display:flex;
   align-items:center;
-  justify-content:flex-start;   /* statt flex-start */
+  justify-content:center
   flex-wrap:nowrap;
   gap:clamp(30px, 7vw, 40px);
   overflow:visible;
@@ -359,8 +349,17 @@ p{margin:0 0 12px}
 /* deine bestehenden .logo-strip-Regeln kannst du beibehalten */
 
 /* === BENEFITS (sichtbar, ohne Animation) ========================= */
+.benefits__headline {
+  font-family: 'Playfair Display', serif; /* oder deine Projekt-Schrift */
+  font-weight: 700;
+  font-size: clamp(28px, 5vw, 52px);
+  line-height: 1.2;
+  text-align: center;   /* wirkt edler als links */
+  margin: 0 0 24px 0;   /* Abstand nach unten zu den Karten */
+}
+
 section#benefits.benefits-kota{
-  padding: 72px 0;
+  padding: 48px 0;
   background: transparent;
 }
 
@@ -426,12 +425,6 @@ section#benefits.benefits-kota{
   .benefit-card-kota__title{ font-size: clamp(26px, 7.5vw, 36px); }
   .benefit-card-kota__text{ font-size: 16px; }
 }/* === Animation nur, wenn .benefits-animate auf der Section sitzt */
-.benefits-animate .benefits-kota__snap{
-  min-height: 100vh;
-  margin-bottom: -2vh;              /* Überlappung: nächste Karte lugt rein */
-  display: flex; align-items: center; justify-content: center;
-}
-
 .benefits-animate .benefit-card-kota{
   position: sticky; top: 25vh;
 
@@ -470,10 +463,22 @@ section#benefits.benefits-kota{
   align-items: center;
   justify-content: center;
 }
+/* Erste Karte normal sichtbar – kein 100vh, kein Sticky */
+.benefits-animate .benefits-kota__snap:first-of-type {
+  min-height: auto;
+  margin-top: 48px;
+}
 
+.benefits-animate .benefits-kota__snap:first-of-type .benefit-card-kota {
+  position: relative;
+  top: auto;
+  transform: none;
+  opacity: 1;
+  filter: none;
+}
 .benefits-animate .benefit-card-kota {
   position: sticky;
-  top: 20vh;
+  top: 15vh;
   transform-origin: 50% 0%;
   transform: translateY(10vh) scale(.975) rotateX(2.5deg);
   opacity: .02;
@@ -510,9 +515,44 @@ section#benefits.benefits-kota{
 
 /* Mobile Feintuning */
 @media (max-width: 900px){
-  .benefits-animate .benefits-kota__snap{ min-height: 96vh; margin-bottom: -18vh; }
-  .benefits-animate .benefit-card-kota{ top: 10vh; }
+  .benefits-animate .benefits-kota__snap {
+    min-height: auto !important;   /* keine Höhe erzwingen */
+    margin-bottom: 48px !important; /* genug Abstand zwischen den Karten */
+    display: block;
+  }
+
+  .benefits-animate .benefit-card-kota {
+    position: relative !important; 
+    top: auto !important;
+    transform: translateY(20px);   /* kleiner Slide-Effekt */
+    opacity: 0;
+    transition: all 0.6s ease;
+  }
+
+  .benefits-animate .benefits-kota__snap.is-active .benefit-card-kota {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
+@media (max-width: 900px) {
+  section#benefits.benefits-kota {
+    padding: 32px 0;   /* weniger Platz oben/unten */
+  }
+
+  .benefits__headline {
+    margin: 0 0 16px 0;  /* kleiner Abstand nach unten */
+    font-size: clamp(24px, 6vw, 36px); /* etwas kleiner auf Mobile */
+  }
+}@media (max-width: 900px) {
+  section#benefits.benefits-kota {
+    padding-top: 16px;   /* kleiner Abstand oben */
+  }
+
+  .benefits__headline {
+    display: none;       /* Headline verstecken */
+  }
+}
+
 /* ==== CASES – kompakter, Bild größer, Hover beige ==== */
 
 .cases-grid{
@@ -628,7 +668,21 @@ section#benefits.benefits-kota{
   .case-tile{ min-height: 300px; }
   .case-tile__media{ height: 200px; }
 }
+/* === Case Cards – Mobile Hover Schrift kleiner === */
+@media (max-width: 900px) {
+  .case-tile:hover .case-tile__title {
+    font-size: 22px;   /* statt 30px → -10% */
+  }
 
+  .case-tile:hover .case-tile__teaser {
+    font-size: 17px;   /* statt 20px → -10% */
+  }
+
+  .case-tile:hover .case-tile__more p {
+    font-size: 16px;   /* statt 20px → -10% */
+    line-height: 1.45; /* etwas kompakter */
+  }
+}
 
 /* ===== Customer Service – Chat Section ===== */
 .service-chat .container {
@@ -668,7 +722,10 @@ section#benefits.benefits-kota{
   font-size: 16px;
   max-width: 80%;
 }
-
+/* Nachrichten-Bubbles immer linkbündig */
+.msg {
+  text-align: left;   /* Inhalt in der Bubble linksbündig */
+}
 /* Brand = rechts */
 .from-brand {
   align-self: flex-end;
@@ -700,6 +757,25 @@ section#benefits.benefits-kota{
 /* Barrierearm: Animation aus, wenn gewünscht */
 @media (prefers-reduced-motion: reduce){
   .msg{ transition: none; transform: none; opacity: 1; }
+}
+/* === Customer Service Chat – Mobile Fix === */
+@media (max-width: 768px) {
+  .chat {
+    gap: 16px; /* etwas kompakter auf Mobile */
+  }
+
+  .msg {
+    max-width: 90%;      /* darf breiter sein */
+    font-size: 15px;     /* Schrift leicht kleiner */
+  }
+
+  .from-brand {
+    margin-right: 0;     /* kein negatives Rausrutschen */
+  }
+
+  .from-us {
+    margin-left: 0;      /* kein negatives Rausrutschen */
+  }
 }
 /* ===== Customer Voices ===== */
 .voices {
@@ -954,5 +1030,83 @@ section#benefits.benefits-kota{
 
   .footer__nav {
     margin-top: 3rem; /* auf Mobile etwas weniger */
+  }
+}
+
+/* === Hero Section Mobile Fix === */
+@media (max-width: 600px) {
+
+  /* Textblock links oben */
+  .hero__copy {
+    width: 100%;
+    text-align: left;
+    padding: 20px 16px;
+    position: relative;
+    z-index: 3; /* Text vor Blob */
+  }
+
+  /* Headline: behalte Laptop-Größe */
+  .hero__copy h1 {
+    font-size: 5rem;   /* ähnlich wie Laptop */
+    line-height: 1.2;
+    margin: 0 0 12px 0;
+  }
+
+  /* Subline: kleiner, volle Breite */
+  .hero__copy .subline {
+    font-size: 2rem;
+    line-height: 1.4;
+    margin: 0;
+    max-width: 100%;
+  }
+
+  /* Blob nur rechts, nicht über die ganze Fläche */
+  .hero__visual {
+    position: absolute;
+    top: 25%;         /* leicht nach unten versetzt */
+    left: 70%;         /* rechts ausrichten */
+    width: 70%;       /* kleiner, nur rechter Bereich */
+    height: auto;
+    z-index: 2;       /* hinter Text */
+    pointer-events: none;
+  }
+
+  .hero__blob {
+    width: 100%;
+    height: auto;
+    opacity: 0.9;
+  }
+}
+@media (max-width: 600px) {
+  .logo-strip {
+    display: flex;
+    flex-wrap: wrap;      
+    justify-content: center; /* Logos in die Mitte */
+    gap: 12px;              
+    padding: 0;
+    margin: 0 auto;          /* zentriert das UL selbst */
+  }
+
+  .logo-strip li {
+    flex: 0 1 auto;          /* Breite richtet sich nach Inhalt */
+    list-style: none;
+    text-align: center;
+  }
+
+  .logo-strip img {
+    max-width: 80px;         /* kleinere Logos */
+    max-height: 40px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+  }
+}
+@media (max-width: 600px) {
+  .site-nav .cta {
+    display: inline-block;
+    margin: 16px auto 5 auto; /* oben Abstand, links/rechts auto -> mittig */
+    padding: 12px 20px;       /* kompakter auf Mobile */
+    font-size: 1rem;          /* etwas kleiner, damit er nicht übersteht */
+    text-align: center;
   }
 }
