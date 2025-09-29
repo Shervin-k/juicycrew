@@ -218,7 +218,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const io = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       const el = entry.target;
-      if (entry.isIntersecting && entry.intersectionRatio > 0.55) {
+      if (entry.isIntersecting && entry.intersectionRatio > 0.30) {
         el.classList.add('is-active');
 
         // alle vorigen als "past" markieren (kleiner/blasser)
