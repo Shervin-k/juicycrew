@@ -60,7 +60,10 @@ p{margin:0 0 12px}
 .site-nav a{text-decoration:none;color:var(--fg)}
 .site-nav a:hover{text-decoration:underline}
 .menu-toggle{display:none}
-
+.brand-logo {
+  height: 40px; /* anpassen, je nach gewünschter Höhe */
+  display: block;
+}
 
 /* Base hero (fallback) */
 .hero{padding:72px 0 56px;text-align:left}
@@ -96,7 +99,6 @@ p{margin:0 0 12px}
 /* Header: nur 1 CTA rechts */
 .menu-toggle{ display:none !important; }
 .site-nav{ display:flex !important; align-items:center; justify-content:flex-end; gap:16px; }
-.site-nav a:not(.cta){ display:none !important; }
 .site-nav .cta{
   background:#0b3d2e; color:#fff; padding:10px 18px; border-radius:8px;
   font-weight:600; text-decoration:none; transition:filter .2s ease;
@@ -130,7 +132,7 @@ p{margin:0 0 12px}
 }
 
 /* Mobile: CTA unter Subline */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .hero__cta {
     position: relative;
     margin-top: 1rem;
@@ -139,7 +141,7 @@ p{margin:0 0 12px}
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .hero__subline-row {
     flex-direction: column;
     align-items: flex-start;
@@ -163,7 +165,7 @@ p{margin:0 0 12px}
 }
 
 /* Mobile = kleiner */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .hero-title {
     font-size: clamp(32px, 8vw, 48px);
   }
@@ -235,7 +237,7 @@ p{margin:0 0 12px}
   right: 2rem;               /* horizontale Entfernung vom rechten Rand der Textspalte */
   top: 0;                    /* wird per JS überschrieben */
   transform: translateY(0);  /* JS setzt top stattdessen */
-  background: #ff5c35;       /* Terracotta (wie Footer) */
+  background: #1e3d34;       /* Terracotta (wie Footer) */
   color: #fff;
   padding: 0.75rem 1.4rem;
   border-radius: 9999px;
@@ -251,7 +253,7 @@ p{margin:0 0 12px}
 .hero__cta:hover { transform: translateY(-3px); background: #e14a26; }
 
 /* MOBILE: auf kleinen Bildschirmen wird der Button wieder im Flow (unter Subline) */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .hero__cta {
     position: static;
     margin-top: 1rem;
@@ -361,7 +363,7 @@ p{margin:0 0 12px}
 }
 /* deine bestehenden .logo-strip-Regeln kannst du beibehalten */
 /* === Mobile Anpassungen für Hero Headline & Subline === */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   /* Headline */
   .hero__copy h1 {
     font-size: clamp(36px, 8vw, 60px); /* kleiner als Desktop */
@@ -804,7 +806,7 @@ section#benefits.benefits-kota{
   .msg{ transition: none; transform: none; opacity: 1; }
 }
 /* === Customer Service Chat – Mobile Fix === */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .chat {
     gap: 16px; /* etwas kompakter auf Mobile */
   }
@@ -1053,7 +1055,7 @@ section#benefits.benefits-kota{
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .footer__container {
     grid-template-columns: 1fr;
     text-align: center;
@@ -1273,3 +1275,271 @@ section#benefits.benefits-kota{
     transform: none !important;
   }
 }
+/* ----------------------------
+   Responsive header / Burger
+   ---------------------------- */
+
+/* Desktop (Default): Navigation sichtbar, Burger versteckt */
+.burger {
+  display: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  color: inherit;
+}
+
+.burger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  margin: 4px 0;
+  border-radius: 2px;
+  background: currentColor;
+}
+
+
+/* Mobile: Navigation verstecken, Burger zeigen */
+@media (max-width: 900px) {
+  .site-nav {
+    display: none;        /* Menü komplett ausblenden */
+    padding: 0 !important;   /* Innenabstand entfernen */
+    margin: 0 !important;    /* Außenabstand entfernen */
+    background: transparent !important; /* Hintergrund durchsichtig */
+    box-shadow: none !important;        /* Schatten entfernen */
+    min-height: 0 !important;           /* keine Mindesthöhe */
+  }
+}
+@media (max-width: 900px) {
+  .site-nav.active {
+    display: flex;               /* Menü wieder einblenden */
+    padding: 1rem 1.5rem;        /* gewünschtes Innenabstand */
+    background: var(--bg, #fff); /* Menü-Hintergrund */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+}
+
+@media (max-width: 900px) {
+  .site-nav {
+    display: none; /* ausgeblendet, bis aktiv */
+    flex-direction: column;
+    gap: 12px;
+    position: absolute;
+    top: 100%;        /* direkt unter dem Header */
+    left: 0;
+    right: 0;
+    background: var(--bg, #fff); /* fallback falls --bg fehlt */
+    padding: 1rem 1rem 1.5rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    z-index: 1000;
+  }
+
+  /* Wenn offen -> sichtbar */
+  .site-nav.open {
+    display: flex;
+  }
+
+  /* Burger sichtbar machen */
+  .burger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: none;
+    border-radius: 8px;
+  }
+
+  /* Mobile Navigation Links */
+  .site-nav a {
+    display: inline-block;
+    padding: 8px 12px;
+  }
+
+  /* CTA im Mobile Menü hervorheben */
+  .site-nav .cta {
+    margin-top: 6px;
+  }
+}/* Smart Header Basis */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: #fff; /* Hintergrund, damit nichts durchscheint */
+  transition: transform 0.3s ease;
+}
+
+/* Zustand: Header versteckt */
+.site-header.hide {
+  transform: translateY(-100%);
+}
+
+/* Platz schaffen, damit der Inhalt nicht unter dem Header verschwindet */
+body {
+  padding-top: 70px; /* Höhe des Headers anpassen */
+}
+/* ============================
+   Header – Desktop & Mobile
+   ============================ */
+
+/* Grundlayout */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.header-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+}
+
+/* Brand */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: #0d1d16;
+}
+
+/* Navigation – Desktop */
+.site-nav {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.site-nav a {
+  text-decoration: none;
+  font-weight: 500;
+  color: #0d1d16;
+}
+
+/* CTA-Link standardmäßig ausblenden */
+.site-nav a.cta {
+  display: none;
+}
+
+/* ============================
+   Burger Menü (nur Mobile)
+   ============================ */
+.burger {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.burger span {
+  width: 24px;
+  height: 2px;
+  background: #0d1d16;
+  display: block;
+  border-radius: 1px;
+}
+
+/* Mobile Styles */
+@media (max-width: 900px) {
+  /* Burger sichtbar */
+  .burger {
+    display: flex;
+  }
+
+  /* Navigation ausgeblendet */
+  .site-nav {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: #fff;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    display: none; /* standard: versteckt */
+  }
+
+  /* Wenn aktiv (per JS geöffnet) */
+  .site-nav.active {
+    display: flex;
+  }
+
+  /* CTA nur im Burger-Menü sichtbar */
+  .site-nav a.cta {
+    display: block;
+    margin-top: 1rem;
+    background: #0d1d16;
+    color: #fff;
+    text-align: center;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    width: 100%;
+  }
+}
+/* === Burger-Icon und Mobile-Menü === */
+
+/* Balken sichtbar machen */
+.burger span {
+  display: block;
+  width: 24px;
+  height: 3px;
+  margin: 4px 0;
+  background: currentColor;
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Standard-Ansicht */
+.site-nav { display: flex; }
+.burger    { display: none; }
+
+/* ===== Ganz unten in der CSS: Mobile-Menü bis 900px ===== */
+@media (max-width: 900px) {
+  /* Menü standardmäßig ausblenden */
+  .site-nav {
+    display: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    min-height: 0 !important;
+  }
+
+  /* Burger-Icon anzeigen */
+  .burger {
+    display: flex !important;
+  }
+
+  /* Geöffnetes Menü */
+  .site-nav.active {
+    display: flex !important;
+    flex-direction: column;
+    padding: 1rem !important;
+    background: #fff !important;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1) !important;
+  }
+
+  /* Burger zum X animieren */
+  .burger.active span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg) !important;
+  }
+  .burger.active span:nth-child(2) {
+    opacity: 0 !important;
+  }
+  .burger.active span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg) !important;
+  }
+}
+
