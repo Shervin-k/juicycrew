@@ -107,7 +107,7 @@ p{margin:0 0 12px}
 @media (max-width:900px){
   .hero__grid{ grid-template-columns:1fr; gap:24px; }
   .hero__visual{ order:-1; min-height:260px; }
-  .hero__copy h1{ font-size:clamp(54px,12vw,120px); }
+  .hero__copy h1{ font-size:clamp(50px,12vw,120px); }
   .site-nav{ display:flex !important; }
 }
 
@@ -157,7 +157,18 @@ p{margin:0 0 12px}
   letter-spacing: -0.04em;
   margin: 0 0 16px;
   text-align: left;
+}/* Desktop = bleibt groß */
+.hero-title {
+  font-size: clamp(90px, 12vw, 160px);
 }
+
+/* Mobile = kleiner */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: clamp(32px, 8vw, 48px);
+  }
+}
+
 /* Hero breiter machen (nur Hero, nicht ganze Seite) */
 .hero .container{
   max-width: 1400px;         /* z.B. 1400–1600px testen */
@@ -183,6 +194,7 @@ p{margin:0 0 12px}
   margin: 0 0 16px;
   white-space: normal;
 }
+
 /* Canvas für dynamische Sound-Linien im Hero*/
 .hero__visual{ position:relative; overflow:visible; }
 .hero__blob{
@@ -249,6 +261,7 @@ p{margin:0 0 12px}
     align-self: flex-start;
   }
 }
+
 /* ===== Hero Logo Wall – FINAL (ersetzt alte Regeln) ===== */
 
 /* Linke Hero-Spalte sauber stapeln */
@@ -347,7 +360,24 @@ p{margin:0 0 12px}
   }
 }
 /* deine bestehenden .logo-strip-Regeln kannst du beibehalten */
+/* === Mobile Anpassungen für Hero Headline & Subline === */
+@media (max-width: 768px) {
+  /* Headline */
+  .hero__copy h1 {
+    font-size: clamp(36px, 8vw, 60px); /* kleiner als Desktop */
+    margin-top: 20px;                  /* Abstand nach oben */
+    margin-bottom: 12px;               /* Abstand zur Subline */
+    text-align: left;                  /* linksbündig */
+  }
 
+  /* Subline */
+  .hero__copy .subline {
+    font-size: clamp(18px, 4.5vw, 26px); /* kleiner als Desktop */
+    margin-top: 0;                        /* enger an der Headline */
+    margin-bottom: 16px;                  /* Abstand zur CTA */
+    text-align: left;
+  }
+}
 /* === BENEFITS (sichtbar, ohne Animation) ========================= */
 .benefits__headline {
   font-family: 'Playfair Display', serif; /* oder deine Projekt-Schrift */
@@ -550,6 +580,21 @@ section#benefits.benefits-kota{
 
   .benefits__headline {
     display: none;       /* Headline verstecken */
+  }
+}@media (max-width: 900px) {
+  .benefits-animate .benefit-card-kota {
+    position: relative !important;
+    top: auto !important;
+    transform: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+    transition: none !important;
+  }
+
+  .benefits-animate .benefits-kota__snap {
+    min-height: auto !important;
+    margin-bottom: 32px !important;
+    display: block !important;
   }
 }
 
@@ -1045,13 +1090,6 @@ section#benefits.benefits-kota{
     z-index: 3; /* Text vor Blob */
   }
 
-  /* Headline: behalte Laptop-Größe */
-  .hero__copy h1 {
-    font-size: 5rem;   /* ähnlich wie Laptop */
-    line-height: 1.2;
-    margin: 0 0 12px 0;
-  }
-
   /* Subline: kleiner, volle Breite */
   .hero__copy .subline {
     font-size: 2rem;
@@ -1108,5 +1146,130 @@ section#benefits.benefits-kota{
     padding: 12px 20px;       /* kompakter auf Mobile */
     font-size: 1rem;          /* etwas kleiner, damit er nicht übersteht */
     text-align: center;
+  }
+}
+
+
+
+/* =========================
+   Mobile Optimierungen: Hero
+   ========================= */
+@media (max-width: 600px) {
+  .hero__copy {
+    padding-top: 0rem;   /* Headline rutscht weiter hoch */
+    padding-bottom: 6rem;  /* unten etwas kompakter */
+    text-align: center;    /* optional mittig, kannst du rausnehmen */
+  }
+
+  .hero__copy h1 {
+    font-size: clamp(60px, 8vw, 80px); /* kleinere, flexible Größe */
+    max-width: 280px;                  /* Headline schmal halten */
+    margin: 0 auto;                    /* mittig ausrichten */
+  }
+
+  .hero__copy .subline {
+    font-size: clamp(33px, 4.5vw, 40px); /* etwas kleiner als Desktop */
+    max-width: 100%;                     /* breiter als Headline */
+    margin: 1rem auto 0;                 /* Abstand nach Headline */
+  }
+
+  .hero__cta {
+    position: static;  /* im Flow, nicht absolut */
+    margin-top: 1.5rem;
+    display: inline-block;
+  }
+}
+/* =========================
+   Mobile: Hero kompakter + Headline weiter hoch
+   ========================= */
+@media (max-width: 600px) {
+  .hero {
+    padding-top: 5rem;   /* statt 12rem */
+    padding-bottom: 2rem;
+    min-height: auto;    /* falls irgendwo 100vh gesetzt ist */
+  }
+
+  .hero__copy {
+    padding-top: 0;      /* kein zusätzlicher Abstand */
+  }
+}
+/* ===================================================
+   Mobile (<=600px) — HERO: Headline left, Subline wider, Logos centered
+   Fügt starke Overrides hinzu (nur für Mobile), damit frühere Desktop-Regeln
+   zuverlässig überschrieben werden.
+   =================================================== */
+@media (max-width: 600px) {
+
+  /* --- Basis: Container auf Mobile voll nutzbar machen --- */
+  .hero,
+  .hero .container,
+  .hero__copy {
+    width: 100% !important;
+    max-width: none !important;
+    padding-left: 9px !important;   /* mobile safe gutter */
+    padding-right: 16px !important;
+    box-sizing: border-box !important;
+    text-align: left !important;     /* default links */
+  }
+
+  /* --- Headline: links fixieren (keine Zentrierung) --- */
+  .hero__copy h1 {
+    display: block !important;
+    text-align: left !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding: 0 !important;
+    max-width: 280px;               /* behält gewünschte Breite; anpassen falls nötig */
+    width: auto !important;
+  }
+
+  /* --- Subline: deutlich breiter, links ausgerichtet, nicht über den Rand --- */
+  .hero__copy .subline {
+    display: block !important;
+    position: relative !important;
+    left: auto !important;
+    transform: none !important;
+    /* Minimum sinnvoll, bevorzugt mobil-relative Breite, maximale Begrenzung = viewport minus gutter */
+    width: clamp(260px, 80vw, calc(100vw - 32px)) !important;
+    max-width: none !important;
+    margin: 2rem 0 0 0 !important;   /* Abstand zur Headline */
+    padding: 0 !important;             /* keine extra Innenabstände */
+    box-sizing: border-box !important;
+    text-align: left !important;
+    word-break: break-word !important;
+    hyphens: auto !important;
+  }
+
+  /* Falls die Subline vorher per transform/left zentriert wurde: sicherstellen, dass sie an der linken Kante startet */
+  .hero__copy .subline,
+  .hero__copy .subline * {
+    left: auto !important;
+    transform: none !important;
+  }
+
+  /* --- Logo Wall: bleibt sauber zentriert --- */
+  .hero__logos {
+    width: 100% !important;
+    margin: 0rem auto 0 !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 0 !important;
+  }
+  .hero__logos .logo-strip {
+    width: auto !important;
+    margin: 2 auto !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;   /* falls nötig auf engeren Screens */
+    gap: clamp(12px, 5vw, 40px) !important;
+  }
+
+  /* --- Optional: CTA wieder im Flow (falls vorher absolut war) --- */
+  .hero__cta {
+    position: static !important;
+    margin-top: 1rem !important;
+    transform: none !important;
   }
 }
