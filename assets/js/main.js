@@ -387,3 +387,22 @@ document.addEventListener("DOMContentLoaded", () => {
 })();
   console.log("Juicy Crew — scripts ready ✅");
 });
+// Smart Header: ein-/ausblenden je nach Scrollrichtung
+document.addEventListener('DOMContentLoaded', () => {
+  const header = document.querySelector('.site-header');
+  let lastScroll = 0;
+
+  window.addEventListener('scroll', () => {
+    const currentScroll = window.pageYOffset;
+
+    if (currentScroll > lastScroll && currentScroll > 100) {
+      // Runter scrollen -> Header verstecken
+      header.classList.add('hide');
+    } else {
+      // Hoch scrollen -> Header zeigen
+      header.classList.remove('hide');
+    }
+
+    lastScroll = currentScroll;
+  });
+});
