@@ -199,7 +199,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!canObserve || !cards.length) return;
     const io = new IntersectionObserver((entries)=>{
       entries.forEach(e=>{
-        e.target.classList.toggle("is-active", e.isIntersecting && e.intersectionRatio>0.55);
+        e.target.classList.toggle("is-open", e.isIntersecting && e.intersectionRatio>0.55);
       });
     },{ root:null, rootMargin:"-20% 0% -20% 0%", threshold:[0,0.25,0.55,0.75,1]});
     cards.forEach(c=>io.observe(c));
