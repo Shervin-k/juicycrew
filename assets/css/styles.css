@@ -1,3 +1,7 @@
+
+html, body {
+  overflow-x: hidden;
+}
 /* Bilder nie breiter als Bildschirm */
 img {
   max-width: 100%;
