@@ -1,182 +1,1467 @@
-/* =======================================
-   ChatGPT Bereinigte Version - Stylesheet
-   ======================================= */
+/* Bilder nie breiter als Bildschirm */
+img {
+  max-width: 100%;
+  height: auto;
+}
 
-/* ------------------
-   Reset & Variables
-   ------------------ */
+/* Container: etwas mehr Abstand links/rechts am Handy */
+@media (max-width: 600px) {
+  .container {
+    padding: 0 12px;
+  }
+}
+
+/* =======================
+   JuicyCrew – base styles
+   ======================= */
+
+/* Reset & Vars */
 *,
 *::before,
-*::after {
-  box-sizing: border-box;
-}
-:root {
-  --bg: #ffffff;
-  --fg: #0b3d2e;
-  --muted: #4a6657;
-  --brand: #0b3d2e;
-  --brand-ink: #ffffff;
-  --line: #e5e7eb;
-  --card: #f8fafc;
-  --beige: #f3eee7;
-  --brown: #3a2c1a;
-}
-html, body { height: 100%; margin: 0; }
-body {
-  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
-  color: var(--fg);
-  background: var(--bg);
-  line-height: 1.6;
-}
-img { max-width: 100%; height: auto; }
+*::after { box-sizing: border-box; }
 
-/* Container */
-.container {
-  width: 100%;
-  max-width: 1040px;
+:root {
+  --bg:#ffffff;
+  --fg:#0b3d2e;
+  --muted:#4a6657;
+  --brand:#0b3d2e;
+  --brand-ink:#ffffff;
+  --line:#e5e7eb;
+  --card:#f8fafc;
+  --beige:#f3eee7;       /* Karten-Hintergrund */
+  --brown:#3a2c1a;       /* neue dunkle Schriftfarbe */
+}
+
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color:var(--fg); background:var(--bg); line-height:1.6;
+}
+
+/* Helpers / Layout */
+.container{max-width:1040px;margin:0 auto;padding:0 16px}
+.section{padding:56px 0}
+.section.alt{background:var(--card)}
+h1,h2,h3{font-family:'Playfair Display', serif;font-weight:700;line-height:1.2;margin:0 0 12px}
+p{margin:0 0 12px}
+
+
+.brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:inherit;font-weight:700}
+.site-nav{display:flex;align-items:center;gap:16px}
+.site-nav a{text-decoration:none;color:var(--fg)}
+.site-nav a:hover{text-decoration:underline}
+.menu-toggle{display:none}
+.brand-logo {
+  height: 40px; /* anpassen, je nach gewünschter Höhe */
+  display: block;
+}
+
+/* Base hero (fallback) */
+.hero{padding:72px 0 56px;text-align:left}
+.hero h1{font-size:clamp(28px,4vw,44px)}
+.hero p{color:var(--muted);font-size:18px}
+
+/* KOTA-style Hero – hell, groß, „mindful“ */
+/* KOTA-style Hero – clean */
+.hero--kota{
+  position:relative; min-height:75svh; display:flex; align-items:center;
+  padding:0; overflow:visible; background:var(--bg); color:var(--fg);
+}
+.hero__grid{
+  display:grid; grid-template-columns:1.3fr 0.7fr; gap:40px; align-items:center; width:100%;
+}
+.hero__copy{ display:block; }
+.hero__copy h1{
+  font-size:clamp(85px,12vw,150px); font-weight:700; line-height:1.05;
+  letter-spacing:-.04em; margin:0 0 16px; text-align:left;
+}               
+
+.hero__visual{ position:relative; min-height:420px; z-index:0; }
+.hero__blob{
+  position:absolute; inset:-10% -15% -10% -15%; border-radius:40px; filter:blur(14px);
+  background:
+    radial-gradient(120% 100% at 20% 30%, #4fb08b 0%, transparent 102%),
+    radial-gradient(110% 120% at 85% 60%, #9de8c9 0%, transparent 58%),
+    radial-gradient(90% 90% at 50% 50%, #cfeee0 0%, transparent 82%);
+  animation:float 12s ease-in-out infinite alternate; opacity:.9;
+}
+@keyframes float{ from{ transform:translateY(-10px) scale(1.02) } to{ transform:translateY(10px) scale(1.04) } }
+/* Canvas für dynamische Sound-Linien im Hero*/
+.hero__visual{ position:relative; overflow:visible; }
+.hero__blob{
+  position:absolute; inset:-25% -32% -52% -48%; /* größer */
+  border-radius:25% 57% 60% 70%; filter:blur(20px);
+  background:
+    radial-gradient(120% 100% at 20% 30%, #b9cd72 0%, transparent 28%),
+    radial-gradient(110% 120% at 85% 60%, #9de8c9 0%, transparent 58%),
+    radial-gradient(90% 90% at 50% 50%, #18a96d 0%, transparent 62%);
+  opacity:.9;
+  transform: translate3d(0,0,0) scale(1.03);
+  will-change: transform;
+  pointer-events:none;
+  z-index:1; /* Blob über den Waves */
+}
+
+#hero-waves{
+  position:absolute; inset:-20% -24% -40% -40%;
+  width:200%; height:100%;
+  pointer-events:none; filter: blur(5px); opacity:.6;
+  mix-blend-mode:multiply; z-index:0; /* Waves unter Blob */
+  /* Maske: nach links transparent */
+  -webkit-mask-image: linear-gradient(to right, transparent, black 20%);
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-image: linear-gradient(to right, transparent, black 20%);
+  mask-repeat: no-repeat;
+  mask-size: 100% 100%;
+
+}
+/* Header: nur 1 CTA rechts */
+.menu-toggle{ display:none !important; }
+.site-nav{ display:flex !important; align-items:center; justify-content:flex-end; gap:16px; }
+.site-nav .cta{
+  background:#0b3d2e; color:#fff; padding:10px 18px; border-radius:8px;
+  font-weight:600; text-decoration:none; transition:filter .2s ease;
+}
+.site-nav .cta:hover{ filter:brightness(1.1); }
+
+/* Mobile */
+@media (max-width:900px){
+  .hero__grid{ grid-template-columns:1fr; gap:24px; }
+  .hero__visual{ order:-1; min-height:260px; }
+  .hero__copy h1{ font-size:clamp(50px,12vw,120px); }
+  .site-nav{ display:flex !important; }
+}
+
+/* Subline */
+.hero__copy .subline {
+  position: relative;
+  font-size: clamp(15px, 4.5vw, 30px);
+  line-height: 1.2;
+  max-width: 1000px;
+  margin-top: 28px;
+  font-weight: 400;
+  color: var(--muted);
+  text-align: left;
+}
+
+/* Mobile: CTA unter Subline */
+@media (max-width: 900px) {
+  .hero__cta {
+    position: relative;
+    margin-top: 1rem;
+    align-self: flex-start;
+  }
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .hero__subline-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hero__cta {
+    align-self: flex-start;
+  }
+}
+
+/* Desktop = bleibt groß */
+.hero-title {
+  font-size: clamp(90px, 12vw, 160px);
+}
+
+/* Mobile = kleiner */
+@media (max-width: 900px) {
+  .hero-title {
+    font-size: clamp(32px, 8vw, 48px);
+  }
+}
+
+/* Hero breiter machen (nur Hero, nicht ganze Seite) */
+.hero .container{
+  max-width: 1400px;         /* z.B. 1400–1600px testen */
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+/* Linke Spalte breiter als die Visual-Spalte */
+.hero__grid{
+  grid-template-columns: 2fr 1fr;  /* mehr Platz für Headline */
+}
+
+/* Textspalte darf volle Spaltenbreite nutzen */
+.hero__copy{
+  max-width: none;
+}
+
+/* --- Container-Referenz für absolutes Positionieren --- */
+.hero__copy {
+  position: relative; /* Basis für absolute Platzierung des Buttons */
+}
+
+/* Minimaler Default: Button absolut (wird durch JS genau positioniert) */
+.hero__cta {
+  position: absolute;
+  right: 2rem;               /* horizontale Entfernung vom rechten Rand der Textspalte */
+  top: 0;                    /* wird per JS überschrieben */
+  transform: translateY(0);  /* JS setzt top stattdessen */
+  background: #1e3d34;       /* Terracotta (wie Footer) */
+  color: #fff;
+  padding: 0.75rem 1.4rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 1rem;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+  transition: transform .18s ease, background .15s ease;
+  z-index: 6;
+}
+
+/* MOBILE: auf kleinen Bildschirmen wird der Button wieder im Flow (unter Subline) */
+@media (max-width: 900px) {
+  .hero__cta {
+    position: static;
+    margin-top: 1rem;
+    transform: none;
+    right: auto;
+    top: auto;
+    align-self: flex-start;
+  }
+}
+
+/* ===== Hero Logo Wall – FINAL (ersetzt alte Regeln) ===== */
+
+/* Linke Hero-Spalte sauber stapeln */
+.hero__copy{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:12px;
+}
+
+.hero__logos .logo-strip {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: clamp(30px, 7vw, 40px);
+  overflow: visible;
+}
+
+/* Logos skalieren sich, damit ALLE reinpassen */
+.hero__logos .logo-strip img{
+  height:clamp(70px, 9vw, 140px);  /* kleiner auf schmalen Screens, größer auf breiten */
+  width:auto;
+  object-fit:contain;
+  filter:grayscale(100%);
+  opacity:.9;
+  transition:opacity .2s, filter .2s, transform .2s;
+  margin-left: 2rem; /* schiebt die ganze Logo-Gruppe nach rechts */
+}
+
+/* Individuelle Größen */
+.hero__logos .logo-strip li:nth-child(1) img { /* Bumble */
+  height: 180px;
+}
+.hero__logos .logo-strip li:nth-child(2) img { /* AG1 */
+  height: 100px;
+}
+.hero__logos .logo-strip li:nth-child(3) img { /* Zwilling */
+  height: 75px;
+}
+.hero__logos .logo-strip li:nth-child(4) img { /* ArmedAngels */
+  height: 180px;
+}
+.hero__logos .logo-strip li:nth-child(5) img { /* MosMosh */
+  height: 170px;
+}
+.hero__logos .logo-strip img:hover{
+  filter:none;
+  opacity:1;
+  transform:scale(1.03);
+}
+
+/* === Mobile Anpassungen für Hero Headline, Subline & Logos === */
+@media (max-width: 900px) {
+  /* Headline & Subline bleiben wie gehabt – nur Subline-Abstand kleiner */
+  .hero__copy .subline {
+    margin-bottom: 1px; /* enger unter der Subline */
+    text-align: center; /* optional: mittig, falls du das willst */
+    width: 100%;
+  }
+
+  /* Logo-Leiste mittig platzieren */
+  .hero__logos {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 0; /* kein extra Weißraum nach oben */
+  }
+
+  .hero__logos .logo-strip {
+    display: flex;
+    justify-content: center;
+     margin-left: -30px; /* verschiebt die Logos nach links */
+    gap: 0px;       /* engerer Abstand zwischen Logos */
+    padding: 0 0.5rem;
+  }
+
+  /* Skalierte Logo-Höhen – behält die Gewichtung von Desktop */
+  .hero__logos .logo-strip li:nth-child(1) img { height: 65px; } /* Bumble */
+  .hero__logos .logo-strip li:nth-child(2) img { height: 34.5px; }  /* AG1 */
+  .hero__logos .logo-strip li:nth-child(3) img { height: 26.5px; }  /* Zwilling */
+  .hero__logos .logo-strip li:nth-child(4) img { height: 64px; } /* ArmedAngels */
+  .hero__logos .logo-strip li:nth-child(5) img { height: 59px; } /* MosMosh */
+
+  
+  .hero__logos .logo-strip img:hover {
+    filter: grayscale(100%); /* zurück wie im Normalzustand */
+    opacity: .9;
+    transform: none;
+    cursor: default; /* optional: kein "Hand"-Cursor */
+  }
+   /* Abstand Hero zum Header enger machen */
+  .hero {
+    padding-top: 50px !important; /* verringert Abstand nach oben */
+    margin-top: 0 !important;     /* falls Margin gesetzt ist */
+  }
+
+}
+
+
+/* === BENEFITS (sichtbar, ohne Animation) ========================= */
+.benefits__headline {
+  font-family: 'Playfair Display', serif; /* oder deine Projekt-Schrift */
+  font-weight: 700;
+  font-size: clamp(28px, 5vw, 52px);
+  line-height: 1.2;
+  text-align: center;   /* wirkt edler als links */
+  margin: 0 0 24px 0;   /* Abstand nach unten zu den Karten */
+}
+
+section#benefits.benefits-kota{
+  padding: 48px 0;
+  background: transparent;
+}
+
+.benefits-kota__viewport{
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 16px;
 }
-@media (max-width: 600px) {
-  .container { padding: 0 12px; }
+
+.benefits-kota__snap{
+  margin-bottom: 48px;              /* normaler Abstand (keine Overlaps) */
 }
 
-/* ------------------
-   Header / Nav
-   ------------------ */
+.benefit-card-kota{
+  display: grid;
+  grid-template-columns: 1.1fr .9fr;  /* links Text, rechts Bild */
+  gap: 32px;
+
+  background: #f3eee7;
+  color: #0b3d2e;
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: 0 24px 60px rgba(0,0,0,.08);
+
+  /* Wichtig: hier KEINE Opacity/Transform – damit es sofort sichtbar ist */
+}
+
+.benefit-card-kota__title{
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: clamp(32px, 5.5vw, 56px);
+  line-height: 1.05;
+  margin: 0 0 12px;
+}
+
+.benefit-card-kota__text{
+  font-size: 18px;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.benefit-card-kota__image{
+  border-radius: 16px;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;             /* einheitliche Höhe */
+  background: #eee;                  /* Fallback, falls Bild fehlt */
+}
+
+.benefit-card-kota__image img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Mobile */
+@media (max-width: 900px){
+  .benefit-card-kota{
+    grid-template-columns: 1fr;
+    padding: 24px;
+    gap: 20px;
+  }
+  .benefit-card-kota__title{ font-size: clamp(26px, 7.5vw, 36px); }
+  .benefit-card-kota__text{ font-size: 16px; }
+}/* === Animation nur, wenn .benefits-animate auf der Section sitzt */
+.benefits-animate .benefit-card-kota{
+  position: sticky; top: 25vh;
+
+  transform-origin: 50% 0%;
+  transform: translateY(10vh) scale(.975) rotateX(2.5deg);
+  opacity: .02; 
+  filter: saturate(.9) contrast(.95);
+  transition:
+    transform .9s cubic-bezier(.2,.8,.2,1),
+    opacity   .9s ease,
+    filter    .9s ease;
+}
+
+.benefits-animate .benefits-kota__snap.is-active .benefit-card-kota{
+  transform: translateY(0) scale(1) rotateX(0);
+  opacity: 1; filter: none;
+}
+
+.benefits-animate .benefits-kota__snap.is-past .benefit-card-kota{
+  transform: translateY(0) scale(.935) rotateX(0);
+  opacity: .35; filter: saturate(.9);
+  pointer-events: none;
+}
+
+/* Nächste Karte unten „anreißen“ */
+.benefits-animate .benefits-kota__snap.is-active + .benefits-kota__snap .benefit-card-kota{
+  opacity: .35;
+  transform: translateY(-6vh) scale(.965) rotateX(2deg);
+  filter: saturate(.95) contrast(.98);
+  pointer-events: none;
+}/* Normale Snap-Karten: Sticky + Fade */
+.benefits-animate .benefits-kota__snap {
+  min-height: 100vh;
+  margin-bottom: -8vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* Erste Karte normal sichtbar – kein 100vh, kein Sticky */
+.benefits-animate .benefits-kota__snap:first-of-type {
+  min-height: auto;
+  margin-top: 48px;
+}
+
+.benefits-animate .benefits-kota__snap:first-of-type .benefit-card-kota {
+  position: relative;
+  top: auto;
+  transform: none;
+  opacity: 1;
+  filter: none;
+}
+.benefits-animate .benefit-card-kota {
+  position: sticky;
+  top: 15vh;
+  transform-origin: 50% 0%;
+  transform: translateY(10vh) scale(.975) rotateX(2.5deg);
+  opacity: .02;
+  transition:
+    transform .9s cubic-bezier(.2,.8,.2,1),
+    opacity   .9s ease;
+}
+
+/* Aktive Karte */
+.benefits-animate .benefits-kota__snap.is-active .benefit-card-kota {
+  transform: translateY(0) scale(1) rotateX(0);
+  opacity: 1;
+}
+
+/* Vergangene Karte */
+.benefits-animate .benefits-kota__snap.is-past .benefit-card-kota {
+  transform: translateY(0) scale(.935);
+  opacity: .35;
+  pointer-events: none;
+}
+
+/* Nächste Karte unten anreißen */
+.benefits-animate .benefits-kota__snap.is-active + .benefits-kota__snap .benefit-card-kota {
+  opacity: .35;
+  transform: translateY(-6vh) scale(.965) rotateX(2deg);
+}
+
+/* SPEZIAL: letzte Karte soll nicht kleben */
+.benefits-animate .benefits-kota__snap.is-last .benefit-card-kota {
+  position: static;       /* kein Sticky */
+  transform: none;        /* kein Fade-In/Out */
+  opacity: 1;             /* bleibt normal sichtbar */
+}
+
+/* Mobile Feintuning */
+@media (max-width: 900px){
+  .benefits-animate .benefits-kota__snap {
+    min-height: auto !important;   /* keine Höhe erzwingen */
+    margin-bottom: 48px !important; /* genug Abstand zwischen den Karten */
+    display: block;
+  }
+
+  .benefits-animate .benefit-card-kota {
+    position: relative !important; 
+    top: auto !important;
+    transform: translateY(20px);   /* kleiner Slide-Effekt */
+    opacity: 0;
+    transition: all 0.6s ease;
+  }
+
+  .benefits-animate .benefits-kota__snap.is-active .benefit-card-kota {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+@media (max-width: 900px) {
+  section#benefits.benefits-kota {
+    padding: 32px 0;   /* weniger Platz oben/unten */
+  }
+
+  .benefits__headline {
+    margin: 0 0 16px 0;  /* kleiner Abstand nach unten */
+    font-size: clamp(24px, 6vw, 36px); /* etwas kleiner auf Mobile */
+  }
+}@media (max-width: 900px) {
+  section#benefits.benefits-kota {
+    padding-top: 16px;   /* kleiner Abstand oben */
+  }
+
+  .benefits__headline {
+    display: none;       /* Headline verstecken */
+  }
+}@media (max-width: 900px) {
+  .benefits-animate .benefit-card-kota {
+    position: relative !important;
+    top: auto !important;
+    transform: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+    transition: none !important;
+  }
+
+  .benefits-animate .benefits-kota__snap {
+    min-height: auto !important;
+    margin-bottom: 32px !important;
+    display: block !important;
+  }
+}
+
+/* ==== CASES – kompakter, Bild größer, Hover beige ==== */
+
+.cases-grid{
+  background: var(--fg);
+  color: #fff;
+  padding: 100px 0 120px;     /* etwas weniger Padding */
+}
+.cases-grid .container{ max-width: 1200px; }
+.cases-grid__wrap{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:40px; }
+
+/* Card */
+.case-tile{
+  position: relative;
+  background: color-mix(in srgb, var(--fg) 90%, #ffffff 10%);
+  border: 1px solid #F2E4CE;
+  border-radius: 20px;
+  padding: 20px;
+  overflow: hidden;
+  min-height: 50px; 
+  max-height: 350px;                /* kleiner als vorher */
+  box-shadow: 0 8px 26px rgba(0,0,0,.18);
+  transition: background .3s ease, color .3s ease, box-shadow .3s ease, transform .25s ease;
+}
+.case-tile:hover{
+  background: #F2E4CE;
+  color: #0b3d2e;
+  box-shadow: 0 16px 40px rgba(0,0,0,.26);
+  transform: translateY(-2px);
+}
+
+/* Media: Bildbereich größer machen */
+.case-tile__media{
+  border-radius: 14px;
+  overflow: hidden;
+  height: 230px;                      /* Bildhöhe größer */
+  transition: opacity .28s ease;
+}
+.case-tile__media img{
+  width:100%; height:100%; object-fit:cover; display:block;
+}
+.case-tile:hover .case-tile__media{
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Body */
+.case-tile__body{
+  position: relative;
+  padding: 10px 6px 2px;
+  z-index: 1;
+  transition: color .25s ease;
+}
+.case-tile:hover .case-tile__body{
+  position: absolute;
+  inset: 15px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Text */
+.case-tile__title{
+  font-family:'Playfair Display', serif;
+  font-weight:700;
+  font-size:30px;                    /* kleiner, eleganter */
+  margin:0 0 4px;
+  color:#F2E4CE;
+}
+.case-tile__teaser{ margin:0; color:#F2E4CE; font-size:20px; }
+
+.case-tile:hover .case-tile__title,
+.case-tile:hover .case-tile__teaser{
+  color: #0b3d2e;
+}
+
+/* Long text */
+.case-tile__more{
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity .25s ease, transform .25s ease;
+}
+.case-tile:hover .case-tile__more{
+  opacity: 1;
+  transform: translateY(0);
+}
+.case-tile__more p{
+  margin: 0;
+  color: #0b3d2e;
+  line-height: 1.55;
+  font-size: 20px;
+}
+/* Case Card Body Animation */
+.case-tile__body {
+  position: relative;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  color: #fff;
+  z-index: 2;
+  opacity: 1;
+  transform: translateY(20px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.case-tile:hover .case-tile__body {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* Mobile */
+@media (max-width: 900px){
+  .cases-grid__wrap{ grid-template-columns:1fr; gap:28px; }
+  .case-tile{ min-height: 300px; }
+  .case-tile__media{ height: 200px; }
+}
+/* === Case Cards – Mobile Hover Schrift kleiner === */
+@media (max-width: 900px) {
+  .case-tile:hover .case-tile__title {
+    font-size: 22px;   /* statt 30px → -10% */
+  }
+
+  .case-tile:hover .case-tile__teaser {
+    font-size: 17px;   /* statt 20px → -10% */
+  }
+
+  .case-tile:hover .case-tile__more p {
+    font-size: 16px;   /* statt 20px → -10% */
+    line-height: 1.45; /* etwas kompakter */
+  }
+}
+
+/* ===== Customer Service – Chat Section ===== */
+.service-chat .container {
+  max-width: 800px;     /* wie andere Sections */
+  margin: 0 auto;       /* zentriert */
+  text-align: center;   /* Überschrift & Leadline mittig */
+}
+
+.service-chat h2 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: clamp(28px, 4vw, 44px);
+  margin-bottom: 16px;
+}
+
+.service-chat .lede {
+  font-size: 18px;
+  color: var(--muted);
+  margin-bottom: 40px;
+}
+
+.chat {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 700px;          /* Breiter Chat */
+  width: 100%;
+}
+
+/* Nachrichten-Stil */
+.msg {
+  padding: 14px 20px;
+  border-radius: 18px;
+  line-height: 1.5;
+  border: 1px solid var(--line);
+  box-shadow: 0 2px 10px rgba(0,0,0,.04);
+  font-size: 16px;
+  max-width: 80%;
+}
+/* Nachrichten-Bubbles immer linkbündig */
+.msg {
+  text-align: left;   /* Inhalt in der Bubble linksbündig */
+}
+/* Brand = rechts */
+.from-brand {
+  align-self: flex-end;
+  background: #f3eee7;
+  color: var(--fg);
+  border-color: #eadfce;
+  margin-right: -30px;       /* weiter nach rechts */
+}
+
+/* Juicy Crew = links */
+.from-us {
+  align-self: flex-start;
+  background: var(--fg);
+  color: #ffffff;
+  border-color: #0a3226;
+  margin-left: -30px;        /* weiter nach links */
+}
+/* Chat: Startzustand + sichtbarer Zustand */
+.msg{
+  opacity:0;
+  transform: translateY(14px) scale(.985);
+  transition: opacity .4s ease, transform .4s ease;
+}
+.msg.is-visible{
+  opacity:1;
+  transform: translateY(0) scale(1);
+}
+
+/* Barrierearm: Animation aus, wenn gewünscht */
+@media (prefers-reduced-motion: reduce){
+  .msg{ transition: none; transform: none; opacity: 1; }
+}
+/* === Customer Service Chat – Mobile Fix === */
+@media (max-width: 900px) {
+  .chat {
+    gap: 16px; /* etwas kompakter auf Mobile */
+  }
+
+  .msg {
+    max-width: 90%;      /* darf breiter sein */
+    font-size: 15px;     /* Schrift leicht kleiner */
+  }
+
+  .from-brand {
+    margin-right: 0;     /* kein negatives Rausrutschen */
+  }
+
+  .from-us {
+    margin-left: 0;      /* kein negatives Rausrutschen */
+  }
+}
+/* ===== Customer Voices ===== */
+.voices {
+  background: var(--bg);
+  padding: 80px 0;
+  margin-bottom: 120px; /* mehr Abstand zum Footer */
+}
+
+.voices h2 {
+  text-align: center;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: clamp(28px, 4vw, 44px);
+  margin-bottom: 60px;
+}
+
+.voices__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Stimmen-Karten – Variante 3.1 (enhanced) */
+.voice-card {
+  background: #f3eee7;
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #3a2c1a;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  position: relative;
+  overflow: hidden;
+
+
+}
+
+.voice-card:hover {
+  transform: scale(1.04) translateY(-4px);
+  box-shadow: 0 16px 32px rgba(0,0,0,0.18);
+}
+
+/* sanfter Farbverlauf beim Hover */
+.voice-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(191,199,163,0.15), rgba(243,238,231,0));
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.voice-card:hover::after {
+  opacity: 1;
+}
+
+/* Text */
+.voice__quote {
+  font-size: 18px;
+  line-height: 1.5;
+  margin: 0;
+  text-align: left;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.voice-card:hover .voice__quote {
+  color: #2a2a2a; 
+  transform: translateY(-2px); /* subtile Bewegung */
+}
+
+/* Autor */
+.voice__author {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  margin-top: 16px;
+  color: #4a3b2a;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.voice-card:hover .voice__author {
+  color: #2a2a2a;
+  transform: translateY(2px); /* gegensätzliche Bewegung */
+}
+
+/* Avatar */
+.voice__author img {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #d6cfc2;
+  transition: transform 0.3s ease;
+}
+
+.voice-card:hover .voice__author img {
+  transform: scale(1.05) rotate(-2deg); /* lebendig, aber subtil */
+}
+
+/* =========================
+   FOOTER (Terracotta CTA)
+   ========================= */
+.footer {
+  background: #1B2B24;       /* sattes Waldgrün */
+  color: rgba(237,230,219,0.9); /* soft beige */
+  padding: 3rem 1.5rem 1.5rem;
+  font-family: 'Inter', sans-serif;
+}
+
+.footer__container {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: start;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Left: Intro & CTA */
+.footer__intro {
+  max-width: 340px;
+}
+
+.footer__headline {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  line-height: 1.4;
+  margin: 0 0 1rem;
+  color: #EDE6DB;
+}
+
+.footer__cta {
+  display: inline-block;
+  background: #C66B3D;       /* Terracotta */
+  color: #FFFFFF;            /* Weißer Text */
+  padding: 0.6rem 1.4rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.25s ease, transform 0.2s ease;
+}
+
+.footer__cta:hover {
+  background: #A6532D;       /* dunkleres Terracotta */
+  transform: translateY(-2px);
+}
+
+/* Center: Navigation (horizontal, tiefer gesetzt) */
+.footer__nav {
+  text-align: center;
+  margin-top: 5rem; /* deutlich tiefer im Footer */
+}
+
+.footer__nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: inline-flex;
+  gap: 2rem;
+}
+
+.footer__nav li {
+  margin: 0;
+}
+
+.footer__nav a {
+  color: rgba(237,230,219,0.85);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.footer__nav a:hover {
+  color: #EDE6DB;
+}
+
+/* Right: Socials */
+.footer__socials {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.footer__socials a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(237,230,219,0.1);
+  color: #EDE6DB;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.footer__socials a:hover {
+  background: rgba(237,230,219,0.25);
+}
+
+/* Bottom Row */
+.footer__bottom {
+  border-top: 1px solid rgba(237,230,219,0.15);
+  margin-top: 2.5rem;
+  padding-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: rgba(237,230,219,0.65);
+}
+
+.footer__links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.footer__links a {
+  color: rgba(237,230,219,0.65);
+  text-decoration: none;
+}
+
+.footer__links a:hover {
+  color: #EDE6DB;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .footer__container {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .footer__intro {
+    margin: 0 auto;
+  }
+
+  .footer__socials {
+    justify-content: center;
+  }
+
+  .footer__bottom {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .footer__nav {
+    margin-top: 3rem; /* auf Mobile etwas weniger */
+  }
+}
+
+/* === Hero Section Mobile Fix === */
+@media (max-width: 600px) {
+
+  /* Textblock links oben */
+  .hero__copy {
+    width: 100%;
+    text-align: left;
+    padding: 20px 16px;
+    position: relative;
+    z-index: 3; /* Text vor Blob */
+  }
+
+  /* Blob nur rechts, nicht über die ganze Fläche */
+  .hero__visual {
+    position: absolute;
+    top: 25%;         /* leicht nach unten versetzt */
+    left: 70%;         /* rechts ausrichten */
+    width: 70%;       /* kleiner, nur rechter Bereich */
+    height: auto;
+    z-index: 2;       /* hinter Text */
+    pointer-events: none;
+  }
+}
+
+
+
+
+/* =========================
+   Mobile Optimierungen: Hero
+   ========================= */
+@media (max-width: 600px) {
+  .hero__copy {
+    padding-top: 0rem;   /* Headline rutscht weiter hoch */
+    padding-bottom: 6rem;  /* unten etwas kompakter */
+    text-align: center;    /* optional mittig, kannst du rausnehmen */
+  }
+
+  .hero__copy h1 {
+    font-size: clamp(60px, 8vw, 80px); /* kleinere, flexible Größe */
+    max-width: 280px;                  /* Headline schmal halten */
+    margin: 0 auto;                    /* mittig ausrichten */
+  }
+
+  .hero__copy .subline {
+    font-size: clamp(28px, 4.5vw, 40px); /* etwas kleiner als Desktop */
+    max-width: 100%;                     /* breiter als Headline */
+    margin: 1rem auto 0;                 /* Abstand nach Headline */
+  }
+
+  .hero__cta {
+    position: static;  /* im Flow, nicht absolut */
+    margin-top: 1.5rem;
+    display: inline-block;
+  }
+}
+/* =========================
+   Mobile: Hero kompakter + Headline weiter hoch
+   ========================= */
+@media (max-width: 600px) {
+  .hero {
+    padding-top: 5rem;   /* statt 12rem */
+    padding-bottom: 2rem;
+    min-height: auto;    /* falls irgendwo 100vh gesetzt ist */
+  }
+
+  .hero__copy {
+    padding-top: 0;      /* kein zusätzlicher Abstand */
+  }
+}
+/* ===================================================
+   Mobile (<=600px) — HERO: Headline left, Subline wider, Logos centered
+   Fügt starke Overrides hinzu (nur für Mobile), damit frühere Desktop-Regeln
+   zuverlässig überschrieben werden.
+   =================================================== */
+@media (max-width: 600px) {
+
+  /* --- Basis: Container auf Mobile voll nutzbar machen --- */
+  .hero,
+  .hero .container,
+  .hero__copy {
+    width: 100% !important;
+    max-width: none !important;
+    padding-left: 9px !important;   /* mobile safe gutter */
+    padding-right: 16px !important;
+    box-sizing: border-box !important;
+    text-align: left !important;     /* default links */
+  }
+
+  /* --- Headline: links fixieren (keine Zentrierung) --- */
+  .hero__copy h1 {
+    display: block !important;
+    text-align: left !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding: 0 !important;
+    max-width: 280px;               /* behält gewünschte Breite; anpassen falls nötig */
+    width: auto !important;
+  }
+
+  /* --- Subline: deutlich breiter, links ausgerichtet, nicht über den Rand --- */
+  .hero__copy .subline {
+    display: block !important;
+    position: relative !important;
+    left: auto !important;
+    transform: none !important;
+    /* Minimum sinnvoll, bevorzugt mobil-relative Breite, maximale Begrenzung = viewport minus gutter */
+    width: clamp(260px, 80vw, calc(100vw - 32px)) !important;
+    max-width: none !important;
+    margin: 2rem 0 0 0 !important;   /* Abstand zur Headline */
+    padding: 0 !important;             /* keine extra Innenabstände */
+    box-sizing: border-box !important;
+    text-align: left !important;
+    word-break: break-word !important;
+    hyphens: auto !important;
+  }
+
+  /* Falls die Subline vorher per transform/left zentriert wurde: sicherstellen, dass sie an der linken Kante startet */
+  .hero__copy .subline,
+  .hero__copy .subline * {
+    left: auto !important;
+    transform: none !important;
+  }
+
+  /* --- Optional: CTA wieder im Flow (falls vorher absolut war) --- */
+  .hero__cta {
+    position: static !important;
+    margin-top: 4rem !important;
+    transform: none !important;
+  }
+}
+/* ----------------------------
+   Responsive header / Burger
+   ---------------------------- */
+
+/* Desktop (Default): Navigation sichtbar, Burger versteckt */
+.burger {
+  display: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  color: inherit;
+}
+
+.burger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  margin: 4px 0;
+  border-radius: 2px;
+  background: currentColor;
+}
+
+
+/* Mobile: Navigation verstecken, Burger zeigen */
+@media (max-width: 900px) {
+  .site-nav {
+    display: none;        /* Menü komplett ausblenden */
+    padding: 0 !important;   /* Innenabstand entfernen */
+    margin: 0 !important;    /* Außenabstand entfernen */
+    background: transparent !important; /* Hintergrund durchsichtig */
+    box-shadow: none !important;        /* Schatten entfernen */
+    min-height: 0 !important;           /* keine Mindesthöhe */
+  }
+}
+
+
+@media (max-width: 900px) {
+  .site-nav {
+    display: none; /* ausgeblendet, bis aktiv */
+    flex-direction: column;
+    gap: 12px;
+    position: absolute;
+    top: 100%;        /* direkt unter dem Header */
+    left: 0;
+    right: 0;
+    background: var(--bg, #fff); /* fallback falls --bg fehlt */
+    padding: 1rem 1rem 1.5rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    z-index: 1000;
+  }
+
+  /* Wenn offen -> sichtbar */
+  .site-nav.open {
+    display: flex;
+  }
+
+  /* Burger sichtbar machen */
+  .burger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: none;
+    border-radius: 8px;
+  }
+
+  /* Mobile Navigation Links */
+  .site-nav a {
+    display: inline-block;
+    padding: 8px 12px;
+  }
+
+  /* CTA im Mobile Menü hervorheben */
+  .site-nav .cta {
+    margin-top: 6px;
+  }
+}/* Smart Header Basis */
 .site-header {
   position: fixed;
-  top: 0; left: 0; right: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: #ffffff; /* Hintergrund, damit nichts durchscheint */
+  transition: transform 0.3s ease;
+}
+
+/* Platz schaffen, damit der Inhalt nicht unter dem Header verschwindet */
+body {
+  padding-top: 70px; /* Höhe des Headers anpassen */
+}
+/* ============================
+   Header – Desktop & Mobile
+   ============================ */
+
+/* Grundlayout */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
   background: #0b3d2e;
   z-index: 1000;
   box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
+
 .header-inner {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 1.5rem;
 }
-.brand { display: flex; align-items: center; gap: .5rem; font-weight: 600; text-decoration: none; color: #fff; }
-.brand-logo { height: 40px; display: block; }
-.site-nav { display: flex; gap: 1.5rem; }
-.site-nav a { color: #fff; text-decoration: none; font-weight: 500; }
-.burger { display: none; flex-direction: column; gap: 4px; background: none; border: 0; cursor: pointer; }
-.burger span { width: 24px; height: 2px; background: #fff; display: block; border-radius: 2px; }
-@media (max-width: 900px) {
-  .site-nav { display: none; position: absolute; top: 100%; right: 0; flex-direction: column; align-items: flex-start;
-    background: #fff; gap: 1rem; padding: 1rem 1.5rem; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-  .site-nav.open { display: flex; }
-  .burger { display: flex; }
-}
 
-/* ------------------
-   Hero Section
-   ------------------ */
-.hero {
-  position: relative;
-  overflow: hidden;
-  padding: 3rem 0;
-  background: var(--bg);
-  color: var(--fg);
-}
-.hero__grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 24px;
+/* Brand */
+.brand {
+  display: flex;
   align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: #0d1d16;
 }
-@media (min-width: 900px) {
-  .hero__grid { grid-template-columns: 1.3fr 0.7fr; gap: 40px; }
+
+/* Navigation – Desktop */
+.site-nav {
+  display: flex;
+  gap: 1.5rem;
 }
-.hero__copy { display: flex; flex-direction: column; gap: 12px; position: relative; }
-.hero__copy h1 {
-  font-size: clamp(28px, 8vw, 90px);
-  font-weight: 700; line-height: 1.05; margin: 0 0 1rem;
+
+.site-nav a {
+  text-decoration: none;
+  font-weight: 500;
+  color: #ffffff;
 }
-.hero__copy .subline { font-size: clamp(15px, 4.5vw, 30px); color: var(--muted); margin-top: 1rem; }
+.site-nav a.btn {
+  background-color: #9de8c9; /* Akzentfarbe */
+  color: #0b3d2e;           /* dunkler Text auf hellem Button */
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.site-nav a.btn:hover {
+  background-color: #ffffff; /* Hover heller */
+  color: #0b3d2e;           /* Schrift dunkelgrün */
+}
+
+/* CTA-Link standardmäßig ausblenden */
+.site-nav a.cta {
+  display: none;
+}
+
+/* ============================
+   Burger Menü (nur Mobile)
+   ============================ */
+.burger {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.burger span {
+  width: 24px;
+  height: 2px;
+  background: #0d1d16;
+  display: block;
+  border-radius: 1px;
+}
+
+/* Mobile Styles */
+@media (max-width: 900px) {
+  /* Burger sichtbar */
+  .burger {
+    display: flex;
+  }
+
+  /* Navigation ausgeblendet */
+  .site-nav {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: #fff;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    display: none; /* standard: versteckt */
+  }
+
+  /* CTA nur im Burger-Menü sichtbar */
+  .site-nav a.cta {
+    display: block;
+    margin-top: 1rem;
+    background: #0d1d16;
+    color: #fff;
+    text-align: center;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    width: 100%;
+  }
+}
+/* === Burger-Icon und Mobile-Menü === */
+
+/* Balken sichtbar machen */
+.burger span {
+  display: block;
+  color: #fff;
+  width: 24px;
+  height: 3px;
+  margin: 4px 0;
+  background: currentColor;
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Standard-Ansicht */
+.site-nav { display: flex; }
+.burger    { display: none; }
+
+/* ===== Ganz unten in der CSS: Mobile-Menü bis 900px ===== */
+@media (max-width: 900px) {
+  /* Menü standardmäßig ausblenden */
+  .site-nav {
+    display: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    min-height: 0 !important;
+  }
+
+  /* Burger-Icon anzeigen */
+  .burger {
+    display: flex !important;
+  }
+
+  /* Geöffnetes Menü */
+  .site-nav.open {
+    display: flex !important;
+    flex-direction: column;
+    padding: 1rem !important;
+    background: #fff !important;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1) !important;
+  }
+
+  /* Burger zum X animieren */
+  .burger.active span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg) !important;
+  }
+  .burger.active span:nth-child(2) {
+    opacity: 0 !important;
+  }
+  .burger.active span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg) !important;
+  }
+}
+
+/* Standard (Mobile): Subline + Button untereinander */
+.subline-wrapper {
+  display: block;
+}
+
+.subline {
+  margin: 0 0 1rem 0;
+}
+
 .hero__cta {
-  background: #1e3d34; color: #fff; padding: .75rem 1.4rem; border-radius: 9999px; font-weight: 600;
-  text-decoration: none; display: inline-block; margin-top: 1rem; align-self: flex-start;
-}
-@media (min-width: 900px) {
-  .hero__cta { position: absolute; right: 2rem; top: 0; }
-}
-.hero__visual { position: relative; min-height: 260px; }
-@media (min-width: 900px) {
-  .hero__visual { min-height: 420px; }
-}
-.hero__blob {
-  position: absolute; inset: -20% -25% -40% -25%;
-  border-radius: 40px; filter: blur(20px);
-  background:
-    radial-gradient(120% 100% at 20% 30%, #b9cd72 0%, transparent 28%),
-    radial-gradient(110% 120% at 85% 60%, #9de8c9 0%, transparent 58%),
-    radial-gradient(90% 90% at 50% 50%, #18a96d 0%, transparent 62%);
-  opacity: .9; pointer-events: none;
-  animation: float 12s ease-in-out infinite alternate;
-}
-@keyframes float { from{ transform: translateY(-10px) scale(1.02);} to{ transform: translateY(10px) scale(1.04);} }
-
-/* Logos */
-.hero__logos { margin-top: 2rem; }
-.hero__logos .logo-strip { display: flex; flex-wrap: wrap; gap: clamp(24px,5vw,40px); justify-content: center; list-style: none; margin: 0; padding: 0; }
-.hero__logos .logo-strip img { height: clamp(40px, 8vw, 120px); filter: grayscale(100%); opacity: .9; transition: .2s; }
-.hero__logos .logo-strip img:hover { filter: none; opacity: 1; transform: scale(1.03); }
-
-/* ------------------
-   Benefits Section
-   ------------------ */
-.benefits__headline {
-  font-family: 'Playfair Display', serif; font-weight: 700;
-  font-size: clamp(24px, 6vw, 36px); text-align: center; margin: 0 0 24px;
-}
-.benefit-card-kota {
-  background: var(--beige); color: var(--fg); border-radius: 24px; padding: 24px; box-shadow: 0 24px 60px rgba(0,0,0,.08);
-  display: grid; grid-template-columns: 1fr; gap: 20px;
-}
-.benefit-card-kota__title { font-size: clamp(26px,7.5vw,36px); font-weight: 700; margin: 0; }
-.benefit-card-kota__text { font-size: 16px; }
-@media (min-width: 900px) {
-  .benefit-card-kota { grid-template-columns: 1.1fr .9fr; padding: 40px; gap: 32px; }
-  .benefit-card-kota__title { font-size: clamp(32px,5.5vw,56px); }
-  .benefit-card-kota__text { font-size: 18px; }
+  display: inline-block;
+  margin-top: 0.5rem;
 }
 
-/* ------------------
-   Cases Section
-   ------------------ */
-.cases-grid { background: var(--fg); color: #fff; padding: 80px 0; }
-.cases-grid__wrap { display: grid; grid-template-columns: 1fr; gap: 28px; }
-@media (min-width: 900px) { .cases-grid__wrap { grid-template-columns: repeat(2,1fr); gap: 40px; } }
-.case-tile { background: #223; border-radius: 20px; padding: 20px; overflow: hidden; box-shadow: 0 8px 26px rgba(0,0,0,.18); transition: .3s; }
-.case-tile:hover { background: #F2E4CE; color: #0b3d2e; transform: translateY(-2px); }
+/* Desktop: Subline + Button nebeneinander */
+@media (min-width: 1024px) {
+  .subline-wrapper {
+    display: flex;
+    align-items: center;   /* gleiche Höhe */
+    gap: 1.5rem;           /* Abstand zwischen Text und Button */
+  }
 
-/* ------------------
-   Chat Section
-   ------------------ */
-.chat { display: flex; flex-direction: column; gap: 16px; max-width: 700px; margin: 0 auto; }
-.msg { padding: 14px 20px; border-radius: 18px; font-size: 15px; max-width: 90%; }
-.from-brand { align-self: flex-end; background: #f3eee7; color: var(--fg); }
-.from-us { align-self: flex-start; background: var(--fg); color: #fff; }
+  .subline {
+    margin: 0;
+  }
 
-/* ------------------
-   Voices Section
-   ------------------ */
-.voices { background: var(--bg); padding: 80px 0; }
-.voices__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px,1fr)); gap: 24px; max-width: 1100px; margin: 0 auto; }
-.voice-card { background: var(--beige); border-radius: 20px; padding: 24px; color: var(--brown); transition: .25s; }
-.voice-card:hover { transform: scale(1.04); box-shadow: 0 16px 32px rgba(0,0,0,.18); }
-
-/* ------------------
-   Footer Section
-   ------------------ */
-.footer { background: #1B2B24; color: rgba(237,230,219,0.9); padding: 3rem 1.5rem; }
-.footer__container { display: grid; grid-template-columns: 1fr; gap: 2rem; max-width: 1200px; margin: 0 auto; text-align: center; }
-@media (min-width: 900px) { .footer__container { grid-template-columns: 1fr auto 1fr; text-align: left; } }
-.footer__headline { font-family: 'Playfair Display', serif; font-size: 1.25rem; margin-bottom: 1rem; color: #EDE6DB; }
-.footer__cta { background: #C66B3D; color: #fff; padding: .6rem 1.4rem; border-radius: 9999px; font-weight: 600; text-decoration: none; }
-.footer__nav ul { list-style: none; display: flex; gap: 2rem; justify-content: center; padding: 0; margin: 2rem 0 0; }
-.footer__socials { display: flex; justify-content: center; gap: 1rem; margin-top: 1rem; }
-.footer__bottom { border-top: 1px solid rgba(237,230,219,0.15); margin-top: 2rem; padding-top: 1rem; font-size: .85rem; display: flex; flex-direction: column; gap: .5rem; align-items: center; }
-@media (min-width: 900px) { .footer__bottom { flex-direction: row; justify-content: space-between; } }
+  .hero__cta {
+    margin-top: 0;         /* kein extra Abstand nötig */
+  }
+}
+/* Desktop: CTA im Hero ausblenden (Bildschirme > 900px) */
+@media (min-width: 901px) {
+  .hero__cta {
+    display: none !important;
+  }
+}
