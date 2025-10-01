@@ -1249,13 +1249,8 @@ section#benefits.benefits-kota{
   left: 0;
   right: 0;
   z-index: 1000;
-  background: #fff; /* Hintergrund, damit nichts durchscheint */
+  background: #ffffff; /* Hintergrund, damit nichts durchscheint */
   transition: transform 0.3s ease;
-}
-
-/* Zustand: Header versteckt */
-.site-header.hide {
-  transform: translateY(-100%);
 }
 
 /* Platz schaffen, damit der Inhalt nicht unter dem Header verschwindet */
@@ -1272,7 +1267,7 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  background: #fff;
+  background: #0b3d2e;
   z-index: 1000;
   box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
@@ -1303,7 +1298,20 @@ body {
 .site-nav a {
   text-decoration: none;
   font-weight: 500;
-  color: #0d1d16;
+  color: #ffffff;
+}
+.site-nav a {
+  background-color: #ff9e8c; /* Akzentfarbe */
+  color: #0b3d2e;           /* dunkler Text auf hellem Button */
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.site-nav a:hover {
+  background-color: #ffcfc2; /* Hover heller */
+  color: #0b3d2e;           /* Schrift dunkelgrün */
 }
 
 /* CTA-Link standardmäßig ausblenden */
@@ -1370,6 +1378,7 @@ body {
 /* Balken sichtbar machen */
 .burger span {
   display: block;
+  color: #fff;
   width: 24px;
   height: 3px;
   margin: 4px 0;
