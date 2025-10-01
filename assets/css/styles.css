@@ -331,6 +331,7 @@ p{margin:0 0 12px}
     padding-top: 50px !important; /* verringert Abstand nach oben */
     margin-top: 0 !important;     /* falls Margin gesetzt ist */
   }
+
 }
 
 
@@ -1300,8 +1301,8 @@ body {
   font-weight: 500;
   color: #ffffff;
 }
-.site-nav a {
-  background-color: #ff9e8c; /* Akzentfarbe */
+.site-nav a.btn {
+  background-color: #9de8c9; /* Akzentfarbe */
   color: #0b3d2e;           /* dunkler Text auf hellem Button */
   padding: 0.5rem 1rem;
   border-radius: 6px;
@@ -1309,8 +1310,8 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.site-nav a:hover {
-  background-color: #ffcfc2; /* Hover heller */
+.site-nav a.btn:hover {
+  background-color: #ffffff; /* Hover heller */
   color: #0b3d2e;           /* Schrift dunkelgrün */
 }
 
@@ -1466,15 +1467,5 @@ body {
   }
 }
 
-/* Mobile: explizit wieder anzeigen und die schon vorhandenen mobilen Styles ergänzen/überschreiben */
-@media (max-width: 900px) {
-  .hero__cta {
-    display: inline-block; /* oder "block" je nach Layout */
-    position: static;
-    margin-top: 1rem;
-    transform: none;
-    right: auto;
-    top: auto;
-    align-self: flex-start;
-  }
+
 }
