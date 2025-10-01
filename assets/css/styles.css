@@ -65,7 +65,7 @@ p{margin:0 0 12px}
 /* KOTA-style Hero – hell, groß, „mindful“ */
 /* KOTA-style Hero – clean */
 .hero--kota{
-  position:relative; min-height:75svh; display:flex; align-items:center;
+  position:relative; min-height:75vh; display:flex; align-items:center;
   padding:0; overflow:visible; background:var(--bg); color:var(--fg);
 }
 .hero__grid{
@@ -86,8 +86,6 @@ p{margin:0 0 12px}
     radial-gradient(90% 90% at 50% 50%, #cfeee0 0%, transparent 82%);
   animation:float 12s ease-in-out infinite alternate; opacity:.9;
 }
-@keyframes float{ from{ transform:translateY(-10px) scale(1.02) } to{ transform:translateY(10px) scale(1.04) } }
-/* Canvas für dynamische Sound-Linien im Hero*/
 .hero__visual{ position:relative; overflow:visible; }
 .hero__blob{
   position:absolute; inset:-25% -32% -52% -48%; /* größer */
@@ -97,8 +95,8 @@ p{margin:0 0 12px}
     radial-gradient(110% 120% at 85% 60%, #9de8c9 0%, transparent 58%),
     radial-gradient(90% 90% at 50% 50%, #18a96d 0%, transparent 62%);
   opacity:.9;
-  transform: translate3d(0,0,0) scale(1.03);
-  will-change: transform;
+  transform: translateY(0);
+  
   pointer-events:none;
   z-index:1; /* Blob über den Waves */
 }
@@ -415,7 +413,7 @@ section#benefits.benefits-kota{
   position: sticky; top: 25vh;
 
   transform-origin: 50% 0%;
-  transform: translateY(10vh) scale(.975) rotateX(2.5deg);
+  transform: translateY(0);
   opacity: .02; 
   filter: saturate(.9) contrast(.95);
   transition:
@@ -425,12 +423,12 @@ section#benefits.benefits-kota{
 }
 
 .benefits-animate .benefits-kota__snap.is-active .benefit-card-kota{
-  transform: translateY(0) scale(1) rotateX(0);
+  transform: translateY(0);
   opacity: 1; filter: none;
 }
 
 .benefits-animate .benefits-kota__snap.is-past .benefit-card-kota{
-  transform: translateY(0) scale(.935) rotateX(0);
+  transform: translateY(0);
   opacity: .35; filter: saturate(.9);
   pointer-events: none;
 }
@@ -438,7 +436,7 @@ section#benefits.benefits-kota{
 /* Nächste Karte unten „anreißen“ */
 .benefits-animate .benefits-kota__snap.is-active + .benefits-kota__snap .benefit-card-kota{
   opacity: .35;
-  transform: translateY(-6vh) scale(.965) rotateX(2deg);
+  transform: translateY(0);
   filter: saturate(.95) contrast(.98);
   pointer-events: none;
 }/* Normale Snap-Karten: Sticky + Fade */
@@ -466,7 +464,7 @@ section#benefits.benefits-kota{
   position: sticky;
   top: 15vh;
   transform-origin: 50% 0%;
-  transform: translateY(10vh) scale(.975) rotateX(2.5deg);
+  transform: translateY(0);
   opacity: .02;
   transition:
     transform .9s cubic-bezier(.2,.8,.2,1),
@@ -475,7 +473,7 @@ section#benefits.benefits-kota{
 
 /* Aktive Karte */
 .benefits-animate .benefits-kota__snap.is-active .benefit-card-kota {
-  transform: translateY(0) scale(1) rotateX(0);
+  transform: translateY(0);
   opacity: 1;
 }
 
@@ -489,7 +487,7 @@ section#benefits.benefits-kota{
 /* Nächste Karte unten anreißen */
 .benefits-animate .benefits-kota__snap.is-active + .benefits-kota__snap .benefit-card-kota {
   opacity: .35;
-  transform: translateY(-6vh) scale(.965) rotateX(2deg);
+  transform: translateY(0);
 }
 
 /* SPEZIAL: letzte Karte soll nicht kleben */
