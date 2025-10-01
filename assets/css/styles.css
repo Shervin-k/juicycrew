@@ -241,17 +241,16 @@ p{margin:0 0 12px}
   gap:12px;
 }
 
-/* Eine Zeile, linksbündig, ohne Umbruch */
-.hero__logos .logo-strip{
-  list-style:none;
-  margin:0;
-  padding:0;
-  display:flex;
-  align-items:center;
-  justify-content:center
-  flex-wrap:nowrap;
-  gap:clamp(30px, 7vw, 40px);
-  overflow:visible;
+.hero__logos .logo-strip {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: clamp(30px, 7vw, 40px);
+  overflow: visible;
 }
 
 /* Logos skalieren sich, damit ALLE reinpassen */
@@ -1465,7 +1464,4 @@ body {
   .hero__cta {
     display: none !important;
   }
-}
-
-
 }
