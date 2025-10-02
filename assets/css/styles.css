@@ -203,7 +203,7 @@ p{margin:0 0 12px}
   right: 2rem;               /* horizontale Entfernung vom rechten Rand der Textspalte */
   top: 0;                    /* wird per JS überschrieben */
   transform: translateY(0);  /* JS setzt top stattdessen */
-  background: #1e3d34;       /* Terracotta (wie Footer) */
+  background: #C66B3D;       /* Terracotta (wie Footer) */
   color: #fff;
   padding: 0.75rem 1.4rem;
   border-radius: 9999px;
@@ -580,7 +580,7 @@ section#benefits.benefits-kota{
 .case-tile{
   position: relative;
   background: color-mix(in srgb, var(--fg) 90%, #ffffff 10%);
-  border: 1px solid #F2E4CE;
+  border: 1px solid #f3eee7;
   border-radius: 20px;
   padding: 20px;
   overflow: hidden;
@@ -590,7 +590,7 @@ section#benefits.benefits-kota{
   transition: background .3s ease, color .3s ease, box-shadow .3s ease, transform .25s ease;
 }
 .case-tile:hover{
-  background: #F2E4CE;
+  background: #f3eee7;
   color: #0b3d2e;
   box-shadow: 0 16px 40px rgba(0,0,0,.26);
   transform: translateY(-2px);
@@ -633,9 +633,9 @@ section#benefits.benefits-kota{
   font-weight:700;
   font-size:30px;                    /* kleiner, eleganter */
   margin:0 0 4px;
-  color:#F2E4CE;
+  color:#ffffff;
 }
-.case-tile__teaser{ margin:0; color:#F2E4CE; font-size:20px; }
+.case-tile__teaser{ margin:0; color:#ffffff; font-size:20px; }
 
 .case-tile:hover .case-tile__title,
 .case-tile:hover .case-tile__teaser{
@@ -897,7 +897,7 @@ section#benefits.benefits-kota{
    FOOTER (Terracotta CTA)
    ========================= */
 .footer {
-  background: #1B2B24;       /* sattes Waldgrün */
+  background: #0b3d2e;       /* sattes Waldgrün */
   color: rgba(237,230,219,0.9); /* soft beige */
   padding: 3rem 1.5rem 1.5rem;
   font-family: 'Inter', sans-serif;
