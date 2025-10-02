@@ -53,37 +53,8 @@ p{margin:0 0 12px}
 
 .brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:inherit;font-weight:700}
 .site-nav{display:flex;align-items:center;gap:16px}
-@media (min-width: 901px) {
-  .site-nav a { text-decoration:none; color:#ffffff; }
-.site-nav a:last-child {
-  display: inline-block;
-  background: #C66B3D;       /* Terracotta */
-  color: #FFFFFF;            /* Weißer Text */
-  padding: 0.6rem 1.4rem;
-  border-radius: 9999px;
-  font-weight: 600;
-  text-decoration: none;
-  transition: background 0.25s ease, transform 0.2s ease;
-}
 
-.site-nav a:last-child:hover {
-  background: #A6532D;       /* dunkleres Terracotta */
-  transform: translateY(-2px);
-}
-
-.site-nav a:last-child:link,
-.site-nav a:last-child:visited,
-.site-nav a:last-child:hover,
-.site-nav a:last-child:active,
-.site-nav a:last-child:focus {
-  text-decoration: none !important;
-}
-}
-@media (max-width: 900px) {
-  .site-nav a { text-decoration:none; color:var(--fg); }
-}
-
-.site-nav a:hover{text-decoration:underline}
+@media (max-width: 900px)
 .menu-toggle{display:none}
 .brand-logo {
   height: 40px; /* anpassen, je nach gewünschter Höhe */
@@ -1257,12 +1228,6 @@ section#benefits.benefits-kota{
     border-radius: 8px;
   }
 
-  /* Mobile Navigation Links */
-  .site-nav a {
-    display: inline-block;
-    padding: 8px 12px;
-  }
-
   /* CTA im Mobile Menü hervorheben */
   .site-nav .cta {
     margin-top: 6px;
@@ -1468,3 +1433,48 @@ body {
     display: none !important;
   }
 }
+/* === Immer Desktop-CTA im Burger-Menü nutzen === */
+@media (max-width: 900px) {
+  .site-nav.open a:last-child,
+  .site-nav a:last-child {
+    display: inline-block !important;
+    background: #C66B3D !important;
+    color: #FFFFFF !important;
+    padding: 0.6rem 1.4rem !important;
+    border-radius: 9999px !important;
+    font-weight: 600 !important;
+    text-decoration: none !important;
+    transition: background 0.25s ease, transform 0.2s ease !important;
+    width: auto !important;
+    margin-top: 1rem !important;
+    text-align: center !important;
+  }
+  .site-nav.open a:last-child:hover,
+  .site-nav a:last-child:hover {
+    background: #A6532D !important;
+    transform: translateY(-2px) !important;
+  }
+}
+@media (max-width: 900px) {
+  .site-nav.open {
+    position: absolute;
+    top: 70px;               /* Höhe deines Headers */
+    left: 0;
+    right: 0;
+    height: 10vh;            /* Menü-Höhe auf 20 % des Viewports */
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center; /* vertikale Zentrierung */
+    align-items: center;     /* horizontale Zentrierung */
+    background: #ffffff;
+    z-index: 999;
+  }
+
+  /* Entferne ggf. Abstände am Button, die die Zentrierung stören */
+  .site-nav.open a:last-child {
+    margin: 0 !important;
+    padding: 0.6rem 1.4rem !important;
+  }
+}
+
+
