@@ -334,7 +334,7 @@ p{margin:0 0 12px}
      margin-left: -30px; /* verschiebt die Logos nach links */
     gap: 0px;       /* engerer Abstand zwischen Logos */
     padding: 0 0.5rem;
-    margin-top: -3rem; /* passe den Wert nach Bedarf an */
+    margin-top: -4rem; /* passe den Wert nach Bedarf an (logo Abstand mobile)*/
   }
 
   /* Skalierte Logo-Höhen – behält die Gewichtung von Desktop */
@@ -353,7 +353,7 @@ p{margin:0 0 12px}
   }
    /* Abstand Hero zum Header enger machen */
   .hero {
-    padding-top: 150px !important; /* verringert Abstand nach oben */
+    padding-top: 100px !important; /* verringert Abstand nach oben (Header Hero Abstand Mobile) */
     margin-top: 0 !important;     /* falls Margin gesetzt ist */
   }
 }
