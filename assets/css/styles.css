@@ -1492,5 +1492,57 @@ body {
     padding: 0.6rem 1.4rem !important;
   }
 }
+@media (min-width: 901px) {
+  /* Footer-Container als Flex-Row */
+  .footer__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 1.5rem;
+    gap: 2rem;
+  }
+
+  /* Mitte: Spruch + Button nebeneinander zentriert */
+  .footer__middle {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex: 1;
+    justify-content: center;
+  }
+
+  /* Tagline-Styling */
+  .footer__tagline {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+    color: rgba(237,230,219,0.9);
+    text-align: center;
+  }
+
+  /* CTA-Styling */
+  .footer__cta {
+    display: inline-block;
+    background: #C66B3D;
+    color: #FFFFFF;
+    padding: 0.6rem 1.4rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.25s ease, transform 0.2s ease;
+  }
+  .footer__cta:hover {
+    background: #A6532D;
+    transform: translateY(-2px);
+  }
+
+  /* Rechts: leerer Nav-Platzhalter */
+  .footer__nav {
+    flex: 0 0 auto;
+  }
+}
+
 
 
