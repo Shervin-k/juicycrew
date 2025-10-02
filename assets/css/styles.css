@@ -53,14 +53,19 @@ p{margin:0 0 12px}
 
 .brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:inherit;font-weight:700}
 .site-nav{display:flex;align-items:center;gap:16px}
-.site-nav a{text-decoration:none;color:var(--fg)}
+@media (min-width: 901px) {
+  .site-nav a { text-decoration:none; color:#ffffff; }
+}
+@media (max-width: 900px) {
+  .site-nav a { text-decoration:none; color:var(--fg); }
+}
+
 .site-nav a:hover{text-decoration:underline}
 .menu-toggle{display:none}
 .brand-logo {
   height: 40px; /* anpassen, je nach gewünschter Höhe */
   display: block;
 }
-
 /* Base hero (fallback) */
 .hero{padding:72px 0 56px;text-align:left}
 .hero h1{font-size:clamp(28px,4vw,44px)}
@@ -77,7 +82,7 @@ p{margin:0 0 12px}
 }
 .hero__copy{ display:block; }
 .hero__copy h1{
-  font-size:clamp(85px,12vw,150px); font-weight:700; line-height:1.05;
+  font-size:clamp(85px,12vw,150px); font-weight:700; line-height:0.9;
   letter-spacing:-.04em; margin:0 0 16px; text-align:left;
 }               
 
@@ -121,14 +126,6 @@ p{margin:0 0 12px}
   mask-size: 100% 100%;
 
 }
-/* Header: nur 1 CTA rechts */
-.menu-toggle{ display:none !important; }
-.site-nav{ display:flex !important; align-items:center; justify-content:flex-end; gap:16px; }
-.site-nav .cta{
-  background:#0b3d2e; color:#fff; padding:10px 18px; border-radius:8px;
-  font-weight:600; text-decoration:none; transition:filter .2s ease;
-}
-.site-nav .cta:hover{ filter:brightness(1.1); }
 
 /* Mobile */
 @media (max-width:900px){
@@ -251,9 +248,9 @@ p{margin:0 0 12px}
   padding: 0;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: left;
   flex-wrap: nowrap;
-  gap: clamp(30px, 7vw, 40px);
+  gap: clamp(20px, 7vw, 30px);
   overflow: visible;
 }
 
@@ -263,26 +260,26 @@ p{margin:0 0 12px}
   width:auto;
   object-fit:contain;
   filter:grayscale(100%);
-  opacity:.9;
+  opacity:.6;
   transition:opacity .2s, filter .2s, transform .2s;
   margin-left: 2rem; /* schiebt die ganze Logo-Gruppe nach rechts */
 }
 
 /* Individuelle Größen */
 .hero__logos .logo-strip li:nth-child(1) img { /* Bumble */
-  height: 180px;
+  height: 153px;
 }
 .hero__logos .logo-strip li:nth-child(2) img { /* AG1 */
-  height: 100px;
+  height: 85px;
 }
 .hero__logos .logo-strip li:nth-child(3) img { /* Zwilling */
-  height: 75px;
+  height: 64px;
 }
 .hero__logos .logo-strip li:nth-child(4) img { /* ArmedAngels */
-  height: 180px;
+  height: 153px;
 }
 .hero__logos .logo-strip li:nth-child(5) img { /* MosMosh */
-  height: 170px;
+  height: 135px;
 }
 .hero__logos .logo-strip img:hover{
   filter:none;
@@ -1082,7 +1079,7 @@ section#benefits.benefits-kota{
   }
 
   .hero__copy .subline {
-    font-size: clamp(28px, 4.5vw, 40px); /* etwas kleiner als Desktop */
+    font-size: clamp(18px, 4.5vw, 30px); /* etwas kleiner als Desktop */
     max-width: 100%;                     /* breiter als Headline */
     margin: 1rem auto 0;                 /* Abstand nach Headline */
   }
@@ -1293,35 +1290,13 @@ body {
   color: #0d1d16;
 }
 
-/* Navigation – Desktop */
-.site-nav {
-  display: flex;
-  gap: 1.5rem;
-}
-
-.site-nav a {
-  text-decoration: none;
-  font-weight: 500;
-  color: #ffffff;
-}
-.site-nav a.btn {
-  background-color: #9de8c9; /* Akzentfarbe */
-  color: #0b3d2e;           /* dunkler Text auf hellem Button */
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  font-weight: 600;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
+/* Hover-Effekt Desktop */
 .site-nav a.btn:hover {
-  background-color: #ffffff; /* Hover heller */
-  color: #0b3d2e;           /* Schrift dunkelgrün */
+  background-color: #ffffff;
+  color: #0b3d2e;
 }
 
-/* CTA-Link standardmäßig ausblenden */
-.site-nav a.cta {
-  display: none;
-}
+
 
 /* ============================
    Burger Menü (nur Mobile)
@@ -1369,7 +1344,7 @@ body {
   .site-nav a.cta {
     display: block;
     margin-top: 1rem;
-    background: #0d1d16;
+    background: #1d0d1a;
     color: #fff;
     text-align: center;
     padding: 0.75rem 1rem;
