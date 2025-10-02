@@ -55,6 +55,29 @@ p{margin:0 0 12px}
 .site-nav{display:flex;align-items:center;gap:16px}
 @media (min-width: 901px) {
   .site-nav a { text-decoration:none; color:#ffffff; }
+.site-nav a:last-child {
+  display: inline-block;
+  background: #C66B3D;       /* Terracotta */
+  color: #FFFFFF;            /* Weißer Text */
+  padding: 0.6rem 1.4rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.25s ease, transform 0.2s ease;
+}
+
+.site-nav a:last-child:hover {
+  background: #A6532D;       /* dunkleres Terracotta */
+  transform: translateY(-2px);
+}
+
+.site-nav a:last-child:link,
+.site-nav a:last-child:visited,
+.site-nav a:last-child:hover,
+.site-nav a:last-child:active,
+.site-nav a:last-child:focus {
+  text-decoration: none !important;
+}
 }
 @media (max-width: 900px) {
   .site-nav a { text-decoration:none; color:var(--fg); }
@@ -77,6 +100,7 @@ p{margin:0 0 12px}
   position:relative; min-height:75svh; display:flex; align-items:center;
   padding:0; overflow:visible; background:var(--bg); color:var(--fg);
 }
+
 .hero__grid{
   display:grid; grid-template-columns:1.3fr 0.7fr; gap:40px; align-items:center; width:100%;
 }
@@ -310,6 +334,7 @@ p{margin:0 0 12px}
      margin-left: -30px; /* verschiebt die Logos nach links */
     gap: 0px;       /* engerer Abstand zwischen Logos */
     padding: 0 0.5rem;
+    margin-top: -3rem; /* passe den Wert nach Bedarf an */
   }
 
   /* Skalierte Logo-Höhen – behält die Gewichtung von Desktop */
@@ -328,10 +353,9 @@ p{margin:0 0 12px}
   }
    /* Abstand Hero zum Header enger machen */
   .hero {
-    padding-top: 50px !important; /* verringert Abstand nach oben */
+    padding-top: 150px !important; /* verringert Abstand nach oben */
     margin-top: 0 !important;     /* falls Margin gesetzt ist */
   }
-
 }
 
 
