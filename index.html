@@ -1,270 +1,343 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" id="top">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Bloomwood</title>
-    <meta name="description" content="We plan authentic podcast campaigns for consumer brands." />
-    <link rel="icon" href="assets/images/logo.svg" type="image/svg+xml" />
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="assets/css/styles.css" />
-  </head>
-  <body>
-    <!-- Header -->
-    <header class="site-header">
-  <div class="header-inner container">
-    <a href="#top" class="brand" aria-label="Bloomwood">
-      <img src="assets/images/logo.png" alt="Bloomwood" class="brand-logo" />
-    </a>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- Primary Meta Tags -->
+  <title>Juicy Crew UK - Authentic Podcast Campaigns for Consumer Brands</title>
+  <meta name="title" content="Juicy Crew UK - Authentic Podcast Campaigns for Consumer Brands">
+  <meta name="description" content="Reach premium audiences through authentic podcast campaigns. We connect consumer brands with engaged listeners through credible host recommendations and strategic placements.">
+  <meta name="keywords" content="podcast advertising, podcast marketing, consumer brands, UK podcast agency, authentic campaigns, premium audience">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://juicycrew.co.uk/">
+  <meta property="og:title" content="Juicy Crew UK - Authentic Podcast Campaigns">
+  <meta property="og:description" content="Reach premium audiences through authentic podcast campaigns. Strategic placements with credible host recommendations.">
+  <meta property="og:image" content="https://juicycrew.co.uk/assets/images/og-image.jpg">
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://juicycrew.co.uk/">
+  <meta property="twitter:title" content="Juicy Crew UK - Authentic Podcast Campaigns">
+  <meta property="twitter:description" content="Reach premium audiences through authentic podcast campaigns. Strategic placements with credible host recommendations.">
+  <meta property="twitter:image" content="https://juicycrew.co.uk/assets/images/og-image.jpg">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="assets/images/logo.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
+  
+  <!-- Google Fonts - Optimized Loading -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="assets/css/styles.css">
+  
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Juicy Crew UK",
+    "description": "Authentic podcast campaigns for consumer brands",
+    "url": "https://juicycrew.co.uk",
+    "logo": "https://juicycrew.co.uk/assets/images/logo.svg",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "email": "hello@juicycrew.co.uk",
+      "contactType": "customer service"
+    },
+    "sameAs": [
+      "https://www.linkedin.com/company/juicy-crew-uk"
+    ]
+  }
+  </script>
+</head>
 
-    <nav id="site-nav" class="site-nav" aria-label="Primary">
-      <a class="cta" href="#contact">Advertise With Us</a>
-    </nav>
+<body>
+  <!-- Skip Link for Accessibility -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
 
-    <button id="menu-toggle" class="burger" aria-label="Open menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-</header>
-
-    <main>
-      <!-- Hero -->
-      <section class="hero hero--kota" id="home">
-  <div class="container">
-    <div class="hero__grid">
-      <div class="hero__copy">
-        <h1 class="hero-title">
-  Every <span class="word word--brandstory">Brand Story</span> has an
-  <span class="word word--audience">Audience</span>.
-</h1>
-
-        <p class="subline">
-          We plan authentic podcast campaigns for consumer brands to reach the right audience with messages that resonate.
-        </p>
-
-        <a href="#contact" class="hero__cta">Let’s Connect</a>
-      </div>
-
-      <div class="hero__visual" aria-hidden="true">
-        <canvas id="hero-waves"></canvas>
-        <div class="hero__blob"></div>
-      </div>
+  <!-- Header - Simplified -->
+  <header class="site-header" role="banner">
+    <div class="header-inner">
+      <!-- Logo only on the left -->
+      <a href="#top" class="brand" aria-label="Juicy Crew UK - Home">
+        <img src="assets/images/logo.png" alt="Juicy Crew Logo" class="brand-logo" width="120" height="40">
+      </a>
+      
+      <!-- Only "Advertise With Us" button on the right -->
+      <a href="#contact" class="header-cta">Advertise With Us</a>
+      
+      <!-- Mobile Menu Toggle -->
+      <button id="menu-toggle" class="burger" aria-label="Open navigation" aria-expanded="false" aria-controls="mobile-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      
+      <!-- Mobile Navigation (hidden by default) -->
+      <nav id="mobile-nav" class="mobile-nav" role="navigation" aria-label="Main navigation">
+        <a href="#contact">Advertise With Us</a>
+      </nav>
     </div>
+  </header>
 
-    <!-- Logos INSIDE hero so they never get clipped -->
-    <div class="hero__logos" aria-label="Brands we have worked with">
-      <ul class="logo-strip">
-        <li><img src="assets/images/4.png" alt="Bumble"></li>
-        <li><img src="assets/images/5.png" alt="AG1"></li>
-        <li><img src="assets/images/3.png" alt="ZWILLING"></li>
-        <li><img src="assets/images/2.png" alt="Armedangels"></li>
-        <li><img src="assets/images/1.png" alt="MOS MOSH"></li>
-      </ul>
-    </div>
-  </div>
-</section>
+  <!-- Main Content -->
+  <main id="main-content">
+    <!-- Hero Section - Redesigned for full viewport -->
+    <section class="hero hero--fullscreen" aria-labelledby="hero-title">
+      <div class="hero-container">
+        <!-- Left side: Title and Description Block -->
+        <div class="hero__content">
+          <h1 id="hero-title" class="hero__title">
+            Every Brand<br>
+            Story has an<br>
+            <span class="highlight">audience</span>
+          </h1>
+          
+          <!-- Description Block (square-ish) -->
+          <div class="hero__description-block">
+            <p class="hero__description">
+              We plan authentic podcast campaigns for consumer brands 
+              to reach the right audience with messages that resonate.
+            </p>
+            <a href="#contact" class="hero__cta-button">Get Started</a>
+          </div>
+        </div>
+        
+        <!-- Right side: Visual Elements -->
+        <div class="hero__visual" aria-hidden="true">
+          <div class="hero__blob"></div>
+          <canvas id="hero-waves" aria-hidden="true"></canvas>
+        </div>
+        
+        <!-- Bottom: Logo Strip -->
+        <div class="hero__logos">
+          <div class="logo-strip">
+            <img src="assets/images/logo-spotify.png" alt="Spotify" loading="lazy" width="120" height="40">
+            <img src="assets/images/logo-google.png" alt="Google Podcasts" loading="lazy" width="120" height="40">
+            <img src="assets/images/logo-apple.png" alt="Apple Podcasts" loading="lazy" width="120" height="40">
+            <img src="assets/images/logo-amazon.png" alt="Amazon Music" loading="lazy" width="120" height="40">
+            <img src="assets/images/logo-stitcher.png" alt="Stitcher" loading="lazy" width="120" height="40">
+          </div>
+        </div>
+      </div>
+    </section>
 
-      <!-- Benefits -->
-      <section id="benefits" class="section benefits-kota">
-        <div class="container">
-          <h2 class="benefits__headline">Why Podcast Marketing Works for Brands</h2>
-
-          <article class="benefit-card">
-            <div class="benefit-card__content">
-              <h3 class="benefit-card__title">Reach a Premium Audience</h3>
-              <p class="benefit-card__text">
-                Podcast listeners are well educated and high income, a target group that is usually hard to reach through traditional media.
+    <!-- Benefits Section -->
+    <section id="benefits" class="benefits-kota section" aria-labelledby="benefits-title">
+      <div class="benefits-kota__viewport">
+        <h2 id="benefits-title" class="benefits__headline">Reach a Premium Audience</h2>
+        
+        <!-- Benefit 1: Premium Demographics -->
+        <div class="benefits-kota__snap">
+          <article class="benefit-card-kota">
+            <div class="benefit-card-kota__content">
+              <h3 class="benefit-card-kota__title">Premium Demographics</h3>
+              <p class="benefit-card-kota__text">
+                Podcast listeners are well-educated and high-income, a target group usually difficult to reach through traditional media.
               </p>
             </div>
-            <figure class="benefit-card__image">
-              <img src="assets/images/benefits1.jpg" alt="Premium audience" />
-            </figure>
+            <div class="benefit-card-kota__image">
+              <img src="assets/images/premium-audience.jpg" alt="Premium audience demographics visualization" loading="lazy" width="400" height="225">
+            </div>
           </article>
+        </div>
 
-          <article class="benefit-card">
-            <div class="benefit-card__content">
-              <h3 class="benefit-card__title">Explain a Complex Product</h3>
-              <p class="benefit-card__text">
+        <!-- Benefit 2: High Attention -->
+        <div class="benefits-kota__snap">
+          <article class="benefit-card-kota">
+            <div class="benefit-card-kota__content">
+              <h3 class="benefit-card-kota__title">Highest Attention</h3>
+              <p class="benefit-card-kota__text">
                 With the highest attention of any ad format, podcasts are the perfect stage to explain complex products clearly and memorably.
               </p>
             </div>
-            <figure class="benefit-card__image">
-              <img src="assets/images/benefits2.jpeg" alt="Explaining complex products" />
-            </figure>
+            <div class="benefit-card-kota__image">
+              <img src="assets/images/attention-stats.jpg" alt="Podcast attention statistics" loading="lazy" width="400" height="225">
+            </div>
           </article>
+        </div>
 
-          <article class="benefit-card">
-            <div class="benefit-card__content">
-              <h3 class="benefit-card__title">Build Trust and Loyalty</h3>
-              <p class="benefit-card__text">
-                Hosts have real bonds with their listeners, so ads feel like credible recommendations from a close friend.
+        <!-- Benefit 3: Authentic Bonds -->
+        <div class="benefits-kota__snap">
+          <article class="benefit-card-kota">
+            <div class="benefit-card-kota__content">
+              <h3 class="benefit-card-kota__title">Authentic Bonds</h3>
+              <p class="benefit-card-kota__text">
+                Podcast hosts have authentic bonds with their listeners, so ads feel like a credible recommendation from a close friend.
               </p>
             </div>
-            <figure class="benefit-card__image">
-              <img src="assets/images/benefits3.jpg" alt="Trust and loyalty" />
-            </figure>
+            <div class="benefit-card-kota__image">
+              <img src="assets/images/authentic-bonds.jpg" alt="Podcast host and listener connection" loading="lazy" width="400" height="225">
+            </div>
           </article>
         </div>
-      </section>
-
-      <!-- Cases -->
-      <section id="cases" class="section cases-grid">
-        <div class="container">
-          <div class="cases-grid__wrap">
-            <article class="case-card">
-              <div class="case-card__media">
-                <img src="assets/images/bumble_case.webp" alt="Bumble campaign" loading="lazy" />
-              </div>
-              <div class="case-card__body">
-                <h3 class="case-card__title">Bumble</h3>
-                <p class="case-card__teaser">Date on your terms.</p>
-                <div class="case-card__more">
-                  <p>
-                    We partnered with hosts who had deep bonds with their audiences, so the message resonated naturally. Over time, we used these integrations to explain new features in a simple and memorable way.
-                  </p>
-                </div>
-              </div>
-            </article>
-
-            <article class="case-card">
-              <div class="case-card__media">
-                <img src="assets/images/benefits2.jpeg" alt="ZWILLING Fresh & Save" loading="lazy" />
-              </div>
-              <div class="case-card__body">
-                <h3 class="case-card__title">ZWILLING</h3>
-                <p class="case-card__teaser">Keep food 5× longer fresh.</p>
-                <div class="case-card__more">
-                  <p>
-                    We placed the product in shows where it fits daily life: parenting, fitness, meal prep and conscious cooking, reaching high income households.
-                  </p>
-                </div>
-              </div>
-            </article>
-
-            <article class="case-card">
-              <div class="case-card__media">
-                <img src="assets/images/ag1_case.jpg" alt="AG1 performance campaign" loading="lazy" />
-              </div>
-              <div class="case-card__body">
-                <h3 class="case-card__title">AG1</h3>
-                <p class="case-card__teaser">Own your day.</p>
-                <div class="case-card__more">
-                  <p>
-                    We started broad across verticals, then doubled down on top performers. Hosts integrated AG1 into their routines, mixing personal stories with education.
-                  </p>
-                </div>
-              </div>
-            </article>
-
-            <article class="case-card">
-              <div class="case-card__media">
-                <img src="assets/images/armedangels_case2.png" alt="Armedangels awareness" loading="lazy" />
-              </div>
-              <div class="case-card__body">
-                <h3 class="case-card__title">Armedangels</h3>
-                <p class="case-card__teaser">Fashion with a purpose.</p>
-                <div class="case-card__more">
-                  <p>
-                    We matched hosts to brand values and paired favorite pieces with a rare code, building awareness and measurable conversions.
-                  </p>
-                </div>
-              </div>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <!-- Service chat -->
-      <section id="service" class="section service-chat">
-        <div class="container">
-          <h2>How It Feels to Work With Bloomwood</h2>
-          <p class="lede">Always available, with strict brand safety and a collaborative process that gives your brand the voice it deserves.</p>
-
-          <div class="chat" aria-label="Conversation">
-            <div class="msg from-brand">Hi Matti, I received the scripts for our current campaign yesterday, they look great. I would love the second script to highlight our product’s ingredients and health benefits a bit more.</div>
-            <div class="msg from-us">Of course, thanks for the feedback. We will rework it with the host and you will have the updated script by end of day.</div>
-            <div class="msg from-brand">Perfect, I just got the new scripts. They are spot on now and fully approved. Looking forward to hearing the audio spots.</div>
-            <div class="msg from-us">Great to hear. Please find the recorded spots attached. Let us know if there is anything you would like refined.</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Voices -->
-      <section id="voices" class="section voices">
-        <div class="container">
-          <h2>What Our Clients Say</h2>
-          <div class="voices__grid">
-            <article class="voice-card">
-              <blockquote class="voice__quote">
-                We compared several providers and chose Bloomwood because their podcast and host suggestions are the best fit for our brand and products.
-              </blockquote>
-              <div class="voice__author">
-                <img src="assets/images/katharina_spiridigliozzi.jpg" alt="HAKA testimonial" />
-                <div>
-                  <strong>Katharina Spiridigliozzi</strong><br />
-                  Brand Manager, HAKA
-                </div>
-              </div>
-            </article>
-
-            <article class="voice-card">
-              <blockquote class="voice__quote">
-                Our collaboration with Bloomwood is shaped by strong audience consulting, exactly what matters most to us. The integrations align with our values and the execution is consistently professional and collaborative.
-              </blockquote>
-              <div class="voice__author">
-                <img src="assets/images/lea_gehringhoff.jpeg" alt="MOGLi testimonial" />
-                <div>
-                  <strong>Lea Gehringhoff</strong><br />
-                  Marketing Manager, MOGLi
-                </div>
-              </div>
-            </article>
-
-            <article class="voice-card">
-              <blockquote class="voice__quote">
-                Together with Bloomwood, we continue to run our Armedangels campaigns successfully. From selecting podcasts that share our values to shaping how we tell our story, the cooperation strengthened brand awareness and received great feedback from our customers.
-              </blockquote>
-              <div class="voice__author">
-                <img src="assets/images/nico_auer.jpeg" alt="ARMEDANGELS testimonial" />
-                <div>
-                  <strong>Nico Auer</strong><br />
-                  Influencer Marketing Specialist, Armedangels
-                </div>
-              </div>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <!-- Contact -->
-      <section id="contact" class="section contact">
-        <div class="container contact__wrap">
-          <h2>Ready to reach the right listeners</h2>
-          <p class="contact__lede">Tell us about your brand and goals. We will suggest shows that fit.</p>
-          <a class="contact__cta" href="mailto:matti@juicycrew.de?subject=Bloomwood%20Inquiry">Advertise With Us</a>
-        </div>
-      </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer">
-      <div class="footer__container">
-        <div class="footer__logo">
-          <img src="assets/images/logo.png" alt="Bloomwood" />
-        </div>
-        <p class="footer__tagline">Connecting conscious brands with podcasts their audiences trust</p>
-        <a class="footer__cta" href="#contact">Advertise With Us</a>
       </div>
+    </section>
 
-      <div class="footer__bottom">
-        <p>© <span id="year"></span> Bloomwood</p>
-        <nav class="footer__links">
-          <a href="mailto:matti@juicycrew.de">Contact</a>
-          <a href="#top">Back to Top</a>
+    <!-- Case Studies Section -->
+    <section id="cases" class="cases-grid section" aria-labelledby="cases-title">
+      <div class="container">
+        <h2 id="cases-title" class="section-title">Success Stories</h2>
+        
+        <div class="cases-grid__wrap">
+          <!-- Bumble Case Study -->
+          <article class="case-tile">
+            <div class="case-tile__content">
+              <h3 class="case-tile__title">Bumble</h3>
+              <p class="case-tile__description">
+                For Bumble, we focused on making the app feel like a trusted recommendation from a friend. We partnered with hosts who had especially deep bonds with their audiences, ensuring the message resonated naturally with the right target group.
+              </p>
+            </div>
+            <div class="case-tile__media">
+              <img src="assets/images/case-bumble.jpg" alt="Bumble podcast campaign case study" loading="lazy" width="300" height="200">
+            </div>
+          </article>
+
+          <!-- Zwilling Case Study -->
+          <article class="case-tile">
+            <div class="case-tile__content">
+              <h3 class="case-tile__title">Zwilling Fresh & Save</h3>
+              <p class="case-tile__description">
+                Zwilling's Fresh & Save system keeps food fresh up to five times longer, but the concept needed to be made tangible. We brought the product to life by placing it in shows where it fit seamlessly into daily routines.
+              </p>
+            </div>
+            <div class="case-tile__media">
+              <img src="assets/images/case-zwilling.jpg" alt="Zwilling Fresh & Save campaign" loading="lazy" width="300" height="200">
+            </div>
+          </article>
+
+          <!-- AG1 Case Study -->
+          <article class="case-tile">
+            <div class="case-tile__content">
+              <h3 class="case-tile__title">AG1 Nutrition</h3>
+              <p class="case-tile__description">
+                AG1 offers a daily supplement subscription that covers essential nutrition, but the challenge was making a new routine feel natural. We started broad, testing across different podcast verticals, then doubled down on the best-performing shows.
+              </p>
+            </div>
+            <div class="case-tile__media">
+              <img src="assets/images/case-ag1.jpg" alt="AG1 nutrition podcast campaign" loading="lazy" width="300" height="200">
+            </div>
+          </article>
+
+          <!-- Armedangels Case Study -->
+          <article class="case-tile">
+            <div class="case-tile__content">
+              <h3 class="case-tile__title">Armedangels</h3>
+              <p class="case-tile__description">
+                Armedangels wanted to share their sustainable fashion story in a way that was exciting as well as credible. We selected hosts whose style and values matched the brand, creating both trust and exclusivity.
+              </p>
+            </div>
+            <div class="case-tile__media">
+              <img src="assets/images/case-armedangels.jpg" alt="Armedangels sustainable fashion campaign" loading="lazy" width="300" height="200">
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Customer Service Section -->
+    <section class="service-chat section" aria-labelledby="service-title">
+      <div class="container">
+        <h2 id="service-title">Always Available</h2>
+        <p class="lede">With strict brand safety and a collaborative process to give your brand the voice it deserves.</p>
+        
+        <div class="chat" role="log" aria-live="polite" aria-label="Customer service conversation">
+          <div class="msg from-brand">
+            We compared several providers and chose Bloomwood because their podcast and host suggestions are the best fit for our brand and products.
+          </div>
+          
+          <div class="msg from-us">
+            Our collaboration with Bloomwood is shaped by strong audience consulting – exactly what matters most to us. The integrations align perfectly with our values, and the execution is consistently professional and collaborative.
+          </div>
+          
+          <div class="msg from-brand">
+            Together with Bloomwood, we continue to run our Armedangels campaigns successfully. From selecting podcasts that share our values to shaping how we tell our story, the collaboration has strengthened our brand awareness and been met with great feedback from our customers.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Customer Voices Section -->
+    <section class="voices section" aria-labelledby="voices-title">
+      <div class="container">
+        <h2 id="voices-title">What Our Clients Say</h2>
+        
+        <div class="voices__grid">
+          <article class="voice-card">
+            <blockquote>
+              <p>"The podcast and host suggestions are the best fit for our brand and products. Professional execution every time."</p>
+              <cite>
+                <strong>Marketing Director</strong><br>
+                Consumer Brand
+              </cite>
+            </blockquote>
+          </article>
+          
+          <article class="voice-card">
+            <blockquote>
+              <p>"Strong audience consulting – exactly what matters most to us. The integrations align perfectly with our values."</p>
+              <cite>
+                <strong>Brand Manager</strong><br>
+                Sustainable Fashion
+              </cite>
+            </blockquote>
+          </article>
+          
+          <article class="voice-card">
+            <blockquote>
+              <p>"The collaboration has strengthened our brand awareness and been met with great feedback from our customers."</p>
+              <cite>
+                <strong>Marketing Lead</strong><br>
+                Tech Company
+              </cite>
+            </blockquote>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact section" aria-labelledby="contact-title">
+      <div class="container">
+        <h2 id="contact-title">Ready to Start Your Campaign?</h2>
+        <p class="contact-intro">Let's discuss how we can help your brand reach the right audience through authentic podcast placements.</p>
+        
+        <div class="contact-methods">
+          <a href="mailto:hello@juicycrew.co.uk" class="contact-cta" aria-describedby="email-desc">
+            Get in Touch
+          </a>
+          <p id="email-desc" class="contact-email">hello@juicycrew.co.uk</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer__container">
+      <div class="footer__left">
+        <p>&copy; <span id="year">2025</span> Juicy Crew UK. All rights reserved.</p>
+      </div>
+      
+      <div class="footer__center">
+        <a href="#contact" class="footer__cta">Start Your Campaign</a>
+      </div>
+      
+      <div class="footer__right">
+        <nav class="footer__nav" aria-label="Footer navigation">
+          <a href="#top" class="to-top" aria-label="Back to top">↑</a>
         </nav>
       </div>
-    </footer>
+    </div>
+  </footer>
 
-    <script src="assets/js/main.js" defer></script>
-  </body>
+  <!-- Scripts -->
+  <script src="assets/js/main.js"></script>
+</body>
 </html>
