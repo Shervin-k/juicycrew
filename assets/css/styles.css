@@ -756,21 +756,40 @@ img {
   }
 }
 
+/* Mobile portrait breakpoint */
+@media (max-width: 480px) {
+  .container {
+    padding: 0 var(--space-8);
+  }
+}
+
 /* =======================
    JuicyCrew â€“ base styles
    ======================= */
 
-/* Reset & Vars */
+/* Reset & Vars - Updated to use design system */
 *,
 *::before,
 *::after { box-sizing: border-box; }
+
+:root {
+  --bg: var(--color-background);
+  --fg: var(--color-text);
+  --muted: var(--color-text-secondary);
+  --brand: var(--color-primary);
+  --brand-ink: var(--color-btn-primary-text);
+  --line: var(--color-border);
+  --card: var(--color-surface);
+  --beige: var(--color-secondary);       /* Karten-Hintergrund */
+  --brown: var(--color-slate-900);       /* neue dunkle Schriftfarbe */
+}
 
 html,body{height:100%}
 body{
   margin:0;
   font-family: var(--font-family-base);
-  color: var(--color-text); 
-  background: var(--color-background); 
+  color: var(--fg); 
+  background: var(--bg); 
   line-height: var(--line-height-normal);
   padding-top: 70px; /* Account for fixed header */
 }
@@ -778,7 +797,7 @@ body{
 /* Helpers / Layout */
 .container{max-width:1040px;margin:0 auto;padding:0 var(--space-16)}
 .section{padding: var(--space-32) 0}
-.section.alt{background: var(--color-surface)}
+.section.alt{background:var(--card)}
 h1,h2,h3{font-family: var(--font-family-base);font-weight: var(--font-weight-bold);line-height: var(--line-height-tight);margin:0 0 var(--space-12)}
 p{margin:0 0 var(--space-12)}
 .brand{display:inline-flex;align-items:center;gap: var(--space-10);text-decoration:none;color:inherit;font-weight: var(--font-weight-bold)}
@@ -798,7 +817,7 @@ p{margin:0 0 var(--space-12)}
   top: 0;
   left: 0;
   width: 100%;
-  background: var(--color-primary);
+  background: var(--color-slate-900);
   z-index: 1000;
   box-shadow: var(--shadow-sm);
 }
@@ -840,11 +859,11 @@ p{margin:0 0 var(--space-12)}
 
 .burger span {
   width: 24px;
-  height: 2px;
-  background: var(--color-btn-primary-text);
+  height: var(--space-2);
+  background: var(--color-white);
   display: block;
   border-radius: var(--space-1);
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition: transform var(--duration-normal) var(--ease-standard), opacity var(--duration-normal) var(--ease-standard);
 }
 
 @media (max-width: 900px) {
@@ -864,7 +883,7 @@ p{margin:0 0 var(--space-12)}
     background: var(--color-surface);
     flex-direction: column;
     padding: var(--space-16) var(--space-24);
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--shadow-md);
   }
   
   .site-nav.open a:last-child {
@@ -885,7 +904,7 @@ p{margin:0 0 var(--space-12)}
 }
 
 /* =======================
-   HERO SECTION - DYNAMIC KOTA STYLE
+   HERO SECTION - DYNAMIC KOTA STYLE - Updated colors
    ======================= */
 
 .hero--kota {
@@ -896,14 +915,14 @@ p{margin:0 0 var(--space-12)}
   align-items: center;
   padding: 0;
   overflow: visible;
-  background: var(--color-background);
-  color: var(--color-text);
+  background: var(--bg);
+  color: var(--fg);
 }
 
 .hero__grid {
   display: grid;
   grid-template-columns: 1.3fr 0.7fr;
-  gap: 40px;
+  gap: var(--space-32);
   align-items: center;
   width: 100%;
 }
@@ -915,7 +934,7 @@ p{margin:0 0 var(--space-12)}
   gap: var(--space-32);
 }
 
-/* Dynamic KOTA-style Typography */
+/* Dynamic KOTA-style Typography - Updated */
 .hero-title {
   display: flex;
   flex-direction: column;
@@ -935,12 +954,12 @@ p{margin:0 0 var(--space-12)}
 /* Dynamic Positioning - KOTA Style */
 .hero-line--1 {
   margin-left: 0; /* "Every Brand" - left anchor */
-  color: var(--color-text);
+  color: var(--fg);
 }
 
 .hero-line--2 {
-  margin-left: 6rem; /* "Story has an" - shifted right */
-  color: var(--color-text);
+  margin-left: var(--space-32); /* "Story has an" - shifted right */
+  color: var(--fg);
 }
 
 .hero-line--3 {
@@ -948,20 +967,20 @@ p{margin:0 0 var(--space-12)}
   color: var(--color-orange-500);
 }
 
-/* Description Block - Square Design */
+/* Description Block - Square Design - Updated */
 .hero__description-block {
-  background: var(--color-secondary);
+  background: var(--beige);
   border-radius: var(--radius-lg);
   padding: var(--space-32);
   max-width: 420px;
-  margin: 0 4rem 0 0; /* Right offset for dynamic positioning */
+  margin: 0 var(--space-32) 0 0; /* Right offset for dynamic positioning */
   box-shadow: var(--shadow-lg);
 }
 
 .hero__description {
   font-size: var(--font-size-lg);
   line-height: var(--line-height-normal);
-  color: var(--color-text-secondary);
+  color: var(--muted);
   margin: 0 0 var(--space-24) 0;
 }
 
@@ -982,7 +1001,7 @@ p{margin:0 0 var(--space-12)}
   transform: translateY(-2px);
 }
 
-/* Logo Strip - Visible in Viewport */
+/* Logo Strip - Visible in Viewport - Updated */
 .hero__logos {
   margin: var(--space-16) 0 0 0;
   width: 100%;
@@ -994,10 +1013,9 @@ p{margin:0 0 var(--space-12)}
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: clamp(2rem, 6vw, 4rem);
+  gap: clamp(var(--space-32), 6vw, var(--space-32));
   flex-wrap: wrap;
 }
-
 
 .hero__logos .logo-strip img {
   height: clamp(80px, 10vw, 120px);
@@ -1014,7 +1032,7 @@ p{margin:0 0 var(--space-12)}
   transform: scale(1.05);
 }
 
-/* Hero Visual Elements */
+/* Hero Visual Elements - Updated colors */
 .hero__visual {
   position: relative;
   min-height: 420px;
@@ -1096,16 +1114,12 @@ p{margin:0 0 var(--space-12)}
 }
 
 @media (max-width: 480px) {
-  .hero__copy {
-    gap: var(--space-24);
+  .hero-line--2 {
+    margin-left: var(--space-16);
   }
   
   .hero__description-block {
     padding: var(--space-24);
-  }
-  
-  .hero-line--2 {
-    margin-left: var(--space-16);
   }
   
   .hero__logos .logo-strip {
@@ -1114,12 +1128,12 @@ p{margin:0 0 var(--space-12)}
 }
 
 /* =======================
-   BENEFITS SECTION
+   BENEFITS SECTION - Updated styles
    ======================= */
 .benefits__headline {
   font-family: var(--font-family-base);
   font-weight: var(--font-weight-bold);
-  font-size: var(--font-size-4xl);
+  font-size: clamp(var(--font-size-3xl), 5vw, var(--font-size-4xl));
   line-height: var(--line-height-tight);
   text-align: center;
   margin: 0 0 var(--space-24) 0;
@@ -1144,10 +1158,10 @@ section#benefits.benefits-kota {
   display: grid;
   grid-template-columns: 1.1fr .9fr;
   gap: var(--space-32);
-  background: var(--color-secondary);
-  color: var(--color-text);
+  background: var(--beige);
+  color: var(--fg);
   border-radius: var(--radius-lg);
-  padding: 40px;
+  padding: var(--space-32);
   box-shadow: var(--shadow-lg);
 }
 
@@ -1155,12 +1169,12 @@ section#benefits.benefits-kota {
   font-family: var(--font-family-base);
   font-weight: var(--font-weight-bold);
   font-size: clamp(var(--font-size-3xl), 5.5vw, var(--font-size-4xl));
-  line-height: var(--line-height-tight);
+  line-height: 1.05;
   margin: 0 0 var(--space-12);
 }
 
 .benefit-card-kota__text {
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-lg);
   line-height: var(--line-height-normal);
   margin: 0;
 }
@@ -1169,7 +1183,7 @@ section#benefits.benefits-kota {
   border-radius: var(--radius-md);
   overflow: hidden;
   aspect-ratio: 16 / 9;
-  background: var(--color-border);
+  background: var(--color-gray-200);
 }
 
 .benefit-card-kota__image img {
@@ -1188,7 +1202,7 @@ section#benefits.benefits-kota {
   opacity: .02;
   filter: saturate(.9) contrast(.95);
   transition:
-    transform .9s cubic-bezier(.2,.8,.2,1),
+    transform .9s var(--ease-standard),
     opacity .9s ease,
     filter .9s ease;
 }
@@ -1237,31 +1251,23 @@ section#benefits.benefits-kota {
 }
 
 @media (max-width: 480px) {
-  .benefits__headline {
-    font-size: var(--font-size-3xl);
-  }
-  
   .benefit-card-kota {
-    padding: var(--space-20);
+    padding: var(--space-16);
     gap: var(--space-16);
   }
   
-  .benefit-card-kota__title {
-    font-size: var(--font-size-2xl);
-  }
-  
-  .benefit-card-kota__text {
-    font-size: var(--font-size-sm);
+  .benefits-kota__viewport {
+    padding: 0 var(--space-8);
   }
 }
 
 /* =======================
-   CASES SECTION
+   CASES SECTION - Updated
    ======================= */
 .cases-grid {
-  background: var(--color-text);
-  color: var(--color-surface);
-  padding: 100px 0 120px;
+  background: var(--fg);
+  color: var(--color-white);
+  padding: var(--space-32) 0;
 }
 
 .cases-grid .container { 
@@ -1271,34 +1277,37 @@ section#benefits.benefits-kota {
 .cases-grid__wrap { 
   display: grid; 
   grid-template-columns: repeat(2,minmax(0,1fr)); 
-  gap: 40px; 
+  gap: var(--space-32); 
 }
 
 .case-tile {
   position: relative;
-  background: color-mix(in srgb, var(--color-text) 90%, var(--color-surface) 10%);
-  border: 1px solid var(--color-secondary);
+  background: color-mix(in srgb, var(--fg) 90%, var(--color-white) 10%);
+  border: 1px solid var(--beige);
   border-radius: var(--radius-lg);
   padding: var(--space-20);
   overflow: hidden;
   min-height: 50px;
   max-height: 350px;
   box-shadow: var(--shadow-md);
-  transition: background .3s ease, color .3s ease, box-shadow .3s ease, transform var(--duration-normal) var(--ease-standard);
+  transition: background var(--duration-normal) var(--ease-standard), 
+              color var(--duration-normal) var(--ease-standard), 
+              box-shadow var(--duration-normal) var(--ease-standard), 
+              transform var(--duration-normal) var(--ease-standard);
 }
 
 .case-tile:hover {
-  background: var(--color-secondary);
-  color: var(--color-text);
+  background: var(--beige);
+  color: var(--fg);
   box-shadow: var(--shadow-lg);
   transform: translateY(-2px);
 }
 
 .case-tile__media {
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-base);
   overflow: hidden;
   height: 230px;
-  transition: opacity .28s ease;
+  transition: opacity var(--duration-normal) var(--ease-standard);
 }
 
 .case-tile__media img {
@@ -1317,7 +1326,7 @@ section#benefits.benefits-kota {
 @media (max-width: 900px) {
   .cases-grid__wrap { 
     grid-template-columns: 1fr; 
-    gap: var(--space-20); 
+    gap: var(--space-24); 
   }
   .case-tile { 
     min-height: 300px; 
@@ -1329,7 +1338,11 @@ section#benefits.benefits-kota {
 
 @media (max-width: 480px) {
   .cases-grid {
-    padding: var(--space-32) 0;
+    padding: var(--space-24) 0;
+  }
+  
+  .cases-grid__wrap {
+    gap: var(--space-16);
   }
   
   .case-tile {
@@ -1338,12 +1351,12 @@ section#benefits.benefits-kota {
   }
   
   .case-tile__media {
-    height: 150px;
+    height: 160px;
   }
 }
 
 /* =======================
-   CUSTOMER SERVICE CHAT
+   CUSTOMER SERVICE CHAT - Updated
    ======================= */
 .service-chat .container {
   max-width: 800px;
@@ -1354,14 +1367,14 @@ section#benefits.benefits-kota {
 .service-chat h2 {
   font-family: var(--font-family-base);
   font-weight: var(--font-weight-bold);
-  font-size: var(--font-size-3xl);
+  font-size: clamp(var(--font-size-3xl), 4vw, var(--font-size-4xl));
   margin-bottom: var(--space-16);
 }
 
 .service-chat .lede {
-  font-size: var(--font-size-xl);
-  color: var(--color-text-secondary);
-  margin-bottom: 40px;
+  font-size: var(--font-size-lg);
+  color: var(--muted);
+  margin-bottom: var(--space-32);
 }
 
 .chat {
@@ -1376,14 +1389,15 @@ section#benefits.benefits-kota {
   padding: var(--space-12) var(--space-20);
   border-radius: var(--radius-lg);
   line-height: var(--line-height-normal);
-  border: 1px solid var(--color-border);
-  box-shadow: var(--shadow-xs);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-sm);
   font-size: var(--font-size-base);
   max-width: 80%;
   text-align: left;
   opacity: 0;
-  transform: translateY(14px) scale(.985);
-  transition: opacity .4s ease, transform .4s ease;
+  transform: translateY(var(--space-12)) scale(.985);
+  transition: opacity var(--duration-normal) var(--ease-standard), 
+              transform var(--duration-normal) var(--ease-standard);
 }
 
 .msg.is-visible {
@@ -1393,18 +1407,18 @@ section#benefits.benefits-kota {
 
 .from-brand {
   align-self: flex-end;
-  background: var(--color-secondary);
-  color: var(--color-text);
-  border-color: var(--color-card-border);
-  margin-right: -30px;
+  background: var(--beige);
+  color: var(--fg);
+  border-color: var(--color-border);
+  margin-right: -var(--space-32);
 }
 
 .from-us {
   align-self: flex-start;
-  background: var(--color-text);
-  color: var(--color-surface);
-  border-color: var(--color-primary);
-  margin-left: -30px;
+  background: var(--fg);
+  color: var(--color-white);
+  border-color: var(--color-slate-800);
+  margin-left: -var(--space-32);
 }
 
 /* Mobile Chat */
@@ -1428,26 +1442,22 @@ section#benefits.benefits-kota {
 }
 
 @media (max-width: 480px) {
-  .service-chat h2 {
-    font-size: var(--font-size-2xl);
-  }
-  
   .service-chat .lede {
     font-size: var(--font-size-base);
-    margin-bottom: var(--space-32);
+    margin-bottom: var(--space-24);
   }
   
   .msg {
     padding: var(--space-10) var(--space-16);
-    font-size: var(--font-size-xs);
+    font-size: var(--font-size-sm);
   }
 }
 
 /* =======================
-   CUSTOMER VOICES
+   CUSTOMER VOICES - Updated
    ======================= */
 .voices {
-  background: var(--color-background);
+  background: var(--bg);
   padding: var(--space-32) 0;
   margin-bottom: var(--space-32);
 }
@@ -1456,7 +1466,7 @@ section#benefits.benefits-kota {
   text-align: center;
   font-family: var(--font-family-base);
   font-weight: var(--font-weight-bold);
-  font-size: var(--font-size-3xl);
+  font-size: clamp(var(--font-size-3xl), 4vw, var(--font-size-4xl));
   margin-bottom: var(--space-32);
 }
 
@@ -1469,14 +1479,15 @@ section#benefits.benefits-kota {
 }
 
 .voice-card {
-  background: var(--color-secondary);
+  background: var(--beige);
   border-radius: var(--radius-lg);
   padding: var(--space-24);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  color: var(--color-text);
-  transition: transform var(--duration-normal) var(--ease-standard), box-shadow var(--duration-normal) var(--ease-standard);
+  color: var(--brown);
+  transition: transform var(--duration-normal) var(--ease-standard), 
+              box-shadow var(--duration-normal) var(--ease-standard);
   position: relative;
   overflow: hidden;
 }
@@ -1487,13 +1498,14 @@ section#benefits.benefits-kota {
 }
 
 @media (max-width: 480px) {
-  .voices h2 {
-    font-size: var(--font-size-2xl);
+  .voices {
+    padding: var(--space-24) 0;
+    margin-bottom: var(--space-24);
   }
   
   .voices__grid {
-    grid-template-columns: 1fr;
     gap: var(--space-16);
+    grid-template-columns: 1fr;
   }
   
   .voice-card {
@@ -1502,10 +1514,10 @@ section#benefits.benefits-kota {
 }
 
 /* =======================
-   CONTACT SECTION
+   CONTACT SECTION - Updated
    ======================= */
 .contact {
-  background: var(--color-background);
+  background: var(--bg);
   padding: var(--space-32) 0;
 }
 
@@ -1517,14 +1529,14 @@ section#benefits.benefits-kota {
 .contact h2 {
   font-family: var(--font-family-base);
   font-weight: var(--font-weight-bold);
-  font-size: var(--font-size-3xl);
+  font-size: clamp(var(--font-size-3xl), 4vw, var(--font-size-4xl));
   margin-bottom: var(--space-16);
 }
 
 .contact-intro {
-  font-size: var(--font-size-xl);
-  color: var(--color-text-secondary);
-  margin-bottom: 40px;
+  font-size: var(--font-size-lg);
+  color: var(--muted);
+  margin-bottom: var(--space-32);
 }
 
 .contact-methods {
@@ -1542,7 +1554,8 @@ section#benefits.benefits-kota {
   font-weight: var(--font-weight-semibold);
   text-decoration: none;
   font-size: var(--font-size-lg);
-  transition: background var(--duration-normal) var(--ease-standard), transform var(--duration-fast) var(--ease-standard);
+  transition: background var(--duration-normal) var(--ease-standard), 
+              transform var(--duration-fast) var(--ease-standard);
 }
 
 .contact-cta:hover {
@@ -1551,33 +1564,33 @@ section#benefits.benefits-kota {
 }
 
 .contact-email {
-  color: var(--color-text-secondary);
+  color: var(--muted);
   font-size: var(--font-size-base);
   margin: 0;
 }
 
 @media (max-width: 480px) {
-  .contact h2 {
-    font-size: var(--font-size-2xl);
+  .contact {
+    padding: var(--space-24) 0;
   }
   
   .contact-intro {
     font-size: var(--font-size-base);
-    margin-bottom: var(--space-32);
+    margin-bottom: var(--space-24);
   }
   
   .contact-cta {
-    font-size: var(--font-size-base);
     padding: var(--space-12) var(--space-24);
+    font-size: var(--font-size-base);
   }
 }
 
 /* =======================
-   FOOTER
+   FOOTER - Updated
    ======================= */
 .footer {
-  background: var(--color-primary);
-  color: var(--color-btn-primary-text);
+  background: var(--color-slate-900);
+  color: rgba(var(--color-gray-200-rgb), 0.9);
   padding: var(--space-32) var(--space-24) var(--space-24);
   font-family: var(--font-family-base);
 }
@@ -1599,7 +1612,8 @@ section#benefits.benefits-kota {
   border-radius: var(--radius-full);
   font-weight: var(--font-weight-semibold);
   text-decoration: none;
-  transition: background var(--duration-normal) var(--ease-standard), transform var(--duration-fast) var(--ease-standard);
+  transition: background var(--duration-normal) var(--ease-standard), 
+              transform var(--duration-fast) var(--ease-standard);
 }
 
 .footer__cta:hover {
@@ -1609,8 +1623,8 @@ section#benefits.benefits-kota {
 
 .to-top {
   display: inline-block;
-  background: rgba(var(--color-btn-primary-text-rgb, 255, 255, 255), 0.1);
-  color: var(--color-btn-primary-text);
+  background: rgba(var(--color-white), 0.1);
+  color: rgba(var(--color-gray-200-rgb), 0.9);
   width: 40px;
   height: 40px;
   border-radius: var(--radius-full);
@@ -1621,7 +1635,7 @@ section#benefits.benefits-kota {
 }
 
 .to-top:hover {
-  background: rgba(var(--color-btn-primary-text-rgb, 255, 255, 255), 0.2);
+  background: rgba(var(--color-white), 0.2);
 }
 
 /* Mobile Footer */
