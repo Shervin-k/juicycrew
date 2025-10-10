@@ -94,23 +94,57 @@ h1,h2,h3{
   align-items:center;
 }
 
-/* Typo konsolidiert: genau 1 Regel für die H1 im Hero */
-.hero__copy h1{
-  font-size:clamp(40px, 7.5vw, 96px);
-  letter-spacing:-.02em;
-  line-height:.95;
-  margin:0 0 12px;
+/* Headline: konsolidiert + schöne Zeilenumbrüche */
+.hero__copy .hero-title{
+  font-family:'Playfair Display', serif;
+  font-weight:700;
+  letter-spacing:-0.02em;
+  line-height:.92;
+  max-width:14ch;           /* kontrollierte Zeilenlänge */
+  text-wrap:balance;        /* hübsche Umbrüche */
+  margin:0 0 14px;
+  font-size:clamp(44px, 7.2vw, 96px);
 }
 
+/* Wort-Akzente (sehr dezent) */
+.word{ position:relative; }
+.word--brandstory{
+  text-decoration:underline;
+  text-decoration-thickness:.08em;
+  text-underline-offset:.12em;
+}
+.word--audience{
+  background:linear-gradient(90deg,#105d44 0%,#18a96d 40%,#9de8c9 80%);
+  background-size:200% 100%;
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  animation:audienceShimmer 9s ease-in-out infinite;
+}
+@keyframes audienceShimmer{
+  0%,10%{ background-position:0% 50%; }
+  50%   { background-position:100% 50%; }
+  100%  { background-position:0% 50%; }
+}
+/* Motion-Reduce: keine Animation */
+@media (prefers-reduced-motion:reduce){
+  .word--audience{ animation:none; color:#0b3d2e; background:none; }
+}
+
+/* Subline als leichte Card */
 .subline{
-  color:var(--muted);
-  font-size:clamp(16px, 2.2vw, 20px);
-  line-height:1.35;
-  max-width:58ch;
-  margin:10px 0 18px;
+  color:#2c4f43;
+  font-size:clamp(16px, 2vw, 19px);
+  line-height:1.45;
+  max-width:62ch;
+  margin:8px 0 18px;
+  background:#f3eee7;
+  padding:14px 16px;
+  border-radius:14px;
+  box-shadow:0 8px 24px rgba(0,0,0,.06);
 }
 
-/* CTA: sichtbar, im Fluss, keine absolute Positionierung */
+/* CTA: sichtbar, im Fluss */
 .hero__cta{
   display:inline-block;
   background:var(--accent);
@@ -120,49 +154,52 @@ h1,h2,h3{
   font-weight:600;
 }
 
-/* Visualspalte sauber eingefasst */
-.hero__visual{ position:relative; min-height:420px; isolation:isolate; }
+/* Visualspalte größer und sauber eingefasst */
+.hero__visual{ position:relative; min-height:560px; isolation:isolate; }
+@media (max-width:900px){ .hero__visual{ min-height:360px; } }
 
-/* Canvas einhegen: Breite 100 Prozent, kein negativer inset, keine Masken */
+/* Canvas eingefasst (keine negativen Insets/Masks) */
 #hero-waves{
   position:absolute; inset:0;
   width:100%; height:100%;
   pointer-events:none;
   filter:blur(3px);
-  opacity:.7;
+  opacity:.75;
 }
 
-/* Weiche Blob-Flächen hinter dem Canvas, moderat groß, ohne harte Masken */
+/* Größerer Blob-Hintergrund */
 .hero__blob{
-  position:absolute; inset:-8% -10% -8% -10%;
+  position:absolute; inset:-12% -14% -12% -14%;
   border-radius:45% 55% 50% 60%;
-  filter:blur(16px);
+  filter:blur(18px);
   background:
-    radial-gradient(120% 100% at 20% 30%, #b9cd72 0%, transparent 40%),
-    radial-gradient(110% 120% at 85% 60%, #9de8c9 0%, transparent 58%),
-    radial-gradient(90% 90% at 50% 50%, #18a96d 0%, transparent 62%);
-  opacity:.85;
+    radial-gradient(120% 100% at 20% 30%, #b9cd72 0%, transparent 42%),
+    radial-gradient(110% 120% at 85% 60%, #9de8c9 0%, transparent 60%),
+    radial-gradient(90% 90%   at 50% 50%, #18a96d 0%, transparent 64%);
+  opacity:.9;
   z-index:-1;
 }
 
-/* Logo-Leiste: einheitlich, ohne nth-child Sonderfälle */
-.hero__logos{ margin-top:clamp(12px, 3.5vw, 28px); }
+/* Logo-Leiste größer und einheitlich */
+.hero__logos{ margin-top:clamp(14px, 3.8vw, 32px); }
 .logo-strip{
   list-style:none; padding:0; margin:0;
-  display:flex; align-items:center; gap:clamp(16px, 4vw, 32px);
+  display:flex; align-items:center;
+  gap:clamp(18px, 4.8vw, 40px);
   flex-wrap:wrap;
 }
 .logo-strip img{
-  height:clamp(22px, 2.8vw, 40px);
+  height:clamp(32px, 4vw, 64px);   /* vorher 22–40px */
   width:auto; object-fit:contain;
-  filter:grayscale(100%); opacity:.85;
+  filter:grayscale(100%);
+  opacity:.9;
 }
 
-/* Hero Mobile */
+/* Hero Mobile-Layout */
 @media (max-width:900px){
   .hero{ padding:72px 0 28px; }
   .hero__grid{ grid-template-columns:1fr; }
-  .hero__visual{ order:-1; min-height:300px; }
+  .hero__visual{ order:-1; }
 }
 
 /* =======================
