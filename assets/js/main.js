@@ -1,485 +1,408 @@
-// Juicy Crew — main.js (Redesigned for new layout)
-// 0: General | 1: Hero Fullscreen | 2: Benefits | 3: Cases | 4: Customer Service | 5: Customer Voices | 6: Contact | 7: Header & Footer
+// Juicy Crew — main.js (sectioned)
+// 0: General  |  1: Hero  |  2: Benefits  |  3: Cases
+// 4: Customer Service  |  5: Customer Voices  |  6: Contact  |  7: Header & Footer
 
 document.addEventListener("DOMContentLoaded", () => {
+  // =========================
+  // 0) GENERAL (helpers, scroll, feature flags)
+  // =========================
+  const $  = (s, r=document) => r.querySelector(s);
+  const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+  const canObserve = "IntersectionObserver" in window;
+  const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
 
-// =========================
-// 0) GENERAL (helpers, scroll, feature flags)
-// =========================
-
-// Utility functions with better naming
-const selectElement = (selector, root = document) => root.querySelector(selector);
-const selectElements = (selector, root = document) => Array.from(root.querySelectorAll(selector));
-const canObserve = "IntersectionObserver" in window;
-const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
-
-// PERFORMANCE OPTIMIZED: Throttled scroll handler for smooth scroll
-function throttle(func, delay) {
-  let timeoutId;
-  let lastExecTime = 0;
-  return function (...args) {
-    const currentTime = Date.now();
-    if (currentTime - lastExecTime > delay) {
-      func.apply(this, args);
-      lastExecTime = currentTime;
-    } else {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => {
-        func.apply(this, args);
-        lastExecTime = Date.now();
-      }, delay - (currentTime - lastExecTime));
-    }
-  };
-}
-
-// Smooth scroll for internal anchors with validation
-selectElements('a[href^="#"]').forEach(link => {
-  link.addEventListener("click", (e) => {
-    const id = link.getAttribute("href").slice(1);
-    const target = document.getElementById(id);
-    if (target) {
-      e.preventDefault();
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
-      history.pushState(null, "", "#" + id);
-    }
-  });
-});
-
-// Logo file check with proper error handling
-const brandLogo = selectElement('img[src*="logo"]');
-if (brandLogo) {
-  brandLogo.addEventListener("error", () => {
-    console.warn("Logo not found. Check: assets/images/logo.png");
-  }, { once: true }); // PERFORMANCE: Run only once
-}
-
-// =========================
-// 1) HERO FULLSCREEN (dynamic green sound-waves + blob)
-// =========================
-
-// REDESIGNED: Hero effects optimized for fullscreen layout
-(function heroFullscreenEffects() {
-  const canvas = document.getElementById("hero-waves");
-  const blob = document.querySelector(".hero__blob");
-  const heroSection = document.querySelector('.hero--fullscreen');
-  
-  if (!canvas && !blob && !heroSection) return;
-  
-  let isHeroVisible = true;
-  let animationId = null;
-
-  // PERFORMANCE: Use Intersection Observer to pause animations when hero not visible
-  if (canObserve && heroSection) {
-    const heroObserver = new IntersectionObserver((entries) => {
-      isHeroVisible = entries[0].isIntersecting;
-      if (!isHeroVisible && animationId) {
-        cancelAnimationFrame(animationId);
-        animationId = null;
-      } else if (isHeroVisible && !animationId && !prefersReducedMotion) {
-        startAnimations();
+  // Smooth scroll for internal anchors
+  $$('a[href^="#"]').forEach(link => {
+    link.addEventListener("click", (e) => {
+      const id = link.getAttribute("href").slice(1);
+      const target = document.getElementById(id);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+        history.pushState(null, "", "#" + id);
       }
-    }, { threshold: 0.1 });
-    heroObserver.observe(heroSection);
-  }
+    });
+  });
 
-  // Canvas Wave Animation - REDESIGNED for fullscreen
-  if (canvas && !prefersReducedMotion) {
-    const ctx = canvas.getContext("2d", { alpha: true });
-    const devicePixelRatio = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
-    
-    let canvasWidth = 0, canvasHeight = 0, time = 0;
-    let mouseX = 0, mouseY = 0, targetX = 0, targetY = 0;
+  // Logo file check (console hint only)
+  const brandLogo = $('img[src="assets/images/logo.svg"]');
+  if (brandLogo) brandLogo.addEventListener("error", () => {
+    console.warn("Logo not found. Check: assets/images/logo.svg");
+  });
 
-    const config = { 
-      lines: 5, // Reduced for cleaner look
-      amplitude: 0.08, // Smaller amplitude for subtle effect
-      frequency: 1.5, // Reduced frequency
-      speed: 0.008, // Slower speed for calmer effect
-      baseHue: 150 
+  // =========================
+  // 1) HERO (dynamic green sound-waves + blob)
+  // =========================
+  // 1) HERO (waves + mouse-parallax blob)
+(function heroFX(){
+  const cvs = document.getElementById("hero-waves");
+  const blob = document.querySelector(".hero__blob");
+  const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+
+  // --- WAVES ---
+  if (cvs && !reduce){
+    const ctx = cvs.getContext("2d", { alpha:true });
+    const DPR = Math.max(1, Math.min(2, window.devicePixelRatio||1));
+    let w=0,h=0,t=0, mx=0,my=0, tx=0,ty=0;
+    const cfg = { lines:8, amp:0.14, freq:2.2, speed:0.015, baseHue:150 };
+
+    const resize = () => {
+      const r = cvs.getBoundingClientRect();
+      w = Math.max(600, r.width);
+      h = Math.max(400, r.height);
+      cvs.width  = Math.floor(w*DPR);
+      cvs.height = Math.floor(h*DPR);
+      ctx.setTransform(DPR,0,0,DPR,0,0);
     };
+    resize(); window.addEventListener("resize", resize, {passive:true});
 
-    // PERFORMANCE OPTIMIZED: Debounced resize with proper cleanup
-    const handleResize = throttle(() => {
-      const rect = canvas.getBoundingClientRect();
-      canvasWidth = Math.max(400, rect.width);
-      canvasHeight = Math.max(300, rect.height);
-      canvas.width = Math.floor(canvasWidth * devicePixelRatio);
-      canvas.height = Math.floor(canvasHeight * devicePixelRatio);
-      ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
-    }, 150);
+    window.addEventListener("pointermove", (e)=>{
+      const r = cvs.getBoundingClientRect();
+      tx = (e.clientX - (r.left+r.width/2)) / r.width;   // -0.5..0.5
+      ty = (e.clientY - (r.top +r.height/2)) / r.height;
+    }, {passive:true});
 
-    handleResize();
-    window.addEventListener("resize", handleResize, { passive: true });
+    const lerp=(a,b,k)=>a+(b-a)*k;
 
-    // PERFORMANCE OPTIMIZED: Throttled mouse move handler
-    const handleMouseMove = throttle((e) => {
-      const rect = canvas.getBoundingClientRect();
-      targetX = (e.clientX - (rect.left + rect.width / 2)) / rect.width;
-      targetY = (e.clientY - (rect.top + rect.height / 2)) / rect.height;
-    }, 16);
+    function draw(){
+      mx = lerp(mx, tx, 0.06);
+      my = lerp(my, ty, 0.06);
+      ctx.clearRect(0,0,w,h);
+      ctx.globalCompositeOperation="lighter";
 
-    window.addEventListener("pointermove", handleMouseMove, { passive: true });
-
-    const lerp = (a, b, factor) => a + (b - a) * factor;
-
-    function drawWaves() {
-      if (!isHeroVisible) return;
-
-      mouseX = lerp(mouseX, targetX, 0.03);
-      mouseY = lerp(mouseY, targetY, 0.03);
-      
-      ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-      ctx.globalCompositeOperation = "lighter";
-
-      const amplitudePixels = canvasHeight * config.amplitude * (1 + Math.abs(mouseY) * 0.3);
-      
-      for (let i = 0; i < config.lines; i++) {
-        const lineOpacity = 0.25 + (i / config.lines) * 0.35;
-        const hue = config.baseHue + i * 20 + time * 8;
-        
-        ctx.strokeStyle = `hsla(${hue}, 65%, 55%, ${lineOpacity})`;
-        ctx.lineWidth = 1.5 + i * 0.4;
+      const ampPx = h*cfg.amp*(1+Math.abs(my)*0.7);
+      for (let i=0;i<cfg.lines;i++){
+        const p=i/(cfg.lines-1), phase=t*cfg.speed+p*1.2;
+        const yBase=h*(0.25+0.5*p), thick=6+10*(1-p);
+        ctx.lineWidth=thick;
+        ctx.strokeStyle=`hsla(${cfg.baseHue+15*(p-0.5)},60%,45%,${0.12+0.1*(1-p)})`;
         ctx.beginPath();
-
-        for (let x = 0; x < canvasWidth; x += 10) { // Increased step for performance
-          const normalizedX = x / canvasWidth;
-          const wave1 = Math.sin((normalizedX * config.frequency + time + i * 0.4) * Math.PI * 2);
-          const wave2 = Math.sin((normalizedX * config.frequency * 1.4 + time * 0.6 + i * 0.6) * Math.PI * 2);
-          
-          const y = canvasHeight / 2 + 
-                   (wave1 * amplitudePixels * (1 + mouseX * 0.2)) +
-                   (wave2 * amplitudePixels * 0.25);
-          
-          if (x === 0) ctx.moveTo(x, y);
-          else ctx.lineTo(x, y);
+        const tilt = mx*24;
+        for (let x=0;x<=w;x+=8){
+          const k=(x/w)*Math.PI*cfg.freq;
+          const y=yBase
+           + Math.sin(k+phase*3)*ampPx*(0.5+p)
+           + Math.sin(k*0.5+phase*1.2)*ampPx*0.25*(1-p)
+           + my*28*(p-0.3);
+          const xx=x+tilt*p;
+          if(x===0)ctx.moveTo(xx,y); else ctx.lineTo(xx,y);
         }
         ctx.stroke();
       }
-      
-      time += config.speed;
-      animationId = requestAnimationFrame(drawWaves);
+      ctx.globalCompositeOperation="source-over";
+      t++; requestAnimationFrame(draw);
     }
+    draw();
 
-    function startAnimations() {
-      if (!animationId && !prefersReducedMotion && isHeroVisible) {
-        animationId = requestAnimationFrame(drawWaves);
+    // --- BLOB PARALLAX ---
+    if (blob){
+      let bx=0, by=0, btx=0, bty=0;
+      window.addEventListener("pointermove",(e)=>{
+        const r = cvs.getBoundingClientRect();
+        btx = (e.clientX - (r.left+r.width/2)) / r.width;   // -0.5..0.5
+        bty = (e.clientY - (r.top +r.height/2)) / r.height;
+      },{passive:true});
+
+      function animateBlob(){
+        bx = lerp(bx, btx, 0.08);
+        by = lerp(by, bty, 0.08);
+        const moveX = bx * 36;   // wie stark bewegen (px)
+        const moveY = by * 28;
+        const scale = 1.04 + Math.min(0.04, Math.hypot(bx,by)*0.1); // leichtes Mit-Scale
+        blob.style.transform = `translate3d(${moveX}px, ${moveY}px, 0) scale(${scale})`;
+        if (!reduce) requestAnimationFrame(animateBlob);
       }
+      animateBlob();
+    }
+  }// Hero CTA — pixelgenaue Position an Subline ausrichten
+(function positionHeroCTA() {
+  const SELECTORS = {
+    container: '.hero__copy',
+    subline: '.subline',
+    cta: '.hero__cta'
+  };
+
+  // Feintuning: veränderbare Werte
+  const CONFIG = {
+    rightOffset: '4rem',     // horizontaler Abstand vom rechten Rand der Textspalte (CSS string ok)
+    mobileBreakpoint: 768,   // <= px => Button geht in Flow
+    topAdjustPx: 0           // manuelle Feinanpassung in px (z. B. -6, +4)
+  };
+
+  function applyPosition() {
+    const container = document.querySelector(SELECTORS.container);
+    const subline = document.querySelector(SELECTORS.subline);
+    const btn = document.querySelector(SELECTORS.cta);
+    if (!container || !subline || !btn) return;
+
+    const w = window.innerWidth || document.documentElement.clientWidth;
+    if (w <= CONFIG.mobileBreakpoint) {
+      // mobile: statisch (CSS media query sorgt dafür)
+      btn.style.position = '';
+      btn.style.top = '';
+      btn.style.right = '';
+      btn.style.transform = '';
+      return;
     }
 
-    startAnimations();
+    // desktop: absolut positionieren relativ zur .hero__copy
+    const cRect = container.getBoundingClientRect();
+    const sRect = subline.getBoundingClientRect();
+    const bRect = btn.getBoundingClientRect();
+
+    // Mitte der Subline innerhalb container-coordinates
+    const subMiddle = (sRect.top - cRect.top) + (sRect.height / 2);
+
+    // Ziel-top so setzen, dass Button vertikal zentriert auf Subline-Mitte liegt
+    const targetTop = Math.round(subMiddle - (bRect.height / 2) + CONFIG.topAdjustPx);
+
+    // apply styles
+    btn.style.position = 'absolute';
+    btn.style.top = targetTop + 'px';
+    btn.style.right = CONFIG.rightOffset;
+    btn.style.transform = 'translateY(0)';
   }
 
-  // Blob Mouse Parallax - REDESIGNED for new layout
-  if (blob && !prefersReducedMotion) {
-    let blobX = 0, blobY = 0, blobTargetX = 0, blobTargetY = 0;
-    
-    // PERFORMANCE: Throttled mouse tracking for blob
-    const handleBlobMouseMove = throttle((e) => {
-      if (!isHeroVisible) return;
-      const rect = heroSection.getBoundingClientRect();
-      blobTargetX = (e.clientX - (rect.left + rect.width / 2)) / rect.width;
-      blobTargetY = (e.clientY - (rect.top + rect.height / 2)) / rect.height;
-    }, 16);
+  // Debounced resize handler
+  let resizeTimer = null;
+  function onResize() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(applyPosition, 80);
+  }
 
-    window.addEventListener("pointermove", handleBlobMouseMove, { passive: true });
+  // Wait for fonts/DOM ready then position
+  function init() {
+    applyPosition();
+    window.addEventListener('resize', onResize, { passive: true });
 
-    function animateBlob() {
-      if (!isHeroVisible) {
-        setTimeout(animateBlob, 100);
-        return;
-      }
-
-      blobX = lerp(blobX, blobTargetX, 0.04);
-      blobY = lerp(blobY, blobTargetY, 0.04);
-
-      const moveX = blobX * 15; // Reduced movement for subtle effect
-      const moveY = blobY * 12;
-      const scale = 1.01 + Math.min(0.02, Math.hypot(blobX, blobY) * 0.05);
-
-      blob.style.transform = `translate3d(${moveX}px, ${moveY}px, 0) scale(${scale})`;
-      
-      if (!prefersReducedMotion) requestAnimationFrame(animateBlob);
+    // If webfonts change layout, re-run when fonts finished
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => {
+        setTimeout(applyPosition, 30);
+      }).catch(() => {});
     }
+  }
 
-    animateBlob();
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    init();
+  } else {
+    document.addEventListener('DOMContentLoaded', init);
   }
 })();
+})();
 
-// =========================
-// 2) BENEFITS (card highlight on scroll)
-// =========================
+  // =========================
+  // 2) BENEFITS (card highlight on scroll)
+  // =========================
+  (function benefitsIO(){
+    const cards = $$(".benefit-card");
+    if (!canObserve || !cards.length) return;
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        e.target.classList.toggle("is-open", e.isIntersecting && e.intersectionRatio>0.55);
+      });
+    },{ root:null, rootMargin:"-20% 0% -20% 0%", threshold:[0,0.25,0.55,0.75,1]});
+    cards.forEach(c=>io.observe(c));
+  })();
+  // Benefits: KOTA-Animation aktivieren
+(function () {
+  const section = document.querySelector('#benefits.benefits-kota');
+  if (!section || !('IntersectionObserver' in window)) return;
 
-// PERFORMANCE OPTIMIZED: Consolidated Intersection Observers
-(function benefitsAnimations() {
-  // KOTA-style benefits
-  const kotaSection = document.querySelector('#benefits.benefits-kota');
-  const kotaSnaps = kotaSection ? Array.from(kotaSection.querySelectorAll('.benefits-kota__snap')) : [];
+  // Animation einschalten: schaltet die .benefits-animate CSS-Regeln frei
+  section.classList.add('benefits-animate');
 
-  if (!canObserve || !kotaSnaps.length) return;
+  const snaps = Array.from(section.querySelectorAll('.benefits-kota__snap'));
+  if (!snaps.length) return;
 
-  // KOTA benefits with animation
-  kotaSection.classList.add('benefits-animate');
-
-  const kotaObserver = new IntersectionObserver((entries) => {
+  const io = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
-      const element = entry.target;
+      const el = entry.target;
       if (entry.isIntersecting && entry.intersectionRatio > 0.30) {
-        element.classList.add('is-active');
-        
-        // Mark previous items as past
-        const index = kotaSnaps.indexOf(element);
-        kotaSnaps.forEach((snap, i) => snap.classList.toggle('is-past', i < index));
+        el.classList.add('is-active');
+
+        // alle vorigen als "past" markieren (kleiner/blasser)
+        const idx = snaps.indexOf(el);
+        snaps.forEach((s, i) => s.classList.toggle('is-past', i < idx));
       } else {
-        element.classList.remove('is-active');
+        el.classList.remove('is-active');
       }
     });
   }, {
     threshold: [0, 0.25, 0.55, 0.75, 1],
-    rootMargin: '-12% 0% -12% 0%'
+    rootMargin: '-12% 0% -12% 0%' // Fokuszone in der Mitte
   });
 
-  kotaSnaps.forEach(snap => kotaObserver.observe(snap));
+  snaps.forEach((s) => io.observe(s));
 })();
 
-// =========================
-// 3) CASES (KOTA-style stack optimization)
-// =========================
+  // =========================
+  // 3) CASES (KOTA-style stack: past shrinks/fades, active on top)
+  // =========================
+  (function casesStack(){
+    const wraps = $$(".cases-kota__snap");
+    if (!canObserve || !wraps.length) return;
 
-// PERFORMANCE OPTIMIZED: Cases with better state management
-(function casesStack() {
-  const simpleCases = selectElements(".case-tile");
-
-  if (!canObserve || !simpleCases.length) return;
-
-  const simpleObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
-        const index = simpleCases.indexOf(entry.target);
-        
-        simpleCases.forEach((card, i) => {
-          card.classList.toggle("is-active", i === index);
-          card.classList.toggle("is-past", i < index);
-          if (i > index) card.classList.remove("is-active", "is-past");
-        });
-      }
-    });
-  }, { 
-    root: null, 
-    rootMargin: "-10% 0% -10% 0%", 
-    threshold: [0.5] 
-  });
-
-  simpleCases.forEach(card => simpleObserver.observe(card));
-})();
-
-// =========================
-// 4) CUSTOMER SERVICE (chat reveal optimization)
-// =========================
-
-// PERFORMANCE OPTIMIZED: Chat reveal with better timing
-(function chatReveal() {
-  const chat = selectElement(".chat");
-  if (!chat) return;
-
-  const messages = selectElements(".msg", chat);
-  if (!messages.length) return;
-
-  if (!canObserve || prefersReducedMotion) {
-    messages.forEach(msg => msg.classList.add("is-visible"));
-    return;
-  }
-
-  // Initialize
-  messages.forEach(msg => {
-    msg.classList.remove("is-visible", "is-active");
-    msg.style.transitionDelay = "0ms";
-  });
-
-  let firstBatchRevealed = false;
-
-  const chatObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      const element = entry.target;
-      
-      if (entry.isIntersecting) {
-        if (!firstBatchRevealed) {
-          // Stagger animation for first reveal
-          messages.forEach((msg, i) => {
-            msg.style.transitionDelay = `${i * 60}ms`;
-          });
-          firstBatchRevealed = true;
-          
-          // Reset delays after animation
-          setTimeout(() => {
-            messages.forEach(msg => msg.style.transitionDelay = "0ms");
-          }, messages.length * 60 + 400);
-        }
-        
-        element.classList.add("is-visible");
-      }
-
-      // Mid-screen emphasis
-      const isInMidScreen = entry.intersectionRatio > 0.6 &&
-        entry.boundingClientRect.top > window.innerHeight * 0.18 &&
-        entry.boundingClientRect.bottom < window.innerHeight * 0.82;
-      
-      element.classList.toggle("is-active", isInMidScreen);
-    });
-  }, { 
-    root: null, 
-    rootMargin: "-15% 0% -15% 0%", 
-    threshold: [0, 0.25, 0.6, 0.9] 
-  });
-
-  messages.forEach(msg => chatObserver.observe(msg));
-})();
-
-// =========================
-// 5) CUSTOMER VOICES (optimized reveal)
-// =========================
-
-// PERFORMANCE OPTIMIZED: Voice cards with simpler animation
-(function voicesReveal() {
-  const voiceCards = selectElements(".voice-card");
-  if (!canObserve || !voiceCards.length) return;
-
-  // Initialize
-  voiceCards.forEach(card => {
-    card.style.opacity = "0";
-    card.style.transform = "translateY(20px)";
-  });
-
-  const voicesObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      const card = entry.target;
-      
-      if (entry.isIntersecting) {
-        Object.assign(card.style, {
-          transition: "opacity 0.4s ease, transform 0.4s ease",
-          transform: "translateY(0)",
-          opacity: "1"
-        });
-      } else {
-        Object.assign(card.style, {
-          transform: "translateY(20px)",
-          opacity: "0"
-        });
-      }
-    });
-  }, { threshold: [0, 0.2] });
-
-  voiceCards.forEach(card => voicesObserver.observe(card));
-})();
-
-// =========================
-// 6) CONTACT (placeholder for future enhancements)
-// =========================
-
-(function contactSection() {
-  // Currently using mailto links - no JS needed
-  // Future: Add form validation and submission handling
-})();
-
-// =========================
-// 7) HEADER & FOOTER (navigation and utilities)
-// =========================
-
-// REDESIGNED: Header and footer functionality for new layout
-(function headerFooterFunctionality() {
-  // Update year automatically
-  const yearElement = selectElement("#year");
-  if (yearElement) {
-    yearElement.textContent = new Date().getFullYear();
-  }
-
-  // REDESIGNED: Mobile navigation toggle for simplified header
-  const menuToggle = selectElement("#menu-toggle");
-  const mobileNav = selectElement("#mobile-nav");
-  
-  if (menuToggle && mobileNav) {
-    menuToggle.addEventListener("click", () => {
-      const isOpen = mobileNav.classList.toggle("open");
-      menuToggle.setAttribute("aria-expanded", String(isOpen));
-      
-      // Animate burger menu
-      const spans = menuToggle.querySelectorAll("span");
-      if (isOpen) {
-        spans[0].style.transform = "rotate(45deg) translate(5px, 5px)";
-        spans[1].style.opacity = "0";
-        spans[2].style.transform = "rotate(-45deg) translate(7px, -6px)";
-      } else {
-        spans.forEach(span => {
-          span.style.transform = "";
-          span.style.opacity = "";
-        });
-      }
-    });
-
-    // Close mobile menu when clicking outside
-    document.addEventListener("click", (e) => {
-      if (!menuToggle.contains(e.target) && !mobileNav.contains(e.target)) {
-        mobileNav.classList.remove("open");
-        menuToggle.setAttribute("aria-expanded", "false");
-        const spans = menuToggle.querySelectorAll("span");
-        spans.forEach(span => {
-          span.style.transform = "";
-          span.style.opacity = "";
-        });
-      }
-    });
-  }
-
-  // PERFORMANCE OPTIMIZED: Throttled scroll for back-to-top button
-  const backToTopButton = selectElement(".to-top");
-  if (backToTopButton) {
-    const handleScroll = throttle(() => {
-      const shouldShow = window.scrollY > 600;
-      Object.assign(backToTopButton.style, {
-        opacity: shouldShow ? "1" : "0.7",
-        pointerEvents: "auto"
+    const applyZ = (activeIndex) => {
+      wraps.forEach((w,i)=>{
+        const card = $(".case-card-kota", w);
+        if (!card) return;
+        card.style.zIndex = String(100 + i);
+        if (i === activeIndex) card.style.zIndex = String(1000 + i);
       });
-    }, 100);
+    };
 
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-  }
+    wraps.forEach(w=>w.classList.remove("is-active","is-past"));
+    applyZ(-1);
 
-  // REDESIGNED: Header scroll behavior for fullscreen hero
-  const header = document.querySelector('.site-header');
-  if (header) {
-    let lastScrollPosition = 0;
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if (!(entry.isIntersecting && entry.intersectionRatio>0.6)) return;
+        const idx = wraps.indexOf(entry.target);
+        wraps.forEach((w,i)=>{
+          w.classList.toggle("is-active", i===idx);
+          w.classList.toggle("is-past",   i< idx);
+          if (i>idx) w.classList.remove("is-past","is-active");
+        });
+        applyZ(idx);
+      });
+    },{ root:null, threshold:[0.6]});
+    wraps.forEach(w=>io.observe(w));
+  })();
+  
 
-    const handleHeaderScroll = throttle(() => {
-      const currentScroll = window.pageYOffset;
-      
-      // Show/hide header based on scroll direction
-      if (currentScroll > lastScrollPosition && currentScroll > 100) {
-        // Scrolling down - hide header
-        header.style.transform = 'translateY(-100%)';
-      } else {
-        // Scrolling up - show header
-        header.style.transform = 'translateY(0)';
-      }
-      
-      // Add backdrop blur when scrolled
-      if (currentScroll > 50) {
-        header.style.background = 'rgba(255, 255, 255, 0.95)';
-        header.style.backdropFilter = 'blur(15px)';
-      } else {
-        header.style.background = 'rgba(255, 255, 255, 0.9)';
-        header.style.backdropFilter = 'blur(10px)';
-      }
-      
-      lastScrollPosition = currentScroll;
-    }, 16);
+  // =========================
+  // 4) CUSTOMER SERVICE (chat reveal + mid emphasis)
+  // =========================
+  (function chatReveal(){
+    const chat = $(".chat");
+    if (!chat) return;
+    const msgs = $$(".msg", chat);
+    if (!msgs.length) return;
 
-    window.addEventListener('scroll', handleHeaderScroll, { passive: true });
-    
-    // Add transition for smooth header animations
-    header.style.transition = 'transform 0.3s ease, background 0.2s ease, backdrop-filter 0.2s ease';
-  }
+    if (!canObserve || prefersReducedMotion){
+      msgs.forEach(m=>m.classList.add("is-visible"));
+      return;
+    }
+    msgs.forEach(m=>{ m.classList.remove("is-visible","is-active"); m.style.transitionDelay="0ms"; });
+
+    let firstBatchDone = false;
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        const el = entry.target;
+        if (entry.isIntersecting){
+          if (!firstBatchDone){
+            msgs.forEach((m,i)=>m.style.transitionDelay = `${i*80}ms`);
+            firstBatchDone = true;
+            setTimeout(()=>msgs.forEach(m=>m.style.transitionDelay="0ms"), msgs.length*80+600);
+          }
+          el.classList.add("is-visible");
+        }
+        const mid = entry.intersectionRatio>0.6 &&
+                    entry.boundingClientRect.top > window.innerHeight*0.18 &&
+                    entry.boundingClientRect.bottom < window.innerHeight*0.82;
+        el.classList.toggle("is-active", mid);
+      });
+    },{ root:null, rootMargin:"-15% 0% -15% 0%", threshold:[0,0.25,0.6,0.9]});
+    msgs.forEach(m=>io.observe(m));
+  })();
+
+  // =========================
+  // 5) CUSTOMER VOICES (subtle reveal)
+  // =========================
+  (function voicesReveal(){
+    const cards = $$(".voice-card");
+    if (!canObserve || !cards.length) return;
+    cards.forEach(c=>c.style.opacity="0");
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if (e.isIntersecting){
+          e.target.style.transition = "opacity .4s ease, transform .4s ease";
+          e.target.style.transform  = "translateY(0)";
+          e.target.style.opacity    = "1";
+        } else {
+          e.target.style.transform  = "translateY(8px)";
+          e.target.style.opacity    = "0";
+        }
+      });
+    },{ threshold:[0,0.2]});
+    cards.forEach(c=>io.observe(c));
+  })();
+  
+
+  // =========================
+  // 6) CONTACT (placeholder: could add form handling later)
+  // =========================
+  (function contact(){
+    // aktuell nur Mailto-Button – kein JS nötig.
+  })();
+
+  // =========================
+  // 7) HEADER & FOOTER (year, mobile nav, to-top)
+  // =========================
+  (function headerFooter(){
+    // year
+    const yearEl = $("#year");
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+    // mobile nav
+    const toggle = $("#menu-toggle");
+    const nav = $("#site-nav");
+    if (toggle && nav){
+      toggle.addEventListener("click", ()=>{
+        const isOpen = nav.classList.toggle("open");
+        toggle.setAttribute("aria-expanded", String(isOpen));
+      });
+    }
+
+    // show/hide "Back to top" when scrolled
+    const toTop = $(".to-top");
+    if (toTop){
+      const onScroll = () => {
+        const scrolled = window.scrollY > 600;
+        toTop.style.opacity = scrolled ? "1" : "0";
+        toTop.style.pointerEvents = scrolled ? "auto" : "none";
+      };
+      onScroll();
+      window.addEventListener("scroll", onScroll, { passive:true });
+    }
+  })();
+// ===== Cases: Simple Stack für bestehende Klassen =====
+(function casesSimple(){
+  const cards = Array.from(document.querySelectorAll("#cases .case-card"));
+  if (!cards.length || !("IntersectionObserver" in window)) return;
+
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if (!(e.isIntersecting && e.intersectionRatio > 0.5)) return;
+      const idx = cards.indexOf(e.target);
+      cards.forEach((c,i)=>{
+        c.classList.toggle("is-active", i === idx);
+        c.classList.toggle("is-past",   i <  idx);
+        if (i > idx) c.classList.remove("is-active","is-past");
+      });
+    });
+  }, { root:null, rootMargin:"-10% 0% -10% 0%", threshold:[0.5] });
+  cards.forEach(c => io.observe(c));
 })();
+  console.log("Juicy Crew — scripts ready ✅");
+});
+// Smart Header: ein-/ausblenden je nach Scrollrichtung
+document.addEventListener('DOMContentLoaded', () => {
+  const header = document.querySelector('.site-header');
+  let lastScroll = 0;
 
-console.log("Juicy Crew — Redesigned scripts ready ✅");
+  window.addEventListener('scroll', () => {
+    const currentScroll = window.pageYOffset;
 
+    if (currentScroll > lastScroll && currentScroll > 100) {
+      // Runter scrollen -> Header verstecken
+      header.classList.add('hide');
+    } else {
+      // Hoch scrollen -> Header zeigen
+      header.classList.remove('hide');
+    }
+
+    lastScroll = currentScroll;
+  });
 });
