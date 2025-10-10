@@ -68,9 +68,13 @@ p{margin:0 0 12px}
 /* KOTA-style Hero – hell, groß, „mindful“ */
 /* KOTA-style Hero – clean */
 .hero--kota{
-  position:relative; min-height:75svh; display:flex; align-items:center;
+  position:relative; 
+  min-height:100vh; 
+  min-height:100svh; 
+  display:flex; align-items:center;
   padding:0; overflow:visible; background:var(--bg); color:var(--fg);
 }
+
 
 .hero__grid{
   display:grid; grid-template-columns:1.3fr 0.7fr; gap:40px; align-items:center; width:100%;
