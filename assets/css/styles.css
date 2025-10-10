@@ -13,6 +13,16 @@
   --line:#e5e7eb;
   --card:#f8fafc;
   --beige:#f3eee7;
+
+  /* NEW: shared layout vars for perfect alignment */
+  --page-gutter: clamp(16px, 4.2vw, 48px);
+  --content-max: 1200px;
+}
+
+.container{
+  max-width: calc(var(--content-max) + var(--page-gutter) * 2);
+  margin: 0 auto;
+  padding: 0 var(--page-gutter);
 }
 
 html, body{ height:100%; }
@@ -84,122 +94,128 @@ h1,h2,h3{
 /* =======================
    Hero
    ======================= */
-.hero{ position:relative; padding:84px 0 40px; background:#fff; }
-.hero .container{ position:relative; }
+.hero{
+  position: relative;
+  /* Full viewport minus fixed header so nothing peeks through */
+  min-height: calc(100svh - 70px);
+  padding: 96px 0 72px; /* more breathing room */
+  background: #fff;
+}
+.hero .container{ position: relative; }
 
 .hero__grid{
-  display:grid;
-  grid-template-columns:1.2fr .8fr;
-  gap:clamp(24px,4vw,48px);
-  align-items:center;
+  display: grid;
+  grid-template-columns: 1.2fr .8fr;
+  gap: clamp(28px, 4.5vw, 56px);
+  align-items: center;
 }
 
-/* Headline: konsolidiert + schöne Zeilenumbrüche */
+/* Headline: more line-height, slightly looser tracking, no <br> */
 .hero__copy .hero-title{
   font-family:'Playfair Display', serif;
   font-weight:700;
-  letter-spacing:-0.02em;
-  line-height:.92;
-  max-width:14ch;           /* kontrollierte Zeilenlänge */
-  text-wrap:balance;        /* hübsche Umbrüche */
-  margin:0 0 14px;
-  font-size:clamp(44px, 7.2vw, 96px);
+  letter-spacing:-0.01em;     /* was -0.02em */
+  line-height: 1.05;          /* was .92 — fixes Y/I collision */
+  max-width: 14ch;
+  text-wrap: balance;
+  margin: 0 0 18px;
+  font-size: clamp(46px, 7.3vw, 100px);
 }
 
-/* Wort-Akzente (sehr dezent) */
-.word{ position:relative; }
+/* Word accents (subtle) */
+.word{ position: relative; }
 .word--brandstory{
-  text-decoration:underline;
-  text-decoration-thickness:.08em;
-  text-underline-offset:.12em;
+  text-decoration: underline;
+  text-decoration-thickness: .08em;
+  text-underline-offset: .12em;
 }
 .word--audience{
-  background:linear-gradient(90deg,#105d44 0%,#18a96d 40%,#9de8c9 80%);
-  background-size:200% 100%;
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
-  animation:audienceShimmer 9s ease-in-out infinite;
+  background: linear-gradient(90deg,#105d44 0%,#18a96d 40%,#9de8c9 80%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: audienceShimmer 9s ease-in-out infinite;
 }
 @keyframes audienceShimmer{
-  0%,10%{ background-position:0% 50%; }
-  50%   { background-position:100% 50%; }
-  100%  { background-position:0% 50%; }
+  0%,10%{ background-position: 0% 50%; }
+  50%   { background-position: 100% 50%; }
+  100%  { background-position: 0% 50%; }
 }
-/* Motion-Reduce: keine Animation */
-@media (prefers-reduced-motion:reduce){
-  .word--audience{ animation:none; color:#0b3d2e; background:none; }
+@media (prefers-reduced-motion: reduce){
+  .word--audience{ animation: none; color: #0b3d2e; background: none; }
 }
 
-/* Subline als leichte Card */
+/* Subline as card, with more vertical spacing */
 .subline{
   color:#2c4f43;
-  font-size:clamp(16px, 2vw, 19px);
-  line-height:1.45;
-  max-width:62ch;
-  margin:8px 0 18px;
-  background:#f3eee7;
-  padding:14px 16px;
-  border-radius:14px;
-  box-shadow:0 8px 24px rgba(0,0,0,.06);
+  font-size: clamp(16px, 2vw, 19px);
+  line-height: 1.5;
+  max-width: 62ch;
+  margin: 14px 0 22px;       /* a bit more space under H1 */
+  background: #f3eee7;
+  padding: 16px 18px;
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.06);
 }
 
-/* CTA: sichtbar, im Fluss */
+/* CTA in normal flow */
 .hero__cta{
-  display:inline-block;
-  background:var(--accent);
-  color:#fff;
-  padding:.75rem 1.25rem;
-  border-radius:999px;
-  font-weight:600;
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  padding: .8rem 1.3rem;
+  border-radius: 999px;
+  font-weight: 600;
 }
 
-/* Visualspalte größer und sauber eingefasst */
-.hero__visual{ position:relative; min-height:560px; isolation:isolate; }
-@media (max-width:900px){ .hero__visual{ min-height:360px; } }
-
-/* Canvas eingefasst (keine negativen Insets/Masks) */
+/* Visual larger, scales with viewport */
+.hero__visual{
+  position: relative;
+  min-height: clamp(520px, 48vw, 680px);  /* bigger than before */
+  isolation: isolate;
+}
 #hero-waves{
-  position:absolute; inset:0;
-  width:100%; height:100%;
-  pointer-events:none;
-  filter:blur(3px);
-  opacity:.75;
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  filter: blur(3px);
+  opacity: .75;
 }
-
-/* Größerer Blob-Hintergrund */
 .hero__blob{
-  position:absolute; inset:-12% -14% -12% -14%;
-  border-radius:45% 55% 50% 60%;
-  filter:blur(18px);
+  position: absolute; inset: -12% -14% -12% -14%;
+  border-radius: 45% 55% 50% 60%;
+  filter: blur(18px);
   background:
     radial-gradient(120% 100% at 20% 30%, #b9cd72 0%, transparent 42%),
     radial-gradient(110% 120% at 85% 60%, #9de8c9 0%, transparent 60%),
     radial-gradient(90% 90%   at 50% 50%, #18a96d 0%, transparent 64%);
-  opacity:.9;
-  z-index:-1;
+  opacity: .9;
+  z-index: -1;
 }
 
-/* Logo-Leiste größer und einheitlich */
-.hero__logos{ margin-top:clamp(14px, 3.8vw, 32px); }
+/* Logo strip noticeably larger */
+.hero__logos{ margin-top: clamp(18px, 4.2vw, 36px); }
 .logo-strip{
-  list-style:none; padding:0; margin:0;
-  display:flex; align-items:center;
-  gap:clamp(18px, 4.8vw, 40px);
-  flex-wrap:wrap;
+  list-style: none; padding: 0; margin: 0;
+  display: flex; align-items: center;
+  gap: clamp(22px, 5.2vw, 48px);
+  flex-wrap: wrap;
 }
 .logo-strip img{
-  height:clamp(32px, 4vw, 64px);   /* vorher 22–40px */
-  width:auto; object-fit:contain;
-  filter:grayscale(100%);
-  opacity:.9;
+  height: clamp(40px, 5.2vw, 88px); /* bigger: ~48–72+ on desktop */
+  width: auto; object-fit: contain;
+  filter: grayscale(100%); opacity: .92;
 }
 
-/* Hero Mobile-Layout */
-@media (max-width:900px){
-  .hero{ padding:72px 0 28px; }
-  .hero__grid{ grid-template-columns:1fr; }
-  .hero__visual{ order:-1; }
+/* Mobile stacking */
+@media (max-width: 900px){
+  .hero{
+    min-height: auto;         /* phones: allow fold if too short */
+    padding: 84px 0 48px;
+  }
+  .hero__grid{ grid-template-columns: 1fr; }
+  .hero__visual{ order: -1; min-height: 380px; }
 }
 
 /* =======================
