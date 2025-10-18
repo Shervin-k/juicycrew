@@ -2,39 +2,73 @@
 <!doctype html>
 <html lang="en" id="top">
   <head>
-    
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Bloomwood</title>
-    <meta name="description" content="Authentic podcast campaigns for consumer brands." />
-    <link rel="icon" href="assets/images/logo.svg" type="image/svg+xml" />
-
+    
+    <!-- SEO Meta Tags -->
+    <title>Bloomwood - Authentic Podcast Campaigns for Consumer Brands</title>
+    <meta name="description" content="We plan authentic podcast campaigns for consumer brands to reach the right audience with messages that resonate. Premium audience targeting, complex product explanations, and trust building." />
+    <meta name="keywords" content="podcast marketing, podcast advertising, brand campaigns, consumer brands, authentic marketing, podcast strategy" />
+    <meta name="author" content="Bloomwood" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://bloomwood.com" />
+    
+    <!-- Favicon - Multiple sizes and formats -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="favicon-48.png" />
+    <link rel="icon" type="image/png" sizes="64x64" href="favicon-64.png" />
+    <link rel="icon" type="image/png" sizes="128x128" href="favicon-128.png" />
+    <link rel="icon" type="image/png" sizes="256x256" href="favicon-256.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="favicon-512.png" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <meta name="msapplication-TileColor" content="#0b3d2e" />
+    <meta name="msapplication-TileImage" content="favicon-256.png" />
+    <meta name="theme-color" content="#0b3d2e" />
+    
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="site.webmanifest" />
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Bloomwood - Authentic Podcast Campaigns for Consumer Brands" />
+    <meta property="og:description" content="We plan authentic podcast campaigns for consumer brands to reach the right audience with messages that resonate. Premium audience targeting, complex product explanations, and trust building." />
+    <meta property="og:image" content="http://localhost:8000/OG_image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Bloomwood - Podcast Marketing for Consumer Brands" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:url" content="https://bloomwood.com" />
+    <meta property="og:site_name" content="Bloomwood" />
+    <meta property="og:locale" content="en_US" />
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Bloomwood - Authentic Podcast Campaigns for Consumer Brands" />
+    <meta name="twitter:description" content="We plan authentic podcast campaigns for consumer brands to reach the right audience with messages that resonate." />
+    <meta name="twitter:image" content="http://localhost:8000/OG_image.png" />
+    <meta name="twitter:image:alt" content="Bloomwood - Podcast Marketing for Consumer Brands" />
+    <meta name="twitter:site" content="@bloomwood" />
+    <meta name="twitter:creator" content="@bloomwood" />
+    
+    <!-- Additional Meta Tags -->
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Bloomwood" />
+    
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-   <!-- NEUER CORRECTED HEADER -->
-<header class="site-header">
-  <div class="header-inner">
-   <a href="#" class="brand">
-  <img src="assets/images/logo.png" alt="Bloomwood Logo" class="brand-logo" />
-</a>
-    
-    <!-- Das ist dein Menü -->
-    <nav id="site-nav" class="site-nav">
-      <a href="https://calendar.app.google/FavFdbdmSK1Df5y58" target="_blank">Advertise With Us</a>
-    </nav>
-    
-    <!-- Und das ist der Burger-Button -->
-    <button id="menu-toggle" class="burger" aria-label="Navigation öffnen" aria-expanded="false">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-  </div>
-</header>
+   <!-- Header Component -->
+   <div data-include="header"></div>
 
 
 
@@ -42,13 +76,10 @@
   <div class="container hero__grid">
     <div class="hero__copy">
       <h1 class="hero-title">Every Brand Story<br>has an<br>Audience.</h1>
-
-      <div class="subline-wrapper">
-        <p class="subline">
-          We plan authentic podcast campaigns for consumer brands<br>to reach the right audience with messages that resonate.
-        </p>
-        <a href="#contact" class="hero__cta">Let’s Connect</a>
-      </div>
+      <p class="subline">
+        We plan authentic podcast campaigns for consumer brands<br>to reach the right audience with messages that resonate.
+      </p>
+      <a href="https://calendar.app.google/FavFdbdmSK1Df5y58" target="_blank" class="hero__cta">Let's Connect</a>
     </div>
 
     <div class="hero__visual" aria-hidden="true">
@@ -65,25 +96,13 @@
         <li><img src="assets/images/AG1.png" alt="AG1"></li>
         <li><img src="assets/images/ZWILLING.png" alt="Zwilling"></li>
         <li><img src="assets/images/ARMEDANGELS.png" alt="ArmedAngels"></li>
-        <li><img src="assets/images/MOS MOSH.png" alt="MosMosh"></li>
+        <li><img src="assets/images/MOSMOSH.png" alt="MosMosh"></li>
       </ul>
     </div>
-  </div>
-</section>
-</main>
-</main>
-</section>
 <!-- BENEFITS (KOTA-like) -->
 <section id="benefits" class="benefits-kota benefits-animate">
   <div class="benefits-kota__viewport">
-<section id="benefits" class="benefits-kota">
-  <div class="benefits-kota__viewport">
     <h2 class="benefits__headline">Why Podcast Marketing Works for Brands</h2>
-    <div class="benefits-kota__snap">
-      <!-- Benefit Cards hier -->
-    </div>
-  </div>
-</section>
     <!-- Benefit 1 -->
     <div class="benefits-kota__snap">
       <article class="benefit-card-kota">
@@ -292,53 +311,8 @@
 </section>
     
 
-<style>
-  @media(min-width: 900px) {
-    .footer__container {
-      display: flex;
-      align-items: center; /* Vertikale Zentrierung */
-      justify-content: space-between;
-    }
-    .footer__logo {
-      text-align: left;
-    }
-    .footer__intro {
-      text-align: center;
-      flex: 1;
-    }
-    .footer__nav {
-      display: none; /* Da Navigation leer ist */
-    }
-  }
-</style>
-
-<footer class="footer">
-  <div class="footer__container">
-    <!-- Links: Logo -->
-    <div class="footer__logo">
-      <img src="assets/images/logo.png" alt="Bloomwood Logo" style="max-width: 150px; height: auto;">
-    </div>
-
-    <!-- Mitte: Brand Spruch -->
-    <p class="footer__tagline">
-      Connecting conscious brands with podcasts their audiences trust
-    </p>
-
-    <!-- Rechts: Advertise-Button -->
-    <a class="footer__cta" href="https://calendar.app.google/FavFdbdmSK1Df5y58" target="_blank">
-      Advertise With Us
-    </a>
-  </div>
-
-  <!-- Untere Zeile -->
-  <div class="footer__bottom">
-    <p>© <span id="year"></span> Juicy Crew</p>
-    <div class="footer__links">
-      <a href="mailto:matti@juicycrew.de">Contact</a>
-      <a href="privacy-policy.html">Privacy</a>
-    </div>
-  </div>
-</footer>
+   <!-- Footer Component -->
+   <div data-include="footer"></div>
 
 
 
@@ -348,19 +322,8 @@
 
 
 
+    <script src="js/components.js" defer></script>
     <script src="main.js" defer></script>
-    <script>
-document.addEventListener("DOMContentLoaded", function() {
-  const button = document.getElementById("menu-toggle");
-  const menu   = document.getElementById("site-nav");
-
-  button.addEventListener("click", function() {
-    menu.classList.toggle("active");
-    button.classList.toggle("active");
-    button.setAttribute("aria-expanded", menu.classList.contains("active"));
-  });
-});
-</script>
 
   </body>
 </html>
