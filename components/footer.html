@@ -1,0 +1,47 @@
+<!-- Footer Component -->
+<style>
+  @media(min-width: 900px) {
+    .footer__container {
+      display: flex;
+      align-items: center; /* Vertikale Zentrierung */
+      justify-content: space-between;
+    }
+    .footer__logo {
+      text-align: left;
+    }
+    .footer__intro {
+      text-align: center;
+    }
+    .footer__nav {
+      display: none; /* Da Navigation leer ist */
+    }
+  }
+</style>
+
+<footer class="footer">
+  <div class="footer__container">
+    <!-- Links: Logo -->
+    <div class="footer__logo">
+      <img src="assets/images/logo.png" alt="Bloomwood Logo" style="max-width: 150px; height: auto;">
+    </div>
+
+    <!-- Mitte: Brand Spruch -->
+    <p class="footer__tagline">
+      Connecting conscious brands with podcasts their audiences trust
+    </p>
+
+    <!-- Rechts: Advertise-Button -->
+    <a class="footer__cta" href="https://calendar.app.google/FavFdbdmSK1Df5y58" target="_blank">
+      Advertise With Us
+    </a>
+  </div>
+
+  <!-- Untere Zeile -->
+  <div class="footer__bottom">
+    <p>© <span id="year"></span> Juicy Crew</p>
+    <div class="footer__links">
+      <a href="mailto:matti@juicycrew.de">Contact</a>
+      <a href="privacy-policy.html">Privacy</a>
+    </div>
+  </div>
+</footer>
