@@ -115,7 +115,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       animateBlob();
     }
-  }// Hero CTA — pixelgenaue Position an Subline ausrichten
+  }// Hero CTA — DISABLED (Button now positioned below subline via CSS)
+/*
 (function positionHeroCTA() {
   const SELECTORS = {
     container: '.hero__copy',
@@ -190,6 +191,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener('DOMContentLoaded', init);
   }
 })();
+*/
 })();
 
   // =========================
@@ -385,6 +387,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (toggle && nav){
       toggle.addEventListener("click", ()=>{
         const isOpen = nav.classList.toggle("open");
+        toggle.classList.toggle("active");
         toggle.setAttribute("aria-expanded", String(isOpen));
       });
     }
