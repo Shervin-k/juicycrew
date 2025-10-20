@@ -195,65 +195,26 @@ document.addEventListener("DOMContentLoaded", () => {
 })();
 
   // =========================
-  // 2) BENEFITS (card highlight on scroll)
+  // 2) BENEFITS (simple appear effect on scroll)
   // =========================
-  (function benefitsIO(){
-    const cards = $$(".benefit-card");
+  (function benefitsSimpleAppear(){
+    const cards = $$(".benefit-card-kota");
     if (!canObserve || !cards.length) return;
+    
     const io = new IntersectionObserver((entries)=>{
       entries.forEach(e=>{
-        e.target.classList.toggle("is-open", e.isIntersecting && e.intersectionRatio>0.55);
+        if (e.isIntersecting) {
+          e.target.classList.add("is-visible");
+        }
       });
-    },{ root:null, rootMargin:"-20% 0% -20% 0%", threshold:[0,0.25,0.55,0.75,1]});
-    cards.forEach(c=>io.observe(c));
-  })();
-  // Benefits: Optimized KOTA-Animation für smooth scrolling
-(function () {
-  const section = document.querySelector('#benefits.benefits-kota');
-  if (!section || !('IntersectionObserver' in window)) return;
-
-  // Animation einschalten: schaltet die .benefits-animate CSS-Regeln frei
-  section.classList.add('benefits-animate');
-
-  const snaps = Array.from(section.querySelectorAll('.benefits-kota__snap'));
-  if (!snaps.length) return;
-
-  // Throttle function for better performance
-  let ticking = false;
-  function updateCards() {
-    if (!ticking) {
-      requestAnimationFrame(() => {
-        // Update logic here
-        ticking = false;
-      });
-      ticking = true;
-    }
-  }
-
-  // Mobile-optimized intersection observer
-  const isMobile = window.innerWidth <= 900;
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      const el = entry.target;
-      const threshold = isMobile ? 0.15 : 0.25; // Lower threshold for mobile
-      
-      if (entry.isIntersecting && entry.intersectionRatio > threshold) {
-        el.classList.add('is-active');
-
-        // alle vorigen als "past" markieren (kleiner/blasser)
-        const idx = snaps.indexOf(el);
-        snaps.forEach((s, i) => s.classList.toggle('is-past', i < idx));
-      } else {
-        el.classList.remove('is-active');
-      }
+    },{ 
+      root: null, 
+      rootMargin: "0px 0px -100px 0px",
+      threshold: 0.1
     });
-  }, {
-    threshold: isMobile ? [0, 0.1, 0.2, 0.3, 0.5] : [0, 0.2, 0.4, 0.6, 0.8, 1],
-    rootMargin: isMobile ? '-5% 0% -5% 0%' : '-10% 0% -10% 0%' // More lenient on mobile
-  });
-
-  snaps.forEach((s) => io.observe(s));
-})();
+    
+    cards.forEach(c => io.observe(c));
+  })();
 
   // =========================
   // 3) CASES (KOTA-style stack: past shrinks/fades, active on top)
@@ -297,13 +258,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const chat = $(".chat");
     if (!chat) return;
     const msgs = $$(".msg", chat);
+    const names = $$(".msg-name", chat);
     if (!msgs.length) return;
 
     if (!canObserve || prefersReducedMotion){
       msgs.forEach(m=>m.classList.add("is-visible"));
+      names.forEach(n=>n.classList.add("is-visible"));
       return;
     }
     msgs.forEach(m=>{ m.classList.remove("is-visible","is-active"); m.style.transitionDelay="0ms"; });
+    names.forEach(n=>{ n.classList.remove("is-visible"); n.style.transitionDelay="0ms"; });
 
     let firstBatchDone = false;
     const io = new IntersectionObserver((entries)=>{
@@ -312,10 +276,20 @@ document.addEventListener("DOMContentLoaded", () => {
         if (entry.isIntersecting){
           if (!firstBatchDone){
             msgs.forEach((m,i)=>m.style.transitionDelay = `${i*80}ms`);
+            names.forEach((n,i)=>n.style.transitionDelay = `${i*80 + 50}ms`);
             firstBatchDone = true;
-            setTimeout(()=>msgs.forEach(m=>m.style.transitionDelay="0ms"), msgs.length*80+600);
+            setTimeout(()=>{
+              msgs.forEach(m=>m.style.transitionDelay="0ms");
+              names.forEach(n=>n.style.transitionDelay="0ms");
+            }, msgs.length*80+600);
           }
           el.classList.add("is-visible");
+          // Also reveal the corresponding name
+          const wrapper = el.closest('.msg-wrapper');
+          if (wrapper) {
+            const name = wrapper.querySelector('.msg-name');
+            if (name) name.classList.add('is-visible');
+          }
         }
         const mid = entry.intersectionRatio>0.6 &&
                     entry.boundingClientRect.top > window.innerHeight*0.18 &&
@@ -374,23 +348,13 @@ document.addEventListener("DOMContentLoaded", () => {
   })();
 
   // =========================
-  // 7) HEADER & FOOTER (year, mobile nav, to-top)
+  // 7) HEADER & FOOTER (year, back-to-top)
+  // Note: Burger menu is initialized in components.js after header loads
   // =========================
   (function headerFooter(){
     // year
     const yearEl = $("#year");
     if (yearEl) yearEl.textContent = new Date().getFullYear();
-
-    // mobile nav
-    const toggle = $("#menu-toggle");
-    const nav = $("#site-nav");
-    if (toggle && nav){
-      toggle.addEventListener("click", ()=>{
-        const isOpen = nav.classList.toggle("open");
-        toggle.classList.toggle("active");
-        toggle.setAttribute("aria-expanded", String(isOpen));
-      });
-    }
 
     // show/hide "Back to top" when scrolled
     const toTop = $(".to-top");
@@ -466,6 +430,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
   console.log("Juicy Crew — scripts ready ✅");
 });
+// Mobile: Case Cards Tap to Reveal (one at a time)
+if ('ontouchstart' in window) {
+  document.addEventListener('DOMContentLoaded', () => {
+    const caseTiles = document.querySelectorAll('.case-tile');
+    
+    caseTiles.forEach(tile => {
+      tile.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        // Check if this tile is already revealed
+        const isRevealed = tile.classList.contains('revealed');
+        
+        // Hide all cards first
+        caseTiles.forEach(t => t.classList.remove('revealed'));
+        
+        // If this tile was NOT revealed, reveal it
+        if (!isRevealed) {
+          tile.classList.add('revealed');
+        }
+      });
+    });
+  });
+}
+
 // Smart Header: ein-/ausblenden je nach Scrollrichtung
 document.addEventListener('DOMContentLoaded', () => {
   const header = document.querySelector('.site-header');
