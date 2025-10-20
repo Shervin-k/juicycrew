@@ -8,17 +8,17 @@ const componentContent = {
   header: `<!-- Header Component -->
 <header class="site-header">
   <div class="header-inner">
-   <a href="#" class="brand">
-  <img src="assets/images/logo.png" alt="Bloomwood Logo" class="brand-logo" />
-</a>
+    <a href="index.html" class="brand">
+      <img src="assets/images/logo.png" alt="Bloomwood Logo" class="brand-logo" />
+    </a>
     
-    <!-- Das ist dein Menü -->
+    <!-- Navigation Menu -->
     <nav id="site-nav" class="site-nav">
       <a href="https://calendar.app.google/FavFdbdmSK1Df5y58" target="_blank">Advertise With Us</a>
     </nav>
     
-    <!-- Und das ist der Burger-Button -->
-    <button id="menu-toggle" class="burger" aria-label="Navigation öffnen" aria-expanded="false">
+    <!-- Burger Menu Button -->
+    <button id="menu-toggle" class="burger" aria-label="Open navigation menu" aria-expanded="false">
       <span></span>
       <span></span>
       <span></span>
@@ -109,30 +109,60 @@ async function includeComponent(placeholder, filePath, fallbackContent) {
 
 // Initialize burger menu functionality
 function initializeBurgerMenu() {
+  console.log('🔍 Attempting to initialize burger menu...');
+  
   const toggle = document.querySelector("#menu-toggle");
   const nav = document.querySelector("#site-nav");
   
+  console.log('Elements found:', { toggle: !!toggle, nav: !!nav });
+  
   if (toggle && nav) {
-    console.log('Initializing burger menu functionality...');
+    console.log('✅ Found burger menu elements!');
     
-    // Remove any existing event listeners by cloning the element
-    const newToggle = toggle.cloneNode(true);
-    toggle.parentNode.replaceChild(newToggle, toggle);
+    // Check if already initialized to prevent duplicates
+    if (toggle.hasAttribute('data-initialized')) {
+      console.log('⚠️ Burger menu already initialized, skipping...');
+      return;
+    }
     
-    // Add event listener to the new element
-    newToggle.addEventListener("click", () => {
+    // Add event listener
+    toggle.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      
       const isOpen = nav.classList.toggle("open");
-      newToggle.classList.toggle("active");
-      newToggle.setAttribute("aria-expanded", String(isOpen));
-      console.log('Burger menu toggled:', isOpen);
+      toggle.classList.toggle("active");
+      toggle.setAttribute("aria-expanded", String(isOpen));
+      
+      console.log('🍔 Burger clicked! Menu is now:', isOpen ? 'OPEN' : 'CLOSED');
+      console.log('Nav classes:', nav.className);
+      console.log('Toggle classes:', toggle.className);
+      
+      // Body scroll lock
+      if (isOpen) {
+        document.body.classList.add("menu-open");
+      } else {
+        document.body.classList.remove("menu-open");
+      }
+    });
+
+    // Close menu when clicking on a link
+    nav.addEventListener("click", (e) => {
+      if (e.target.tagName === "A") {
+        console.log('🔗 Link clicked, closing menu');
+        nav.classList.remove("open");
+        toggle.classList.remove("active");
+        toggle.setAttribute("aria-expanded", "false");
+        document.body.classList.remove("menu-open");
+      }
     });
     
-    // Mark as initialized to prevent duplicate setup
-    newToggle.setAttribute('data-initialized', 'true');
+    // Mark as initialized
+    toggle.setAttribute('data-initialized', 'true');
     
-    console.log('Burger menu functionality initialized successfully');
+    console.log('✅ Burger menu fully initialized and ready!');
   } else {
-    console.warn('Burger menu elements not found:', { toggle: !!toggle, nav: !!nav });
+    console.error('❌ Burger menu elements NOT found!');
   }
 }
 
