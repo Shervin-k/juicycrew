@@ -44,7 +44,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const ctx = cvs.getContext("2d", { alpha:true });
     const DPR = Math.max(1, Math.min(2, window.devicePixelRatio||1));
     let w=0,h=0,t=0, mx=0,my=0, tx=0,ty=0;
-    const cfg = { lines:10, amp:0.18, freq:2.8, speed:0.018, baseHue:140 };
+    const isMobile = window.innerWidth <= 900;
+    const isSmallMobile = window.innerWidth <= 600;
+    const cfg = { 
+      lines: isSmallMobile ? 8 : (isMobile ? 10 : 10), 
+      amp: isSmallMobile ? 0.12 : (isMobile ? 0.14 : 0.18), 
+      freq: 2.8, 
+      speed: isSmallMobile ? 0.016 : (isMobile ? 0.017 : 0.018), 
+      baseHue: 140 
+    };
 
     const resize = () => {
       const r = cvs.getBoundingClientRect();
@@ -75,7 +83,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const p=i/(cfg.lines-1), phase=t*cfg.speed+p*1.4;
         const yBase=h*(0.2+0.6*p), thick=8+12*(1-p);
         ctx.lineWidth=thick;
-        ctx.strokeStyle=`hsla(${cfg.baseHue+20*(p-0.5)},65%,50%,${0.15+0.12*(1-p)})`;
+        // Light floating green waves
+        const hue = cfg.baseHue + 20*(p-0.5); // shift around green
+        const saturation = 65;
+        const lightness = 50;
+        const alpha = 0.15 + 0.12*(1-p);
+        ctx.strokeStyle=`hsla(${hue}, ${saturation}%, ${lightness}%, ${alpha})`;
         ctx.beginPath();
         const tilt = mx*30;
         for (let x=0;x<=w;x+=6){
