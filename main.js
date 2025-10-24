@@ -47,11 +47,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const isMobile = window.innerWidth <= 900;
     const isSmallMobile = window.innerWidth <= 600;
     const cfg = { 
-      lines: isSmallMobile ? 8 : (isMobile ? 10 : 10), 
-      amp: isSmallMobile ? 0.12 : (isMobile ? 0.14 : 0.18), 
-      freq: 2.8, 
-      speed: isSmallMobile ? 0.016 : (isMobile ? 0.017 : 0.018), 
-      baseHue: 140 
+      lines: 6, // Reduced for smoother look
+      amp: 0.15, // Moderate amplitude
+      freq: 1.8, // Lower frequency for smoother, longer waves
+      speed: 0.010, // Slower for smoother floating
+      baseHue: 150 
     };
 
     const resize = () => {
@@ -84,14 +84,14 @@ document.addEventListener("DOMContentLoaded", () => {
         const yBase=h*(0.2+0.6*p), thick=8+12*(1-p);
         ctx.lineWidth=thick;
         // Light floating green waves
-        const hue = cfg.baseHue + 20*(p-0.5); // shift around green
-        const saturation = 65;
-        const lightness = 50;
-        const alpha = 0.15 + 0.12*(1-p);
+        const hue = cfg.baseHue + 15*(p-0.5); // shift around green (±7.5 degrees)
+        const saturation = 60;
+        const lightness = 45;
+        const alpha = 0.12 + 0.10*(1-p); // ranges from 0.12 to 0.22
         ctx.strokeStyle=`hsla(${hue}, ${saturation}%, ${lightness}%, ${alpha})`;
         ctx.beginPath();
         const tilt = mx*30;
-        for (let x=0;x<=w;x+=6){
+        for (let x=0;x<=w;x+=4){ // Smaller increment for smoother waves
           const k=(x/w)*Math.PI*cfg.freq;
           const y=yBase
            + Math.sin(k+phase*3.5)*ampPx*(0.6+p*0.4)
